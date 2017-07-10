@@ -15,24 +15,23 @@
 */
 package pl.mplauncher.launcher.config;
 
-import org.apache.commons.lang3.Validate;
 import org.diorite.config.Config;
+import org.diorite.config.annotations.Footer;
+import org.diorite.config.annotations.Header;
 
-import java.io.File;
+@Header({
+                "Welcome in MPLauncher main configuration file!",
+                "In this file, you will find every option needed to configure our launcher.",
+                "",
+                "Good luck, have fun! ~MPLauncher Team."
+})
+@Footer({
+                "Our websites: https://mplauncher.pl / https://github.com/MPLauncher/",
+                "",
+                "Copyright 2017 MPLauncher Team. Licensed under the Apache License, Version 2.0."
+})
+public interface MPConfig extends Config {
 
-public interface MPConfigManager {
-
-    static MPConfigManager create() {
-        return new MPConfigManagerImpl();
-    }
-
-    <T extends Config> T getConfig(Class<T> tClass, File bindFile);
-
-    default <T extends Config> T getConfig(Class<T> tClass, String bindFileName) {
-        Validate.isTrue(tClass != null);
-        Validate.isTrue(bindFileName != null);
-
-        return this.getConfig(tClass, new File(bindFileName));
-    }
+    // TODO: locale
 
 }

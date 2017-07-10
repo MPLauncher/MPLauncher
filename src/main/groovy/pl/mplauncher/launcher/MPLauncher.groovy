@@ -16,17 +16,23 @@
 package pl.mplauncher.launcher
 
 import javafx.stage.Stage
+import pl.mplauncher.launcher.config.MPConfig
+import pl.mplauncher.launcher.config.MPConfigManager
 
 class MPLauncher {
 
     private final Stage stage
+
+    private MPConfig config
 
     MPLauncher(Stage stage) {
         this.stage = stage
     }
 
     void initialize() {
+        MPConfigManager configManager = MPConfigManager.create()
 
+        MPConfig config = configManager.getConfig(MPConfig.class, "configuration.yml");
     }
 
     void start() {
@@ -35,6 +41,10 @@ class MPLauncher {
 
     void stop() {
 
+    }
+
+    MPConfig getConfig() {
+        return this.config
     }
 
 }

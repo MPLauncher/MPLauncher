@@ -46,13 +46,12 @@ class MPConfigManagerImpl implements MPConfigManager {
         if (config == null) {
             config = this.configMap.computeIfAbsent(tClass, { Class<? extends Config> aClass ->
                 boolean exists = bindFile.exists()
-                config = ConfigManager.get().getConfigFile(tClass) as T
-                config.bindFile(bindFile)
+                config = ConfigManager.createInstance(tClass)
 
                 if (!exists) {
-                    config.save()
+                    config.save(bindFile)
                 }
-                config.load()
+                config.load(bindFile)
 
                 this.configCache.put(tClass, config)
             }) as T
