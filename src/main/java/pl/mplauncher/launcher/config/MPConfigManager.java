@@ -13,39 +13,26 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher
+package pl.mplauncher.launcher.config;
 
-import javafx.stage.Stage
-import pl.mplauncher.launcher.config.MPConfig
-import pl.mplauncher.launcher.config.MPConfigManager
+import org.apache.commons.lang3.Validate;
+import org.diorite.config.Config;
 
-class MPLauncher {
+import java.io.File;
 
-    private final Stage stage
+public interface MPConfigManager {
 
-    private MPConfig config
-
-    MPLauncher(Stage stage) {
-        this.stage = stage
+    static MPConfigManager create() {
+        return new MPConfigManagerImpl();
     }
 
-    void initialize() {
-        MPConfigManager configManager = MPConfigManager.create()
+    <T extends Config> T getConfig(Class<T> tClass, File bindFile);
 
-        MPConfig config = configManager.getConfig(MPConfig.class, "configuration.yml");
-    }
+    default <T extends Config> T getConfig(Class<T> tClass, String bindFileName) {
+        Validate.isTrue(tClass != null);
+        Validate.isTrue(bindFileName != null);
 
-    void start() {
-
-    }
-
-    void stop() {
-
-    }
-
-    MPConfig getConfig() {
-        return this.config
+        return this.getConfig(tClass, new File(bindFileName));
     }
 
 }
-

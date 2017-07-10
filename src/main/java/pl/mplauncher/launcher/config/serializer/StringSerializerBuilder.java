@@ -13,39 +13,24 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher
+package pl.mplauncher.launcher.config.serializer;
 
-import javafx.stage.Stage
-import pl.mplauncher.launcher.config.MPConfig
-import pl.mplauncher.launcher.config.MPConfigManager
+import org.diorite.config.serialization.StringSerializer;
 
-class MPLauncher {
+import java.util.function.Function;
 
-    private final Stage stage
+public interface StringSerializerBuilder<T> {
 
-    private MPConfig config
-
-    MPLauncher(Stage stage) {
-        this.stage = stage
+    static <T> StringSerializerBuilder<T> create() {
+        return new StringSerializerBuilderImpl<>();
     }
 
-    void initialize() {
-        MPConfigManager configManager = MPConfigManager.create()
+    StringSerializerBuilder<T> of(Class<T> aClass);
 
-        MPConfig config = configManager.getConfig(MPConfig.class, "configuration.yml");
-    }
+    StringSerializerBuilder<T> serializer(Function<T, String> serializer);
 
-    void start() {
+    StringSerializerBuilder<T> deserializer(Function<String, T> deserializer);
 
-    }
-
-    void stop() {
-
-    }
-
-    MPConfig getConfig() {
-        return this.config
-    }
+    StringSerializer<T> build();
 
 }
-
