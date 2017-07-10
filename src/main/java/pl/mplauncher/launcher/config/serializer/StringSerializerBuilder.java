@@ -13,29 +13,24 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher
+package pl.mplauncher.launcher.config.serializer;
 
-import javafx.stage.Stage
+import org.diorite.config.serialization.StringSerializer;
 
-class MPLauncher {
+import java.util.function.Function;
 
-    private final Stage stage
+public interface StringSerializerBuilder<T> {
 
-    MPLauncher(Stage stage) {
-        this.stage = stage
+    static <T> StringSerializerBuilder<T> create() {
+        return new StringSerializerBuilderImpl<>();
     }
 
-    void initialize() {
+    StringSerializerBuilder<T> of(Class<T> aClass);
 
-    }
+    StringSerializerBuilder<T> serializer(Function<T, String> serializer);
 
-    void start() {
+    StringSerializerBuilder<T> deserializer(Function<String, T> deserializer);
 
-    }
-
-    void stop() {
-
-    }
+    StringSerializer<T> build();
 
 }
-

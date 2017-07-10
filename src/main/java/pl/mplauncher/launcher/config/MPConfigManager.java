@@ -13,29 +13,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher
+package pl.mplauncher.launcher.config;
 
-import javafx.stage.Stage
+import org.diorite.config.Config;
 
-class MPLauncher {
+import java.io.File;
 
-    private final Stage stage
+public interface MPConfigManager {
 
-    MPLauncher(Stage stage) {
-        this.stage = stage
+    static MPConfigManager create() {
+        return new MPConfigManagerImpl();
     }
 
-    void initialize() {
-
-    }
-
-    void start() {
-
-    }
-
-    void stop() {
-
-    }
+    <T extends Config> T getConfig(Class<T> tClass, File bindFile);
 
 }
-
