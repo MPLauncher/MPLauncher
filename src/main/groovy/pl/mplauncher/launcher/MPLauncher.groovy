@@ -17,6 +17,7 @@ package pl.mplauncher.launcher
 
 import javafx.stage.Stage
 import org.apache.commons.lang3.Validate
+import org.apache.logging.log4j.core.Logger
 import pl.mplauncher.launcher.config.MPConfig
 import pl.mplauncher.launcher.config.MPConfigManager
 
@@ -25,13 +26,16 @@ class MPLauncher {
     public final static String CONFIG_FILE_NAME = "configuration.yml"
 
     private final Stage stage
+    private final Logger logger
 
     private MPConfig config
 
-    MPLauncher(Stage stage) {
+    MPLauncher(Stage stage, Logger logger) {
         Validate.isTrue(stage != null, "Stage can not be null!")
+        Validate.isTrue(logger != null, "Logger can not be null!")
 
         this.stage = stage
+        this.logger = logger
     }
 
     void initialize() {
