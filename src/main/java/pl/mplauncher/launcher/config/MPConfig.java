@@ -37,4 +37,6 @@ public interface MPConfig extends Config {
         return MPLocale.getDefault();
     }
 
+    void setLocale(MPLocale locale);
+
 }

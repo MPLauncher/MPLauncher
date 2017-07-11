@@ -30,6 +30,8 @@ public interface MPLocaleFile extends Config {
         return MPLocale.EN;
     }
 
+    void setLocale(MPLocale locale);
+
     @CustomKey("translation-authors")
     @GroovyValidator(isTrue = "x != null && x.size() > 0", elseThrow = "TranslationAuthors can not be null!")
     default Collection<String> getTranslationAuthors() {
