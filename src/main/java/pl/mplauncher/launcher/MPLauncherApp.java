@@ -38,7 +38,7 @@ public final class MPLauncherApp extends Application {
         System.setOut(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO)));
         System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.ERROR)));
 
-        bootstrapLogger.log(Level.INFO, "MPLauncher v2.0.0-dev2.");
+        bootstrapLogger.log(Level.INFO, "MPLauncher v2.0.0-dev3.");
         bootstrapLogger.log(Level.INFO, "Our websites: https://mplauncher.pl / " +
                                                 "https://github.com/MPLauncher/");
         bootstrapLogger.log(Level.WARN, "Copyright 2017 MPLauncher Team. Licensed under the Apache License, " +
