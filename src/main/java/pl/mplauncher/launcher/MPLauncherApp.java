@@ -51,7 +51,7 @@ public final class MPLauncherApp extends Application {
             launcher.initialize();
             launcher.start();
         } catch (Exception ex) {
-            bootstrapLogger.log(Level.INFO, "Could not init launcher!", ex);
+            bootstrapLogger.log(Level.ERROR, "Could not init launcher!", ex);
 
             System.exit(1);
             return;
