@@ -30,6 +30,9 @@ class SerializerBuilderImpl<T> implements SerializerBuilder<T> {
     private BiConsumer<T, SerializationData> serializer
     private Function<DeserializationData, T> deserializer
 
+    protected SerializerBuilderImpl() {
+    }
+
     @Override
     SerializerBuilder<T> of(Class<T> aClass) {
         Validate.isTrue(aClass != null)

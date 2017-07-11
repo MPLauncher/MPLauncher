@@ -37,6 +37,9 @@ class MPConfigManagerImpl implements MPConfigManager {
                                                                             .softValues()
                                                                             .build()
 
+    protected MPConfigManagerImpl() {
+    }
+
     @Override
     <T extends Config> T getConfig(Class<T> tClass, File bindFile) {
         Validate.isTrue(tClass != null)

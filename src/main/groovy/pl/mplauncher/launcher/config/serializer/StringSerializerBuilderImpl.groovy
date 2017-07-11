@@ -27,6 +27,9 @@ class StringSerializerBuilderImpl<T> implements StringSerializerBuilder<T> {
     private Function<T, String> serializer
     private Function<String, T> deserializer
 
+    protected StringSerializerBuilderImpl() {
+    }
+
     @Override
     StringSerializerBuilder<T> of(Class<T> aClass) {
         Validate.isTrue(aClass != null)
