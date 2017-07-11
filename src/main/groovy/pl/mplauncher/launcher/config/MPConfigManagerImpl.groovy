@@ -42,8 +42,8 @@ class MPConfigManagerImpl implements MPConfigManager {
 
     @Override
     <T extends Config> T getConfig(Class<T> tClass, File bindFile) {
-        Validate.isTrue(tClass != null)
-        Validate.is(bindFile != null)
+        Validate.isTrue(tClass != null, "Class can not be null!")
+        Validate.isTrue(bindFile != null, "Bind file can not be null!")
 
         T config = this.configCache.getIfPresent(tClass) as T
         if (config == null) {

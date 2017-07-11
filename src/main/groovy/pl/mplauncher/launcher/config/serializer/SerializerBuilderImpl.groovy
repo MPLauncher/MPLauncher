@@ -35,7 +35,7 @@ class SerializerBuilderImpl<T> implements SerializerBuilder<T> {
 
     @Override
     SerializerBuilder<T> of(Class<T> aClass) {
-        Validate.isTrue(aClass != null)
+        Validate.isTrue(aClass != null, "Class can not be null!")
 
         this.aClass = aClass
         return this
@@ -43,7 +43,7 @@ class SerializerBuilderImpl<T> implements SerializerBuilder<T> {
 
     @Override
     SerializerBuilder<T> serializer(BiConsumer<T, SerializationData> serializer) {
-        Validate.isTrue(serializer != null)
+        Validate.isTrue(serializer != null, "Serializer can not be null!")
 
         this.serializer = serializer
         return this
@@ -51,7 +51,7 @@ class SerializerBuilderImpl<T> implements SerializerBuilder<T> {
 
     @Override
     SerializerBuilder<T> deserializer(Function<DeserializationData, T> deserializer) {
-        Validate.isTrue(deserializer != null)
+        Validate.isTrue(deserializer != null, "Deserializer can not be null!")
 
         this.deserializer = deserializer;
         return this
@@ -59,9 +59,9 @@ class SerializerBuilderImpl<T> implements SerializerBuilder<T> {
 
     @Override
     Serializer<T> build() {
-        Validate.isTrue(aClass != null)
-        Validate.isTrue(serializer != null)
-        Validate.isTrue(deserializer != null)
+        Validate.isTrue(aClass != null, "Class can not be null!")
+        Validate.isTrue(serializer != null, "Serializer can not be null!")
+        Validate.isTrue(deserializer != null, "Deserializer can not be null!")
 
         return Serializer.of(aClass, serializer, deserializer)
     }

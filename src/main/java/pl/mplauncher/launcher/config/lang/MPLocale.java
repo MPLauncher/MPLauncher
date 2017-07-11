@@ -27,7 +27,7 @@ public enum MPLocale {
     private final String name;
 
     MPLocale(String name) {
-        Validate.isTrue(name != null);
+        Validate.isTrue(name != null, "Name can not be null!");
 
         this.name = name;
     }

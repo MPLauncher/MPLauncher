@@ -29,8 +29,8 @@ public interface MPConfigManager {
     <T extends Config> T getConfig(Class<T> tClass, File bindFile);
 
     default <T extends Config> T getConfig(Class<T> tClass, String bindFileName) {
-        Validate.isTrue(tClass != null);
-        Validate.isTrue(bindFileName != null);
+        Validate.isTrue(tClass != null, "Class can not be null!");
+        Validate.isTrue(bindFileName != null, "Name of bind file can not be null!");
 
         return this.getConfig(tClass, new File(bindFileName));
     }

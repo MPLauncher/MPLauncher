@@ -32,7 +32,7 @@ class StringSerializerBuilderImpl<T> implements StringSerializerBuilder<T> {
 
     @Override
     StringSerializerBuilder<T> of(Class<T> aClass) {
-        Validate.isTrue(aClass != null)
+        Validate.isTrue(aClass != null, "Class can not be null!")
 
         this.aClass = aClass
         return this
@@ -40,7 +40,7 @@ class StringSerializerBuilderImpl<T> implements StringSerializerBuilder<T> {
 
     @Override
     StringSerializerBuilder<T> serializer(Function<T, String> serializer) {
-        Validate.isTrue(serializer != null)
+        Validate.isTrue(serializer != null, "Serializer can not be null!")
 
         this.serializer = serializer
         return this
@@ -48,7 +48,7 @@ class StringSerializerBuilderImpl<T> implements StringSerializerBuilder<T> {
 
     @Override
     StringSerializerBuilder<T> deserializer(Function<String, T> deserializer) {
-        Validate.isTrue(deserializer != null)
+        Validate.isTrue(deserializer != null, "Deserializer can not be null!")
 
         this.deserializer = deserializer
         return this
@@ -56,9 +56,9 @@ class StringSerializerBuilderImpl<T> implements StringSerializerBuilder<T> {
 
     @Override
     StringSerializer<T> build() {
-        Validate.isTrue(aClass != null)
-        Validate.isTrue(serializer != null)
-        Validate.isTrue(deserializer != null)
+        Validate.isTrue(aClass != null, "Class can not be null!")
+        Validate.isTrue(serializer != null, "Serializer can not be null!")
+        Validate.isTrue(deserializer != null, "Deserializer can not be null!")
 
         return StringSerializer.of(aClass, serializer, deserializer)
     }
