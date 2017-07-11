@@ -16,23 +16,27 @@
 package pl.mplauncher.launcher
 
 import javafx.stage.Stage
+import org.apache.commons.lang3.Validate
 import pl.mplauncher.launcher.config.MPConfig
 import pl.mplauncher.launcher.config.MPConfigManager
 
 class MPLauncher {
+
+    public final static String CONFIG_FILE_NAME = "configuration.yml"
 
     private final Stage stage
 
     private MPConfig config
 
     MPLauncher(Stage stage) {
+        Validate.isTrue(stage != null, "Stage can not be null!")
+
         this.stage = stage
     }
 
     void initialize() {
         MPConfigManager configManager = MPConfigManager.create()
-
-        MPConfig config = configManager.getConfig(MPConfig.class, "configuration.yml");
+        this.config = configManager.getConfig(MPConfig.class, CONFIG_FILE_NAME)
     }
 
     void start() {

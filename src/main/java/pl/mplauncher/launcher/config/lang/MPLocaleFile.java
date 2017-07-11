@@ -13,30 +13,31 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.config;
+package pl.mplauncher.launcher.config.lang;
 
 import org.diorite.config.Config;
-import org.diorite.config.annotations.*;
-import pl.mplauncher.launcher.config.lang.MPLocale;
+import org.diorite.config.annotations.CustomKey;
+import org.diorite.config.annotations.GroovyValidator;
 
-@Header({
-                "Welcome in MPLauncher main configuration file!",
-                "In this file, you will find every option needed to configure our launcher.",
-                "Good luck, have fun! ~MPLauncher Team."
-})
-@Footer({
-                "Our websites: https://mplauncher.pl / https://github.com/MPLauncher/",
-                "Copyright 2017 MPLauncher Team. Licensed under the Apache License, Version 2.0."
-})
-public interface MPConfig extends Config {
+import java.util.Arrays;
+import java.util.Collection;
+
+public interface MPLocaleFile extends Config {
 
     @CustomKey("locale")
-    @Comment("Actually language of launcher.")
     @GroovyValidator(isTrue = "x != null", elseThrow = "Locale can not be null!")
-    default MPLocale getLocale() {
-        return MPLocale.getDefault();
+    default MPLocale getLocale() { // default language: EN
+        return MPLocale.EN;
     }
 
     void setLocale(MPLocale locale);
+
+    @CustomKey("translation-authors")
+    @GroovyValidator(isTrue = "x != null && x.size() > 0", elseThrow = "TranslationAuthors can not be null!")
+    default Collection<String> getTranslationAuthors() {
+        return Arrays.asList(
+                "MPLauncher Team"
+        );
+    }
 
 }
