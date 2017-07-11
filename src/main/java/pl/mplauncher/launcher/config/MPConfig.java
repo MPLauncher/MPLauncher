@@ -16,22 +16,27 @@
 package pl.mplauncher.launcher.config;
 
 import org.diorite.config.Config;
+import org.diorite.config.annotations.Comment;
+import org.diorite.config.annotations.CustomKey;
 import org.diorite.config.annotations.Footer;
 import org.diorite.config.annotations.Header;
+import pl.mplauncher.launcher.config.lang.MPLocale;
 
 @Header({
                 "Welcome in MPLauncher main configuration file!",
                 "In this file, you will find every option needed to configure our launcher.",
-                "",
                 "Good luck, have fun! ~MPLauncher Team."
 })
 @Footer({
                 "Our websites: https://mplauncher.pl / https://github.com/MPLauncher/",
-                "",
                 "Copyright 2017 MPLauncher Team. Licensed under the Apache License, Version 2.0."
 })
 public interface MPConfig extends Config {
 
-    // TODO: locale
+    @CustomKey("locale")
+    @Comment("Actually language of launcher.")
+    default MPLocale getLocale() {
+        return MPLocale.getDefault();
+    }
 
 }

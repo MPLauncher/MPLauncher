@@ -21,6 +21,8 @@ import pl.mplauncher.launcher.config.MPConfigManager
 
 class MPLauncher {
 
+    public final static String CONFIG_FILE_NAME = "configuration.yml"
+
     private final Stage stage
 
     private MPConfig config
@@ -32,7 +34,7 @@ class MPLauncher {
     void initialize() {
         MPConfigManager configManager = MPConfigManager.create()
 
-        MPConfig config = configManager.getConfig(MPConfig.class, "configuration.yml");
+        MPConfig config = configManager.getConfig(MPConfig.class, CONFIG_FILE_NAME)
     }
 
     void start() {
