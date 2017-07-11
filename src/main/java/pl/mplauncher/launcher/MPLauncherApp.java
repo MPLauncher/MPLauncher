@@ -17,8 +17,14 @@ package pl.mplauncher.launcher;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import pl.mplauncher.launcher.logging.Log4j2OutputStream;
 
-public class MPLauncherApp extends Application {
+import java.io.PrintStream;
+
+public final class MPLauncherApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -26,10 +32,33 @@ public class MPLauncherApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MPLauncher launcher = new MPLauncher(stage);
+        Logger bootstrapLogger = (Logger) LogManager.getLogger("Bootstrap");
+        Logger launcherLogger = (Logger) LogManager.getLogger("Launcher");
 
-        launcher.initialize();
-        launcher.start();
+        System.setOut(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO)));
+        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.ERROR)));
+
+        bootstrapLogger.log(Level.INFO, "MPLauncher v2.0.0-dev2.");
+        bootstrapLogger.log(Level.INFO, "Our websites: https://mplauncher.pl / " +
+                                                "https://github.com/MPLauncher/");
+        bootstrapLogger.log(Level.WARN, "Copyright 2017 MPLauncher Team. Licensed under the Apache License, " +
+                                                "Version 2.0.");
+
+        long took = System.currentTimeMillis();
+        MPLauncher launcher = new MPLauncher(stage, launcherLogger);
+
+        try {
+            launcher.initialize();
+            launcher.start();
+        } catch (Exception ex) {
+            bootstrapLogger.log(Level.ERROR, "Could not init launcher!", ex);
+
+            System.exit(1);
+            return;
+        }
+
+        bootstrapLogger.log(Level.INFO, "Started in " + (double) (System.currentTimeMillis() - took) / 1000L
+                                                + " second(s).");
     }
 
 }
