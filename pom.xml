@@ -11,7 +11,7 @@
 
     <groupId>pl.mplauncher</groupId>
     <artifactId>launcher</artifactId>
-    <version>2.0.0-dev2</version>
+    <version>2.0.0-dev3</version>
 
     <scm>
         <connection>scm:git:https://github.com/MPLauncher/MPLauncher.git</connection>
