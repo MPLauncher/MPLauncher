@@ -26,6 +26,9 @@ import java.io.PrintStream;
 
 public final class MPLauncherApp extends Application {
 
+    final Level STDOUT = Level.forName("STDOUT", 400);
+    final Level STDERR = Level.forName("STDERR", 300);
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -35,14 +38,18 @@ public final class MPLauncherApp extends Application {
         Logger bootstrapLogger = (Logger) LogManager.getLogger("Bootstrap");
         Logger launcherLogger = (Logger) LogManager.getLogger("Launcher");
 
-        System.setOut(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO, "[STDOUT] ")));
-        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO, "[STDERR] ")));
+        System.setOut(new PrintStream(new Log4j2OutputStream(bootstrapLogger, STDOUT)));
+        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, STDERR)));
 
         bootstrapLogger.log(Level.INFO, "MPLauncher v2.0.0-dev2.");
         bootstrapLogger.log(Level.INFO, "Our websites: https://mplauncher.pl / " +
                                                 "https://github.com/MPLauncher/");
         bootstrapLogger.log(Level.INFO, "Copyright 2017 MPLauncher Team. Licensed under the Apache License, " +
                                                 "Version 2.0.");
+
+        // for dev
+        //System.out.println("System.out.println");
+        //System.err.println("System.err.println");
 
         long took = System.currentTimeMillis();
         MPLauncher launcher = new MPLauncher(stage, launcherLogger);
