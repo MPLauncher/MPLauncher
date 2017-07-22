@@ -27,13 +27,19 @@ public final class Log4j2OutputStream extends OutputStream {
 
     private final Logger logger;
     private final Level level;
+    private String prefix;
 
     public Log4j2OutputStream(Logger logger, Level level) {
+        this(logger, level, null);
+    }
+
+    public Log4j2OutputStream(Logger logger, Level level, String prefix) {
         Validate.isTrue(logger != null, "Logger can not be null!");
         Validate.isTrue(level != null, "Level can not be null!");
 
         this.logger = logger;
         this.level = level;
+        this.prefix = prefix;
     }
 
     @Override
@@ -58,7 +64,10 @@ public final class Log4j2OutputStream extends OutputStream {
         }
 
         synchronized (this.logger) {
-            this.logger.log(level, string);
+            if (prefix == null)
+                this.logger.log(level, string);
+            else
+                this.logger.log(level, prefix + string);
         }
     }
 

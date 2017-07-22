@@ -35,14 +35,17 @@ public final class MPLauncherApp extends Application {
         Logger bootstrapLogger = (Logger) LogManager.getLogger("Bootstrap");
         Logger launcherLogger = (Logger) LogManager.getLogger("Launcher");
 
-        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO)));
-        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.ERROR)));
+        System.setOut(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO, "[STDOUT] ")));
+        System.setErr(new PrintStream(new Log4j2OutputStream(bootstrapLogger, Level.INFO, "[STDERR] ")));
 
         bootstrapLogger.log(Level.INFO, "MPLauncher v2.0.0-dev2.");
         bootstrapLogger.log(Level.INFO, "Our websites: https://mplauncher.pl / " +
                                                 "https://github.com/MPLauncher/");
         bootstrapLogger.log(Level.INFO, "Copyright 2017 MPLauncher Team. Licensed under the Apache License, " +
                                                 "Version 2.0.");
+
+        System.out.println("stdout test");
+        System.err.println("stderr test");
 
         long took = System.currentTimeMillis();
         MPLauncher launcher = new MPLauncher(stage, launcherLogger);
