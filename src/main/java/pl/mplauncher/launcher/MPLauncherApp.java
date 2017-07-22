@@ -44,9 +44,6 @@ public final class MPLauncherApp extends Application {
         bootstrapLogger.log(Level.INFO, "Copyright 2017 MPLauncher Team. Licensed under the Apache License, " +
                                                 "Version 2.0.");
 
-        System.out.println("stdout test");
-        System.err.println("stderr test");
-
         long took = System.currentTimeMillis();
         MPLauncher launcher = new MPLauncher(stage, launcherLogger);
 
