@@ -13,12 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.bootstrap;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import pl.mplauncher.launcher.MPLauncher;
 
-public class MPLauncherApp extends Application {
+public class MPLauncherBootstrap extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -26,10 +27,8 @@ public class MPLauncherApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MPLauncher launcher = new MPLauncher(stage);
-
-        launcher.initialize();
-        launcher.start();
+        MPLauncher launcher = new MPLauncher();
+        // TODO: init
     }
 
 }

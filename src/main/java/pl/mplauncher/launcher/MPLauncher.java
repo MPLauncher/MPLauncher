@@ -13,29 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher
+package pl.mplauncher.launcher;
 
-import javafx.stage.Stage
-
-class MPLauncher {
-
-    private final Stage stage;
-
-    MPLauncher(Stage stage) {
-        this.stage = stage
-    }
-
-    void initialize() {
-
-    }
-
-    void start() {
-
-    }
-
-    void stop() {
-
-    }
-
+public class MPLauncher {
 }
-
