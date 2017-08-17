@@ -5,5 +5,10 @@ jdk:
 install: true
 script:
 - sudo apt-get update && sudo apt-get install oracle-java8-installer
+- sudo apt install oracle-java8-set-default
 - java -version
+- mvn validate
 - mvn clean test
+
+notifications:
+  email: false
