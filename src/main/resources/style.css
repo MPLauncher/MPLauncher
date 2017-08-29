@@ -1,0 +1,131 @@
+.loginForm {
+	-fx-max-width: 304;
+	-fx-max-height: 416;
+	-fx-pref-width: 304;
+	-fx-pref-height: 416;
+	-fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.loginName {
+	-fx-pref-width: 168;
+	-fx-pref-height: 32;
+	-fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.loginContent {
+	-fx-pref-width: 304;
+	-fx-pref-height: 400;
+	-fx-background-color: linear-gradient(to bottom, #140036, #1f0126);
+}
+
+.mplauncher {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 12px;
+	-fx-line-spacing: 0.6px;
+	-fx-padding: -3 0 0 0;
+}
+
+.textWhite {
+    -fx-fill: #ffffff;
+}
+
+.textBold {
+	-fx-font-weight: bold;
+}
+
+.accountType {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 15px;
+	-fx-font-weight: 600;
+	-fx-text-fill: #341961;
+	-fx-line-spacing: 0.8px;
+	-fx-padding: 0 0 4 0;
+}
+
+.accountTypeSelected {
+	-fx-text-fill: #ffffff;
+}
+
+.lineType {
+    -fx-stroke: #7b1fa2;
+    -fx-stroke-width: 2px;
+}
+
+.defaultText {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 12px;
+	-fx-line-spacing: 0.6px;
+	-fx-text-fill: #4a228e;
+}
+
+.input {
+	-jfx-unfocus-color: #7b1fa2;
+	-fx-font-size: 12px;
+	-fx-font-family: Montserrat;
+	-fx-text-fill: #ffffff;
+}
+
+.toggleButton {
+	-jfx-toggle-line-color: #341961;
+	-jfx-toggle-color: #9c27b0;
+	-jfx-untoggle-color: #341961;
+	-jfx-untoggle-line-color: #140020;
+	-fx-font-family: Montserrat;
+	-fx-font-size: 10px;
+	-fx-font-weight: 300;
+	-fx-text-fill: #4a228e;
+	-fx-padding: -10;
+}
+
+.loginButton {
+	-fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+	-fx-border-width: 2px;
+	-fx-border-radius: 0px;	
+	-fx-font-family: Montserrat;
+	-fx-font-size: 12px;
+	-fx-text-fill: #ffffff;
+	-fx-font-weight: 600;
+}
+
+.smallHyperlink {
+	-fx-border-color: transparent;
+	-fx-padding: 0;
+	-fx-font-family: Montserrat;
+	-fx-text-fill: #4a228e;
+	-fx-font-size: 10px;
+	-fx-font-weight: 300;
+}
+
+.closeHyperlink {
+	-fx-border-color: transparent;
+	-fx-padding: 0;
+	-fx-pref-width: 10px;
+	-fx-pref-height: 17px;
+	-fx-font-family: Montserrat;
+	-fx-font-size: 13px;
+	-fx-font-weight: 300;
+	-fx-text-fill: #341961;
+	-fx-underline: false;
+}
+
+.closeHyperlink:hover {
+    -fx-text-fill: #ffffff;
+}
+
+.jfx-snackbar-content {
+    -fx-background-color: rgba(50, 50, 50, 0.5);
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-action {
+    -fx-text-fill: #ff4081;
+}
+
+.jfx-spinner > .arc {
+    -fx-stroke: #6a1b9a;
+}

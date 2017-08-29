@@ -16,20 +16,43 @@
 package pl.mplauncher.launcher.bootstrap;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import pl.mplauncher.launcher.MPLauncher;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
+
+    public static Stage start_stage;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception {
+        Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
+
+        start_stage = stage;
         MPLauncher launcher = new MPLauncher();
+
+        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
 
         /**
          * ToDo
@@ -49,5 +72,60 @@ public class MPLauncherBootstrap extends Application {
         System.out.println("Working directory: " + System.getProperty("user.dir"));
         System.out.println("------------- STARTED LOGGING THE APP -------------");
 
+
+        // Initialize Login.fxml window
+        URL loginForm = getClass().getClassLoader().getResource("Login.fxml");
+        if (loginForm != null) {
+            Parent root = FXMLLoader.load(loginForm);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setTitle("MPLauncher - Login");
+
+            Scene scene = new Scene(root, 304, 416);
+            scene.setFill(Color.TRANSPARENT);
+
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            throw new Exception("Couldn't find login form!");
+        }
+    }
+
+    private static void showError(Thread t, Throwable e) {
+        if (Platform.isFxApplicationThread()) {
+            // Window with error
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Unhandled Exception");
+            alert.setHeaderText("I've got an unhandled error while making you happy :c");
+            alert.setContentText(
+                    "The exception was: " + e.getLocalizedMessage() + System.lineSeparator() +
+                    "On Thread: " + t.getId() + " (" + t.getName() + ").");
+
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            String exceptionStackTrace = sw.toString();
+
+            Label label = new Label("Exception stacktrace:");
+
+            TextArea textArea = new TextArea(exceptionStackTrace);
+            textArea.setEditable(false);
+            textArea.setWrapText(false);
+
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+
+            alert.getDialogPane().setExpandableContent(expContent);
+            alert.show();
+        } else {
+            e.printStackTrace();
+        }
     }
 }
