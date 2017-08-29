@@ -14,3 +14,6 @@ Thanks to the open source project, everyone can put their bricks on this venture
 
 ## License
 [**See license: license**](LICENSE)
+
+**Copyright notice:** MPLauncher and [**mplauncher.pl**](https://mplauncher.pl) are not affiliated with Mojang AB and Discord, Inc.
+All graphics in this repository belong to their owners & publishers. In case of any claims, please contact [kacper@mplauncher.pl](mailto:kacper@mplauncher.pl) in advance
