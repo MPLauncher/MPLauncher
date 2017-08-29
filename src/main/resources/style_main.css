@@ -1,0 +1,217 @@
+.mainForm {
+	-fx-pref-width: 1178;
+	-fx-pref-height: 722;
+	-fx-background-color: #1b102e;
+}
+
+.mainMenu {
+	-fx-alignment: top-center;
+	-fx-pref-width: 220;
+	-fx-pref-height: 722;
+	-fx-background-color: #0f0323;
+}
+
+.mainTop {
+	-fx-alignment: top-right;
+	-fx-pref-width: 1087;
+	-fx-pref-height: 170;
+	-fx-background-color: rgba(15, 3, 35, 0.9);
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 27, 0.6, 0, 0);
+}
+
+.mainContent_Small {
+	-fx-pref-width: 958;
+	-fx-pref-height: 552;
+}
+
+.mainContent_Wide {
+	-fx-pref-width: 1087;
+	-fx-pref-height: 552;
+}
+
+.topBackground {
+	-fx-alignment: top-right;
+	-fx-pref-width: 1087;
+	-fx-pref-height: 170;
+	-fx-background-size: 1087 auto;
+	-fx-background-image: url("mc.jpg");
+	-fx-background-position: center -100;
+}
+
+.topContent {
+	-fx-padding: 19 0 0 160;
+}
+
+.menuButtonBackground {
+	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.menuButton {
+    -fx-fill: #ffffff;
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.mplauncher {
+	-fx-translate-y: 46;
+	-fx-font-family: Montserrat;
+	-fx-font-size: 30.5;
+	-fx-line-spacing: 1.5;
+}
+
+.textWhite {
+    -fx-fill: #ffffff;
+}
+
+.textBold {
+	-fx-font-weight: bold;
+}
+
+.versionText {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 12;
+	-fx-line-spacing: 0.6;
+}
+
+.userAvatar {
+
+}
+
+.userOnline_GREEN {
+    -fx-fill: #0cfa00;
+    -fx-effect: dropshadow(gaussian, #0cfa00, 15, 0.3, 0, 0);
+}
+
+.userOnline_RED {
+    -fx-fill: #fa000c;
+    -fx-effect: dropshadow(gaussian, #fa000c, 15, 0.3, 0, 0);
+}
+
+.userName {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 14;
+	-fx-font-weight: 600;
+	-fx-line-spacing: 0.7;
+	-fx-text-fill: #ffffff;
+}
+
+.fancyText {
+	-fx-pref-width: 250;
+}
+
+.fancyText_1 {
+	-fx-translate-y: 150;
+	-fx-font-family: Montserrat;
+	-fx-font-size: 14;
+	-fx-font-weight: 600;
+	-fx-line-spacing: 0.7;
+	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.fancyText_2 {
+	-fx-translate-y: 215;
+	-fx-font-family: Montserrat;
+	-fx-font-size: 24;
+	-fx-font-weight: 600;
+	-fx-line-spacing: 0.7;
+	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.fancyText_3_Container {
+	-fx-translate-y: 351;
+}
+
+.fancyText_3 {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 20;
+	-fx-line-spacing: 1;
+	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.newsContent {
+	-fx-background-color: #0f0323;
+}
+
+.newsTitle {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 12;
+	-fx-font-weight: 600;
+	-fx-line-spacing: 0.6;
+	-fx-fill: #ffffff;
+}
+
+.newsImage {
+    -fx-background-image: url('mc.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.newsArticle {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 11;
+	-fx-font-weight: 100;
+	-fx-line-spacing: 0.6;
+	-fx-text-fill: #ffffff;
+}
+
+.newsAuthor {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 11;
+	-fx-font-weight: 100;
+	-fx-line-spacing: 0.6;
+	-fx-fill: #7b1fa2;
+}
+
+.newsTime {
+	-fx-font-family: Montserrat;
+	-fx-font-size: 11;
+	-fx-font-weight: 100;
+	-fx-line-spacing: 0.6;
+	-fx-fill: #ffffff;
+}
+
+/* NORMAL */
+.selectList, .jfx-list-cell {
+    -fx-background-color: transparent;
+    -fx-font-family: Montserrat;
+    -fx-font-size: 10px;
+    -fx-font-weight: 300;
+}
+
+.selectList .jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.selectList .jfx-list-cell FontAwesomeIconView,
+.selectList .jfx-list-cell Label
+{
+    -fx-fill: #341961;
+    -fx-text-fill: #341961;
+}
+
+/* SELECTED */
+.selectList .jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.selectList .jfx-list-cell:selected FontAwesomeIconView,
+.selectList .jfx-list-cell:selected Label
+{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
+/* closeApp */
+.closeApp {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.closeApp FontAwesomeIconView,
+.closeApp Label
+{
+    -fx-background-color: transparent;
+    -fx-font-family: Montserrat;
+    -fx-font-size: 10px;
+    -fx-font-weight: 300;
+    -fx-fill: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+}

@@ -17,23 +17,19 @@ package pl.mplauncher.launcher.bootstrap;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.mplauncher.launcher.MPLauncher;
+import pl.mplauncher.launcher.helpers.FormSwitcher;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
@@ -71,21 +67,16 @@ public class MPLauncherBootstrap extends Application {
         System.out.println("Working directory: " + System.getProperty("user.dir"));
         System.out.println("------------- STARTED LOGGING THE APP -------------");
 
+        stage.initStyle(StageStyle.TRANSPARENT);
 
-        // Initialize Login.fxml window
-        URL loginForm = getClass().getClassLoader().getResource("Login.fxml");
-        if (loginForm != null) {
-            Parent root = FXMLLoader.load(loginForm);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setTitle("MPLauncher - Login");
-
-            Scene scene = new Scene(root, 304, 416);
-            scene.setFill(Color.TRANSPARENT);
-
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            throw new Exception("Couldn't find login form!");
+        if (FormSwitcher.initializeForms()) {
+            System.out.println("Forms has been successfully initialized.");
+            FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
+            /*
+                Login: Test
+                Passw: ForMe
+                For launching main form!
+             */
         }
     }
 

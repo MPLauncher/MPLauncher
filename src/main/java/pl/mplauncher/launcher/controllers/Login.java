@@ -9,6 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.helpers.FormSwitcher;
 import pl.mplauncher.launcher.helpers.JFXHelpers;
 
 import java.net.URI;
@@ -84,9 +85,6 @@ public class Login {
             MPLauncherBootstrap.start_stage.setX(event.getScreenX() + xOffset);
             MPLauncherBootstrap.start_stage.setY(event.getScreenY() + yOffset);
         });
-
-        JFXColorPicker picker = new JFXColorPicker();
-        picker.show();
     }
 
     @FXML
@@ -149,6 +147,10 @@ public class Login {
             System.out.println("Login: " + loginField.getText());
             if (passwordField.isVisible()) { System.out.println("Password: " + passwordField.getText()); }
             System.out.println("Remember: " + rememberButton.isSelected());
+
+            if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
+                FormSwitcher.switchTo(FormSwitcher.Form.MAIN);
+            }
         }
     }
 

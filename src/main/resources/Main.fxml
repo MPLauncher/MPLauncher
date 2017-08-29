@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import javafx.scene.shape.Circle?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import javafx.scene.Cursor?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="722.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pl.mplauncher.launcher.controllers.Main">
+    <stylesheets>
+        <URL value="@style_main.css"/>
+    </stylesheets>
+    <StackPane alignment="TOP_LEFT" styleClass="mainForm">
+        <Label fx:id="menuListIcon" visible="false" minWidth="30.0" />
+        <Label fx:id="menuListText" visible="false" minWidth="70.0" />
+        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="722.0" prefWidth="1178.0">
+            <left>
+                <StackPane fx:id="mainMenu" maxHeight="-Infinity" maxWidth="-Infinity"
+                           styleClass="mainMenu" StackPane.alignment="TOP_LEFT" BorderPane.alignment="CENTER">
+                    <Circle fx:id="userAvatar" radius="41.0">
+                        <StackPane.margin>
+                            <Insets top="21.0"/>
+                        </StackPane.margin>
+                    </Circle>
+                    <Circle fx:id="userOnline" radius="6.0" translateX="30.0" translateY="9.0">
+                        <StackPane.margin>
+                            <Insets top="21.0"/>
+                        </StackPane.margin>
+                    </Circle>
+                    <Label fx:id="userName" styleClass="userName">
+                        <StackPane.margin>
+                            <Insets top="129.0"/>
+                        </StackPane.margin>
+                    </Label>
+                    <JFXListView fx:id="menuList" maxHeight="-Infinity" prefHeight="499.0" styleClass="selectList">
+                        <StackPane.margin>
+                            <Insets top="169.0"/>
+                        </StackPane.margin>
+                        <GridPane mouseTransparent="true">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListIcon.minWidth}" halignment="CENTER"/>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListText.minWidth}"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="35" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <FontAwesomeIconView glyphName="USER_CIRCLE_ALT" size="26px"/>
+                            <Label opacity="${menuListText.opacity}" text="PROFIL&#10;UŻYTKOWNIKA" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        <GridPane mouseTransparent="true">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListIcon.minWidth}" halignment="CENTER"/>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListText.minWidth}"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="35" vgrow="NEVER"/>
+                            </rowConstraints>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <FontAwesomeIconView glyphName="COG" size="26px"/>
+                            <Label opacity="${menuListText.opacity}" text="USTAWIENIA&#10;UŻYTKOWNIKA" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        <GridPane mouseTransparent="true">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListIcon.minWidth}" halignment="CENTER"/>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListText.minWidth}"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="35" vgrow="NEVER"/>
+                            </rowConstraints>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <FontAwesomeIconView glyphName="NEWSPAPER_ALT" size="26px"/>
+                            <Label opacity="${menuListText.opacity}" text="NOWOŚCI" GridPane.columnIndex="1"/>
+                        </GridPane>
+                        <GridPane mouseTransparent="true">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListIcon.minWidth}" halignment="CENTER"/>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListText.minWidth}"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="35" vgrow="NEVER"/>
+                            </rowConstraints>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <FontAwesomeIconView glyphName="PLAY_CIRCLE_ALT" size="26px"/>
+                            <Label opacity="${menuListText.opacity}" text="WYBÓR SERWERA" GridPane.columnIndex="1"/>
+                        </GridPane>
+                    </JFXListView>
+                    <JFXRippler maxHeight="-Infinity" prefHeight="55.0" styleClass="closeApp" onMouseClicked="#closeClicked">
+                        <StackPane.margin>
+                            <Insets top="667.0"/>
+                        </StackPane.margin>
+                        <GridPane mouseTransparent="true">
+                            <padding>
+                                <Insets left="13" right="13" bottom="13"/>
+                            </padding>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListIcon.minWidth}" halignment="CENTER"/>
+                                <ColumnConstraints hgrow="NEVER" percentWidth="${menuListText.minWidth}" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints prefHeight="55" vgrow="NEVER"/>
+                            </rowConstraints>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <FontAwesomeIconView glyphName="POWER_OFF" size="26px" styleClass="selectListIcon"/>
+                            <Label opacity="${menuListText.opacity}" text="WYŁĄCZ" GridPane.columnIndex="1"/>
+                        </GridPane>
+                    </JFXRippler>
+                </StackPane>
+            </left>
+            <center>
+                <BorderPane BorderPane.alignment="CENTER">
+                    <center>
+                        <GridPane BorderPane.alignment="CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0"
+                                                   prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <StackPane GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <StackPane alignment="TOP_RIGHT" styleClass="newsContent"
+                                           StackPane.alignment="CENTER">
+                                    <StackPane.margin>
+                                        <Insets bottom="34.0" left="65.0" right="60.0" top="25.0"/>
+                                    </StackPane.margin>
+                                    <StackPane alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="53.0"
+                                               prefWidth="200.0">
+                                        <padding>
+                                            <Insets left="16.0"/>
+                                        </padding>
+                                        <Text fx:id="newsTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="newsTitle" />
+                                    </StackPane>
+                                    <StackPane maxHeight="-Infinity" prefHeight="212.0" styleClass="newsImage">
+                                        <StackPane.margin>
+                                            <Insets top="53.0"/>
+                                        </StackPane.margin>
+                                    </StackPane>
+                                    <StackPane alignment="TOP_LEFT" maxHeight="-Infinity" prefHeight="188.0">
+                                        <StackPane.margin>
+                                            <Insets top="266.0"/>
+                                        </StackPane.margin>
+                                        <padding>
+                                            <Insets bottom="16.0" left="16.0" right="16.0" top="23.0"/>
+                                        </padding>
+                                        <Label fx:id="newsArticle" styleClass="newsArticle" wrapText="true"/>
+                                    </StackPane>
+                                    <StackPane alignment="TOP_RIGHT" maxHeight="-Infinity" prefHeight="40.0">
+                                        <StackPane.margin>
+                                            <Insets top="451.0"/>
+                                        </StackPane.margin>
+                                        <padding>
+                                            <Insets right="21.0"/>
+                                        </padding>
+                                        <Text fx:id="newsAuthor" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="newsAuthor"/>
+                                        <Text fx:id="newsTime" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="newsTime" StackPane.alignment="BOTTOM_RIGHT">
+                                            <StackPane.margin>
+                                                <Insets bottom="16.0"/>
+                                            </StackPane.margin>
+                                        </Text>
+                                    </StackPane>
+                                </StackPane>
+                            </StackPane>
+                            <StackPane alignment="TOP_CENTER" styleClass="fancyText" StackPane.alignment="TOP_RIGHT"
+                                       GridPane.columnIndex="1">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fancyText_1"
+                                      text="Znajdziesz nas na:"
+                                      textAlignment="CENTER"/>
+                                <ImageView fx:id="discordLogo" fitHeight="55.0" fitWidth="163.0" pickOnBounds="true"
+                                           preserveRatio="true" translateY="215.0" onMouseClicked="#discordLogoClicked">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </ImageView>
+                                <TextFlow maxHeight="-Infinity" prefHeight="50.0" styleClass="fancyText_3_Container"
+                                          textAlignment="CENTER">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fancyText_3,textBold"
+                                          text="MP"
+                                          textAlignment="CENTER"/>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="fancyText_3"
+                                          text="LAUNCHER.PL"
+                                          textAlignment="CENTER"/>
+                                </TextFlow>
+                            </StackPane>
+                        </GridPane>
+                    </center>
+                    <top>
+                        <StackPane BorderPane.alignment="CENTER">
+                            <StackPane alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                       prefHeight="150.0" prefWidth="200.0" styleClass="topBackground" StackPane.alignment="TOP_RIGHT">
+                                <effect>
+                                    <ColorAdjust brightness="-0.1" contrast="0.1" saturation="-1.0"/>
+                                </effect>
+                            </StackPane>
+                            <StackPane fx:id="mainTop" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0"
+                                       prefWidth="886.0"
+                                       styleClass="mainTop" StackPane.alignment="TOP_RIGHT">
+                                <Text nodeOrientation="RIGHT_TO_LEFT" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      styleClass="versionText,textWhite" text="ver 1.0.1-dev. 14">
+                                    <StackPane.margin>
+                                        <Insets right="18.0" top="19.0"/>
+                                    </StackPane.margin>
+                                </Text>
+                                <TextFlow prefHeight="200.0" prefWidth="200.0" styleClass="topContent">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                          styleClass="mplauncher,textWhite,textBold"
+                                          text="MP" wrappingWidth="49.37950134277344"/>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="mplauncher,textWhite"
+                                          text="LAUNCHER"/>
+                                </TextFlow>
+                            </StackPane>
+                        </StackPane>
+                    </top>
+                </BorderPane>
+            </center>
+        </BorderPane>
+        <StackPane maxWidth="-Infinity" maxHeight="-Infinity" prefWidth="50" prefHeight="50" translateX="${mainMenu.width}" translateY="498.0">
+            <StackPane.margin>
+                <Insets left="-25.0" />
+            </StackPane.margin>
+            <Circle radius="25" styleClass="menuButtonBackground" />
+            <JFXRippler fx:id="menuButton" maxWidth="-Infinity" maxHeight="-Infinity" prefWidth="30" prefHeight="30"
+                        styleClass="menuButton" onMouseClicked="#menuButtonClicked">
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+                <FontAwesomeIconView fx:id="menuButtonIconLEFT" opacity="0.0" glyphName="CHEVRON_CIRCLE_LEFT"
+                                     size="25px" boundsType="VISUAL" styleClass="menuButton"
+                                     mouseTransparent="true"/>
+                <FontAwesomeIconView fx:id="menuButtonIconRIGHT" opacity="0.0" glyphName="CHEVRON_CIRCLE_RIGHT"
+                                     size="25px" boundsType="VISUAL" styleClass="menuButton"
+                                     mouseTransparent="true"/>
+            </JFXRippler>
+        </StackPane>
+    </StackPane>
+</VBox>

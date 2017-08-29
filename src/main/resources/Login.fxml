@@ -20,7 +20,7 @@
       fx:controller="pl.mplauncher.launcher.controllers.Login">
     <JFXSnackbar fx:id="snackbar" prefWidth="200"/>
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@style_login.css"/>
     </stylesheets>
     <StackPane fx:id="stackPane" alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
         <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
