@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <VBox styleClass="loginForm" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="pl.mplauncher.launcher.controllers.Login">
+      fx:controller="pl.mplauncher.launcher.controller.Login">
     <JFXSnackbar fx:id="snackbar" prefWidth="200"/>
     <stylesheets>
         <URL value="@style_login.css"/>

@@ -1,4 +1,19 @@
-package pl.mplauncher.launcher.controllers;
+/*
+   Copyright 2017 MPLauncher Team
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+package pl.mplauncher.launcher.controller;
 
 import com.jfoenix.controls.*;
 import javafx.application.Platform;
@@ -9,16 +24,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
-import pl.mplauncher.launcher.helpers.FormSwitcher;
-import pl.mplauncher.launcher.helpers.JFXHelpers;
+import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-/**
- * Created by losti on 29.08.2017.
- * Copyright (c) 2017
- */
 public class Login {
 
     @FXML
@@ -100,9 +111,9 @@ public class Login {
             loginField.setPromptText("EMAIL / NICK");
 
             passwordField.setVisible(true);
-            JFXHelpers.FadeTransition(Duration.millis(250), nonpremiumButtonLine, 1.0, 0.0);
-            JFXHelpers.FadeTransition(Duration.millis(250), premiumButtonLine, 0.0, 1.0);
-            JFXHelpers.FadeTransition(Duration.millis(250), passwordField, 0.0, 1.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), nonpremiumButtonLine, 1.0, 0.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), premiumButtonLine, 0.0, 1.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), passwordField, 0.0, 1.0);
         }
     }
 
@@ -113,9 +124,9 @@ public class Login {
             premiumButton.getStyleClass().setAll("accountType");
             loginField.setPromptText("NICK");
 
-            JFXHelpers.FadeTransition(Duration.millis(250), premiumButtonLine, 1.0, 0.0);
-            JFXHelpers.FadeTransition(Duration.millis(250), nonpremiumButtonLine, 0.0, 1.0);
-            JFXHelpers.FadeTransition(Duration.millis(250), passwordField, 1.0, 0.0, actionEvent -> passwordField.setVisible(false));
+            JFXHelpers.fadeTransition(Duration.millis(250), premiumButtonLine, 1.0, 0.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), nonpremiumButtonLine, 0.0, 1.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), passwordField, 1.0, 0.0, actionEvent -> passwordField.setVisible(false));
         }
     }
 
@@ -140,8 +151,8 @@ public class Login {
             passwordField.setDisable(true);
             rememberButton.setDisable(true);
 
-            JFXHelpers.FadeTransition(Duration.millis(250), loginButton, 1.0, 0.0, actionEvent -> loginButton.setVisible(false));
-            JFXHelpers.FadeTransition(Duration.millis(250), loginSpinner, 0.0, 1.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 1.0, 0.0, actionEvent -> loginButton.setVisible(false));
+            JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 0.0, 1.0);
 
             System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
             System.out.println("Login: " + loginField.getText());
@@ -162,4 +173,5 @@ public class Login {
             e.printStackTrace();
         }
     }
+
 }

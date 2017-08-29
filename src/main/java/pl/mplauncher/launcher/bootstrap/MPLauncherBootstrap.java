@@ -26,7 +26,7 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.mplauncher.launcher.MPLauncher;
-import pl.mplauncher.launcher.helpers.FormSwitcher;
+import pl.mplauncher.launcher.helper.FormSwitcher;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -117,4 +117,5 @@ public class MPLauncherBootstrap extends Application {
             e.printStackTrace();
         }
     }
+
 }
