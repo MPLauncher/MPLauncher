@@ -14,7 +14,7 @@
 <?import javafx.scene.Cursor?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="722.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="pl.mplauncher.launcher.controllers.Main">
+      fx:controller="pl.mplauncher.launcher.controller.Main">
     <stylesheets>
         <URL value="@style_main.css"/>
     </stylesheets>

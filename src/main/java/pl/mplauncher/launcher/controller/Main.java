@@ -1,4 +1,19 @@
-package pl.mplauncher.launcher.controllers;
+/*
+   Copyright 2017 MPLauncher Team
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+package pl.mplauncher.launcher.controller;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXRippler;
@@ -19,15 +34,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
-import pl.mplauncher.launcher.helpers.JFXHelpers;
+import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-/**
- * Created by losti on 29.08.2017.
- * Copyright (c) 2017
- */
 public class Main {
     @FXML
     private StackPane mainMenu;
@@ -89,7 +100,7 @@ public class Main {
         userName.setText("Łowca wiaderek :kappa:");
         userOnline.getStyleClass().setAll("userOnline_GREEN");
 
-        JFXHelpers.FadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
+        JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
 
         Image img2 = new Image(getClass().getClassLoader().getResource("DiscordLogo.png").toString());
         discordLogo.setImage(img2);
@@ -138,8 +149,8 @@ public class Main {
         menuButton.setDisable(true);
 
         if (menuListText.getOpacity() == 1.0) {
-            JFXHelpers.FadeTransition(Duration.millis(125), userName, 1.0, 0.0);
-            JFXHelpers.FadeTransition(Duration.millis(125), menuListText, 1.0, 0.0, (ActionEvent) -> {
+            JFXHelpers.fadeTransition(Duration.millis(125), userName, 1.0, 0.0);
+            JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 1.0, 0.0, (ActionEvent) -> {
                 menuListText.setMinWidth(0.0);
 
                 Timeline animations = new Timeline();
@@ -170,8 +181,8 @@ public class Main {
             animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(mainMenu.prefWidthProperty(), 220)));
             animations.setOnFinished((ActionEvent) -> {
                 menuListText.setMinWidth(70.0);
-                JFXHelpers.FadeTransition(Duration.millis(125), userName, 0.0, 1.0);
-                JFXHelpers.FadeTransition(Duration.millis(125), menuListText, 0.0, 1.0, event -> menuButton.setDisable(false));
+                JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
+                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0, event -> menuButton.setDisable(false));
             });
             animations.play();
         }
