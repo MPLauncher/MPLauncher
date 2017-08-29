@@ -54,7 +54,6 @@ public class MPLauncherBootstrap extends Application {
           - Initialize logger
           - Initialize data
           - Initialize config
-          - Initialize login screen
          */
 
         // Important things on the beginning of the log
