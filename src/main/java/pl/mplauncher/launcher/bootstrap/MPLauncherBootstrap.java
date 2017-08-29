@@ -25,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -50,16 +49,16 @@ public class MPLauncherBootstrap extends Application {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
 
         start_stage = stage;
-        MPLauncher launcher = new MPLauncher();
+        // Future use: MPLauncher launcher = new MPLauncher();
 
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
 
-        /**
-         * ToDo
-         * - Initialize logger
-         * - Initialize data
-         * - Initialize config
-         * - Initialize login screen
+        /*
+          ToDo
+          - Initialize logger
+          - Initialize data
+          - Initialize config
+          - Initialize login screen
          */
 
         // Important things on the beginning of the log
