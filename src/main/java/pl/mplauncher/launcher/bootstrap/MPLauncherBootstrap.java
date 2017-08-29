@@ -19,6 +19,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import pl.mplauncher.launcher.MPLauncher;
 
+import java.time.LocalDateTime;
+
 public class MPLauncherBootstrap extends Application {
 
     public static void main(String[] args) {
@@ -26,9 +28,26 @@ public class MPLauncherBootstrap extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         MPLauncher launcher = new MPLauncher();
-        // TODO: init
-    }
 
+        /**
+         * ToDo
+         * - Initialize logger
+         * - Initialize data
+         * - Initialize config
+         * - Initialize login screen
+         */
+
+        // Important things on the beginning of the log
+        System.out.println("App started on: " + LocalDateTime.now());
+        System.out.println("App version: " + MPLauncher.class.getPackage().getImplementationVersion());
+        System.out.println("Java version: " + System.getProperty("java.version"));
+        System.out.println("OS Arch: " + System.getProperty("os.arch"));
+        System.out.println("OS Name: " + System.getProperty("os.name"));
+        System.out.println("OS Version: " + System.getProperty("os.version"));
+        System.out.println("Working directory: " + System.getProperty("user.dir"));
+        System.out.println("------------- STARTED LOGGING THE APP -------------");
+
+    }
 }
