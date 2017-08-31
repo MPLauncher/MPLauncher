@@ -33,7 +33,7 @@ public class YggdrasilClient extends OkHttpClient {
 
         this.backend = backend.newBuilder()
                 .addInterceptor(chain -> chain.proceed(chain.request().newBuilder().addHeader(
-                        "Content-Type", "application/json").build())).build();
+                        "Content-Type", Yggdrasil.CONTENT_TYPE).build())).build();
     }
 
     public YggdrasilClient() {

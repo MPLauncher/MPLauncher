@@ -16,12 +16,13 @@
 package pl.mplauncher.launcher.yggdrasil;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.apache.commons.lang3.Validate;
-import org.diorite.libs.com.google.gson.JsonObject;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -31,7 +32,7 @@ final class YggdrasilImpl implements Yggdrasil {
     private final OkHttpClient client = new YggdrasilClient();
 
     @Override
-    public CompletableFuture<JsonObject> authenticate(JsonObject payload) {
+    public CompletableFuture<JsonObject> authenticate(JsonObject payload) throws YggdrasilException {
         Validate.notNull(payload);
 
         return CompletableFuture.supplyAsync(() -> {
@@ -43,16 +44,27 @@ final class YggdrasilImpl implements Yggdrasil {
 
             try {
                 Response response = client.newCall(request).execute();
+                JsonObject object = gson.fromJson(response.body().string(), JsonObject.class);
 
-                return gson.fromJson(response.body().string(), JsonObject.class);
+                if (!response.isSuccessful()) {
+                    JsonElement element = object.get("errorMessage");
+                    if (element == null) {
+                        throw new YggdrasilException("Unknown message");
+                    }
+
+                    throw new YggdrasilException(element.getAsString());
+                }
+
+                return object;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return null;
             }
         });
     }
 
     @Override
-    public CompletableFuture<JsonObject> refresh(JsonObject payload) {
+    public CompletableFuture<JsonObject> refresh(JsonObject payload) throws YggdrasilException {
         Validate.notNull(payload);
 
         return CompletableFuture.supplyAsync(() -> {
@@ -64,16 +76,27 @@ final class YggdrasilImpl implements Yggdrasil {
 
             try {
                 Response response = client.newCall(request).execute();
+                JsonObject object = gson.fromJson(response.body().string(), JsonObject.class);
 
-                return gson.fromJson(response.body().string(), JsonObject.class);
+                if (!response.isSuccessful()) {
+                    JsonElement element = object.get("errorMessage");
+                    if (element == null) {
+                        throw new YggdrasilException("Unknown message");
+                    }
+
+                    throw new YggdrasilException(element.getAsString());
+                }
+
+                return object;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return null;
             }
         });
     }
 
     @Override
-    public CompletableFuture<JsonObject> validate(JsonObject payload) {
+    public CompletableFuture<JsonObject> validate(JsonObject payload) throws YggdrasilException {
         Validate.notNull(payload);
 
         return CompletableFuture.supplyAsync(() -> {
@@ -85,19 +108,27 @@ final class YggdrasilImpl implements Yggdrasil {
 
             try {
                 Response response = client.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    return new JsonObject();
+                JsonObject object = gson.fromJson(response.body().string(), JsonObject.class);
+
+                if (!response.isSuccessful()) {
+                    JsonElement element = object.get("errorMessage");
+                    if (element == null) {
+                        throw new YggdrasilException("Unknown message");
+                    }
+
+                    throw new YggdrasilException(element.getAsString());
                 }
 
-                return null;
+                return object;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return null;
             }
         });
     }
 
     @Override
-    public CompletableFuture<JsonObject> signout(JsonObject payload) {
+    public CompletableFuture<JsonObject> signout(JsonObject payload) throws YggdrasilException {
         Validate.notNull(payload);
 
         return CompletableFuture.supplyAsync(() -> {
@@ -109,16 +140,27 @@ final class YggdrasilImpl implements Yggdrasil {
 
             try {
                 Response response = client.newCall(request).execute();
+                JsonObject object = gson.fromJson(response.body().string(), JsonObject.class);
 
-                return gson.fromJson(response.body().string(), JsonObject.class);
+                if (!response.isSuccessful()) {
+                    JsonElement element = object.get("errorMessage");
+                    if (element == null) {
+                        throw new YggdrasilException("Unknown message");
+                    }
+
+                    throw new YggdrasilException(element.getAsString());
+                }
+
+                return object;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return null;
             }
         });
     }
 
     @Override
-    public CompletableFuture<JsonObject> invalidate(JsonObject payload) {
+    public CompletableFuture<JsonObject> invalidate(JsonObject payload) throws YggdrasilException {
         Validate.notNull(payload);
 
         return CompletableFuture.supplyAsync(() -> {
@@ -130,9 +172,20 @@ final class YggdrasilImpl implements Yggdrasil {
 
             try {
                 Response response = client.newCall(request).execute();
+                JsonObject object = gson.fromJson(response.body().string(), JsonObject.class);
 
-                return gson.fromJson(response.body().string(), JsonObject.class);
+                if (!response.isSuccessful()) {
+                    JsonElement element = object.get("errorMessage");
+                    if (element == null) {
+                        throw new YggdrasilException("Unknown message");
+                    }
+
+                    throw new YggdrasilException(element.getAsString());
+                }
+
+                return object;
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return null;
             }
         });

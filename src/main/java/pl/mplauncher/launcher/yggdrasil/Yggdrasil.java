@@ -16,7 +16,7 @@
 package pl.mplauncher.launcher.yggdrasil;
 
 import okhttp3.MediaType;
-import org.diorite.libs.com.google.gson.JsonObject;
+import com.google.gson.JsonObject;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -30,14 +30,14 @@ public interface Yggdrasil {
         return new YggdrasilImpl();
     }
 
-    CompletableFuture<JsonObject> authenticate(JsonObject payload);
+    CompletableFuture<JsonObject> authenticate(JsonObject payload) throws YggdrasilException;
 
-    CompletableFuture<JsonObject> refresh(JsonObject payload);
+    CompletableFuture<JsonObject> refresh(JsonObject payload) throws YggdrasilException;
 
-    CompletableFuture<JsonObject> validate(JsonObject payload);
+    CompletableFuture<JsonObject> validate(JsonObject payload) throws YggdrasilException;
 
-    CompletableFuture<JsonObject> signout(JsonObject payload);
+    CompletableFuture<JsonObject> signout(JsonObject payload) throws YggdrasilException;
 
-    CompletableFuture<JsonObject> invalidate(JsonObject payload);
+    CompletableFuture<JsonObject> invalidate(JsonObject payload) throws YggdrasilException;
 
 }

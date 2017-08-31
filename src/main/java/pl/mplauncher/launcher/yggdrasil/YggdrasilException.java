@@ -21,4 +21,12 @@ public class YggdrasilException extends Exception {
         super(message);
     }
 
+    public YggdrasilException(Throwable throwable) {
+        super(throwable);
+    }
+
+    public YggdrasilException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
+
 }
