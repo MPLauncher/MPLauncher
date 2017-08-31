@@ -72,4 +72,28 @@ final class YggdrasilImpl implements Yggdrasil {
         });
     }
 
+    @Override
+    public CompletableFuture<JsonObject> validate(JsonObject payload) {
+        Validate.notNull(payload);
+
+        return CompletableFuture.supplyAsync(() -> {
+            RequestBody body = RequestBody.create(JSON, gson.toJson(payload));
+            Request request = new Request.Builder()
+                    .url(URL + "validate")
+                    .post(body)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    return new JsonObject();
+                }
+
+                return null;
+            } catch (Exception ex) {
+                return null;
+            }
+        });
+    }
+
 }

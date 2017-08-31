@@ -34,4 +34,6 @@ public interface Yggdrasil {
 
     CompletableFuture<JsonObject> refresh(JsonObject payload);
 
+    CompletableFuture<JsonObject> validate(JsonObject payload);
+
 }
