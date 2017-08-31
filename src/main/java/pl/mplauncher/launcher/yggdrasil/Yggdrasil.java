@@ -36,4 +36,6 @@ public interface Yggdrasil {
 
     CompletableFuture<JsonObject> validate(JsonObject payload);
 
+    CompletableFuture<JsonObject> signout(JsonObject payload);
+
 }
