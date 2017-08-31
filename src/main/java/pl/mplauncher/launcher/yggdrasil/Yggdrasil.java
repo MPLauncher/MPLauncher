@@ -38,4 +38,6 @@ public interface Yggdrasil {
 
     CompletableFuture<JsonObject> signout(JsonObject payload);
 
+    CompletableFuture<JsonObject> invalidate(JsonObject payload);
+
 }
