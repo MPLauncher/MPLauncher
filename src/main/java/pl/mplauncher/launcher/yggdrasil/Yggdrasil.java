@@ -15,12 +15,21 @@
 */
 package pl.mplauncher.launcher.yggdrasil;
 
+import okhttp3.MediaType;
+import org.diorite.libs.com.google.gson.JsonObject;
+
+import java.util.concurrent.CompletableFuture;
+
 public interface Yggdrasil {
 
-    String URL = "https://authserver.mojang.com";
+    String URL = "https://authserver.mojang.com/";
+    String CONTENT_TYPE = "application/json";
+    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     static Yggdrasil create() {
         return new YggdrasilImpl();
     }
+
+    CompletableFuture<JsonObject> authenticate(JsonObject payload);
 
 }

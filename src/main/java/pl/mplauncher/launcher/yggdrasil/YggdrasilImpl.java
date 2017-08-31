@@ -15,10 +15,40 @@
 */
 package pl.mplauncher.launcher.yggdrasil;
 
+import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.apache.commons.lang3.Validate;
+import org.diorite.libs.com.google.gson.JsonObject;
+
+import java.util.concurrent.CompletableFuture;
 
 final class YggdrasilImpl implements Yggdrasil {
 
+    private final Gson gson = new Gson();
     private final OkHttpClient client = new YggdrasilClient();
+
+    @Override
+    public CompletableFuture<JsonObject> authenticate(JsonObject payload) {
+        Validate.notNull(payload);
+
+        return CompletableFuture.supplyAsync(() -> {
+            RequestBody body = RequestBody.create(JSON, gson.toJson(payload));
+            Request request = new Request.Builder()
+                    .url(URL + "authenticate")
+                    .post(body)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+
+                return gson.fromJson(response.body().string(), JsonObject.class);
+            } catch (Exception ex) {
+                return null;
+            }
+        });
+    }
 
 }
