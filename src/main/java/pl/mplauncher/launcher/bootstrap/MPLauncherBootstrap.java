@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
 
-    public static Stage start_stage;
+    private static Stage startStage;
     private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
     public static void main(String[] args) { launch(args); }
@@ -45,7 +45,7 @@ public class MPLauncherBootstrap extends Application {
     public void start(Stage stage) throws Exception {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
 
-        start_stage = stage;
+        startStage = stage;
         // Future use: MPLauncher launcher = new MPLauncher();
 
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
@@ -116,6 +116,10 @@ public class MPLauncherBootstrap extends Application {
             alert.getDialogPane().setExpandableContent(expContent);
             alert.show();
         }
+    }
+
+    public static Stage getStartStage() {
+        return startStage;
     }
 
 }

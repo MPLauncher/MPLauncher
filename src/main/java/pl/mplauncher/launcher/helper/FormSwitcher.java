@@ -65,19 +65,19 @@ public class FormSwitcher {
     public static void switchTo(Form to) {
         switch (to) {
             case LOGIN: {
-                MPLauncherBootstrap.start_stage.hide();
-                MPLauncherBootstrap.start_stage.setTitle("MPLauncher - Login");
-                MPLauncherBootstrap.start_stage.setScene(loginScene);
-                MPLauncherBootstrap.start_stage.centerOnScreen();
-                MPLauncherBootstrap.start_stage.show();
+                MPLauncherBootstrap.getStartStage().hide();
+                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Login");
+                MPLauncherBootstrap.getStartStage().setScene(loginScene);
+                MPLauncherBootstrap.getStartStage().centerOnScreen();
+                MPLauncherBootstrap.getStartStage().show();
                 break;
             }
             case MAIN: {
-                MPLauncherBootstrap.start_stage.hide();
-                MPLauncherBootstrap.start_stage.setTitle("MPLauncher - Main");
-                MPLauncherBootstrap.start_stage.setScene(mainScene);
-                MPLauncherBootstrap.start_stage.centerOnScreen();
-                MPLauncherBootstrap.start_stage.show();
+                MPLauncherBootstrap.getStartStage().hide();
+                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Main");
+                MPLauncherBootstrap.getStartStage().setScene(mainScene);
+                MPLauncherBootstrap.getStartStage().centerOnScreen();
+                MPLauncherBootstrap.getStartStage().show();
                 break;
             }
         }

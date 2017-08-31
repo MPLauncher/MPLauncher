@@ -125,12 +125,12 @@ public class Main {
 
         // Allow to drag entire app via namePane
         mainTop.setOnMousePressed(event -> {
-            xOffset = MPLauncherBootstrap.start_stage.getX() - event.getScreenX();
-            yOffset = MPLauncherBootstrap.start_stage.getY() - event.getScreenY();
+            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
+            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
         });
         mainTop.setOnMouseDragged(event -> {
-            MPLauncherBootstrap.start_stage.setX(event.getScreenX() + xOffset);
-            MPLauncherBootstrap.start_stage.setY(event.getScreenY() + yOffset);
+            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
+            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
     }
 
