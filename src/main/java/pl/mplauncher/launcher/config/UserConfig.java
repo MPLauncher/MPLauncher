@@ -25,10 +25,23 @@ import java.util.UUID;
 @CfgComment("-------------------------------------------------------------------")
 public class UserConfig {
 
+    /*
+        Use for verification if data decrypted by launcher is proper.
+        This string should be one static value encrypted by PC UID.
+        If PC UID is changed, decrypted value wouldn't be that expected value.
+        So we'll know that this file is running on other PC and we should reset that file ASAP.
+
+        We won't place here PC UID because it'll be much simpler to decrypt this data.
+     */
+    @CfgComment("Don't ever touch this line!")
+    @CfgName("verify")
+    public String verify;
+
     @CfgName("users")
     public List<UserData> users;
-    
+
     //TODO: Add more data about: favorite servers, resolution, sound settings, ram etc.
+    //TODO: Sensitive data shouldn't be saved not encrypted in the file. Use some unique PC ID to encrypt this data.
 
     public enum UserType {
         Premium,
