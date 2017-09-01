@@ -1,122 +1,47 @@
-/*
-   Copyright 2017 MPLauncher Team
+package pl.mplauncher.launcher.form;
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-package pl.mplauncher.launcher.controller;
-
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXRippler;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
-public class Main {
-    @FXML
-    private StackPane mainMenu;
+public class Main extends MainDesigner {
 
-    @FXML
-    private Circle userAvatar;
-
-    @FXML
-    private Label userName;
-
-    @FXML
-    private Circle userOnline;
-
-    @FXML
-    private Text menuButtonIconLEFT;
-
-    @FXML
-    private Text menuButtonIconRIGHT;
-
-    @FXML
-    private ImageView discordLogo;
-
-    @FXML
-    private JFXRippler menuButton;
-
-    @FXML
-    private JFXListView menuList;
-
-    @FXML
-    private Label menuListIcon;
-
-    @FXML
-    private Label menuListText;
-
-    @FXML
-    private Text newsTitle;
-
-    @FXML
-    private Label newsArticle;
-
-    @FXML
-    private Text newsAuthor;
-
-    @FXML
-    private Text newsTime;
-
-    @FXML
-    private Pane mainTop;
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     private static double xOffset;
     private static double yOffset;
 
-    @FXML
-    public void initialize() throws Exception {
+    private void initialize() {
+        //Form
+        initializeComponent();
 
-        //Set USERNAME
-        Image img = new Image(getClass().getClassLoader().getResource("gaben.jpg").toString());
-        userAvatar.setFill(new ImagePattern(img));
-        userName.setText("Łowca wiaderek :kappa:");
-        userOnline.getStyleClass().setAll("userOnline_GREEN");
+        //Events
+        closeRippler.setOnMouseClicked(event -> closeClicked());
+        discordLogo.setOnMouseClicked(event -> discordLogoClicked());
+        menuButton.setOnMouseClicked(event -> menuButtonClicked());
+    }
+
+    public Main() {
+        initialize();
 
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
 
-        Image img2 = new Image(getClass().getClassLoader().getResource("DiscordLogo.png").toString());
-        discordLogo.setImage(img2);
-
-        //Set NEWS*
-        newsTitle.setText("NOWY WYGLĄD?");
-        newsArticle.setText("Witajcie gracze i graczki!" + System.lineSeparator() + System.lineSeparator() +
-                "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
-                "Styl przybrał nazwę &quot;Callipso&quot; i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout." + System.lineSeparator() +
-                "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
-                "Czytaj więcej.");
-        newsAuthor.setText("IceMeltt");
-        newsTime.setText("~miesiąc temu");
-
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            for (Node nodeIn : ((GridPane)newValue).getChildren()) {
+            for (Node nodeIn : newValue.getChildren()) {
                 if (nodeIn instanceof Label) {
                     System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex() + " == " + ((Label) nodeIn).getText());
                 }
@@ -132,19 +57,62 @@ public class Main {
             MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
             MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
+
+        // -- SET ALL -- //
+
+        //Set USERNAME
+        URL imgUrl = getClass().getClassLoader().getResource("gaben.jpg");
+        if (imgUrl != null) {
+            Image img = new Image(imgUrl.toString());
+            setUserAvatar(img);
+        } else {
+            logger.error("Couldn't set user avatar!");
+        }
+
+        setUserName("Łowca wiaderek :kappa:");
+        setUserOnline(true);
+
+        //Set menu
+        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, "PROFIL" + System.lineSeparator() + "UŻYTKOWNIKA");
+        addMenuOption(FontAwesomeIcon.COG, "USTAWIENIA" + System.lineSeparator() + "UŻYTKOWNIKA");
+        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, "NOWOŚCI");
+        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, "WYBÓR SERWERA");
+
+        //Set close
+        setCloseOption("WYŁĄCZ");
+
+        //Set NEWS
+        URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
+        if (imageUrl != null) {
+            Image image = new Image(imageUrl.toString());
+            setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!" + System.lineSeparator() + System.lineSeparator() +
+                    "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
+                    "Styl przybrał nazwę „Callipso” i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout." + System.lineSeparator() +
+                    "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
+                    "Czytaj więcej.", "IceMeltt", "~miesiąc temu");
+        } else {
+            logger.error("Couldn't set news image!");
+        }
+
+        //Set right
+        setRightSite("Znajdziesz nas na:");
+
+        //Set version
+        setLauncherVersion("ver 1.0.1-dev. 14");
     }
 
-    @FXML
     private void closeClicked() {
         Platform.exit();
     }
 
-    @FXML
-    private void discordLogoClicked() throws URISyntaxException {
-        JFXHelpers.openWebpage(new URI("https://discord.gg/C5pkDan"));
+    private void discordLogoClicked() {
+        try {
+            JFXHelpers.openWebpage(new URI("https://discord.gg/C5pkDan"));
+        } catch (URISyntaxException e) {
+            logger.error("Failed to open discord invite!", e);
+        }
     }
 
-    @FXML
     private void menuButtonClicked() {
         menuButton.setDisable(true);
 

@@ -19,7 +19,7 @@
 }
 
 .mplauncher {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-font-size: 12px;
 	-fx-line-spacing: 0.6px;
 	-fx-padding: -3 0 0 0;
@@ -30,13 +30,12 @@
 }
 
 .textBold {
-	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat Bold';
 }
 
 .accountType {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 15px;
-	-fx-font-weight: 600;
 	-fx-text-fill: #341961;
 	-fx-line-spacing: 0.8px;
 	-fx-padding: 0 0 4 0;
@@ -52,7 +51,7 @@
 }
 
 .defaultText {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-font-size: 12px;
 	-fx-line-spacing: 0.6px;
 	-fx-text-fill: #4a228e;
@@ -61,7 +60,7 @@
 .input {
 	-jfx-unfocus-color: #7b1fa2;
 	-fx-font-size: 12px;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-text-fill: #ffffff;
 }
 
@@ -70,9 +69,8 @@
 	-jfx-toggle-color: #9c27b0;
 	-jfx-untoggle-color: #341961;
 	-jfx-untoggle-line-color: #140020;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Light';
 	-fx-font-size: 10px;
-	-fx-font-weight: 300;
 	-fx-text-fill: #4a228e;
 	-fx-padding: -10;
 }
@@ -81,19 +79,17 @@
 	-fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
 	-fx-border-width: 2px;
 	-fx-border-radius: 0px;	
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 12px;
 	-fx-text-fill: #ffffff;
-	-fx-font-weight: 600;
 }
 
 .smallHyperlink {
 	-fx-border-color: transparent;
 	-fx-padding: 0;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Light';
 	-fx-text-fill: #4a228e;
 	-fx-font-size: 10px;
-	-fx-font-weight: 300;
 }
 
 .closeHyperlink {
@@ -101,9 +97,8 @@
 	-fx-padding: 0;
 	-fx-pref-width: 10px;
 	-fx-pref-height: 17px;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Light';
 	-fx-font-size: 13px;
-	-fx-font-weight: 300;
 	-fx-text-fill: #341961;
 	-fx-underline: false;
 }

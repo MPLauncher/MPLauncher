@@ -23,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +33,7 @@ import pl.mplauncher.launcher.helper.FormSwitcher;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
@@ -42,7 +44,7 @@ public class MPLauncherBootstrap extends Application {
     public static void main(String[] args) { launch(args); }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
 
         startStage = stage;
@@ -51,6 +53,41 @@ public class MPLauncherBootstrap extends Application {
         // Future use - app location -> MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
+
+        URL montserratThin = getClass().getClassLoader().getResource("Montserrat-Thin.ttf");
+        if (montserratThin != null) {
+            Font.loadFont(montserratThin.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Thin font!");
+        }
+
+        URL montserratLight = getClass().getClassLoader().getResource("Montserrat-Light.ttf");
+        if (montserratLight != null) {
+            Font.loadFont(montserratLight.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Light font!");
+        }
+
+        URL montserratRegular = getClass().getClassLoader().getResource("Montserrat-Regular.ttf");
+        if (montserratRegular != null) {
+            Font.loadFont(montserratRegular.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Regular font!");
+        }
+
+        URL montserratSemiBold = getClass().getClassLoader().getResource("Montserrat-SemiBold.ttf");
+        if (montserratSemiBold != null) {
+            Font.loadFont(montserratSemiBold.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat SemiBold font!");
+        }
+
+        URL montserratBold = getClass().getClassLoader().getResource("Montserrat-Bold.ttf");
+        if (montserratBold != null) {
+            Font.loadFont(montserratBold.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Bold font!");
+        }
 
         /*
           ToDo
@@ -70,15 +107,12 @@ public class MPLauncherBootstrap extends Application {
 
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        if (FormSwitcher.initializeForms()) {
-            logger.info("Forms has been successfully initialized.");
-            FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
-            /*
-                Login: Test
-                Passw: ForMe
-                For launching main form!
-             */
-        }
+        FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
+        /*
+            Login: Test
+            Passw: ForMe
+            For launching main form!
+         */
     }
 
     private static void showError(Thread t, Throwable e) {

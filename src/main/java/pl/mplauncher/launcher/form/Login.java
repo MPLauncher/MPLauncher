@@ -1,27 +1,6 @@
-/*
-   Copyright 2017 MPLauncher Team
+package pl.mplauncher.launcher.form;
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-package pl.mplauncher.launcher.controller;
-
-import com.jfoenix.controls.*;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.FormSwitcher;
@@ -30,54 +9,27 @@ import pl.mplauncher.launcher.helper.JFXHelpers;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Login {
-
-    @FXML
-    private StackPane stackPane;
-
-    @FXML
-    private Pane namePane;
-
-    @FXML
-    private Hyperlink closeButton;
-
-    @FXML
-    private JFXButton premiumButton;
-
-    @FXML
-    private Line premiumButtonLine;
-
-    @FXML
-    private JFXButton nonpremiumButton;
-
-    @FXML
-    private Line nonpremiumButtonLine;
-
-    @FXML
-    private JFXTextField loginField;
-
-    @FXML
-    private JFXPasswordField passwordField;
-
-    @FXML
-    private JFXToggleButton rememberButton;
-
-    @FXML
-    private JFXButton loginButton;
-
-    @FXML
-    private JFXSpinner loginSpinner;
-
-    @FXML
-    private JFXSnackbar snackbar;
+public class Login extends LoginDesigner {
 
     private static double xOffset;
     private static double yOffset;
 
-    @FXML
-    public void initialize() {
-        snackbar.registerSnackbarContainer(stackPane);
+    private void initialize() {
+        //Form
+        initializeComponent();
 
+        //Events
+        closeButton.setOnAction(event -> onCloseAction());
+        premiumButton.setOnAction(event -> onPremiumSelected());
+        nonpremiumButton.setOnAction(event -> onNonPremiumSelected());
+        loginButton.setOnAction(event -> onLoginAction());
+        termsHyperlink.setOnAction(event -> onTermsAction());
+    }
+
+    public Login() {
+        initialize();
+
+        snackBar.registerSnackbarContainer(stackPane);
         loginSpinner.setOpacity(0.0);
 
         loginField.setDisableAnimation(true);
@@ -98,13 +50,11 @@ public class Login {
         });
     }
 
-    @FXML
-    private void closeClicked() {
+    private void onCloseAction() {
         Platform.exit();
     }
 
-    @FXML
-    private void premiumSelected() {
+    private void onPremiumSelected() {
         if (!premiumButton.getStyleClass().contains("accountTypeSelected")) {
             premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             nonpremiumButton.getStyleClass().setAll("accountType");
@@ -117,8 +67,7 @@ public class Login {
         }
     }
 
-    @FXML
-    private void nonpremiumSelected() {
+    private void onNonPremiumSelected() {
         if (!nonpremiumButton.getStyleClass().contains("accountTypeSelected")) {
             nonpremiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             premiumButton.getStyleClass().setAll("accountType");
@@ -130,18 +79,17 @@ public class Login {
         }
     }
 
-    @FXML
-    private void loginClicked() {
+    private void onLoginAction() {
         System.out.println("*** LOGIN CLICKED ***");
 
         if (loginField.getText().length() == 0) {
             if (passwordField.isVisible()) {
-                snackbar.show("Uzupełnij nazwę użytkownika/email.", 3000);
+                snackBar.show("Uzupełnij nazwę użytkownika/email.", 3000);
             } else {
-                snackbar.show("Uzupełnij swój nick.", 3000);
+                snackBar.show("Uzupełnij swój nick.", 3000);
             }
         } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
-            snackbar.show("Uzupełnij hasło.", 3000);
+            snackBar.show("Uzupełnij hasło.", 3000);
         } else {
             premiumButton.setDisable(true);
             nonpremiumButton.setDisable(true);
@@ -165,13 +113,11 @@ public class Login {
         }
     }
 
-    @FXML
-    private void termsClicked() {
+    private void onTermsAction() {
         try {
             JFXHelpers.openWebpage(new URI("https://mplauncher.pl/?p=tos"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
-
 }
