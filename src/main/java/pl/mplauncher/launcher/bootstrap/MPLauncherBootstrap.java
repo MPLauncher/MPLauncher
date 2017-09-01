@@ -48,6 +48,8 @@ public class MPLauncherBootstrap extends Application {
         startStage = stage;
         // Future use: MPLauncher launcher = new MPLauncher();
 
+        // Future use - app location -> MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()
+
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
 
         /*
@@ -81,7 +83,7 @@ public class MPLauncherBootstrap extends Application {
 
     private static void showError(Thread t, Throwable e) {
         logger.error("I've got an exception!", e);
-        
+
         if (Platform.isFxApplicationThread()) {
             // Window with error
             Alert alert = new Alert(Alert.AlertType.ERROR);
