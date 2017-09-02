@@ -47,7 +47,7 @@ public class FormSwitcher {
 
         MPLauncherBootstrap.getStartStage().centerOnScreen();
         MPLauncherBootstrap.getStartStage().show();
-        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 1.0);
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 1.0);
     }
 
 }

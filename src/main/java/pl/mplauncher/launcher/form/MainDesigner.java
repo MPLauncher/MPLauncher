@@ -23,8 +23,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
 import java.util.Stack;
@@ -43,7 +45,7 @@ class MainDesigner {
     Label userName;
     JFXListView<menuItem> menuList;
     JFXRippler closeRippler;
-    private GridPane centerGridPane;
+    public GridPane centerGridPane;
     private StackPane firstSPinCenterGP;
     private Text rightCenterFirstText;
     ImageView discordLogo;
@@ -132,7 +134,6 @@ class MainDesigner {
 
         closeRippler.setMaxHeight(JFXRippler.USE_PREF_SIZE);
         closeRippler.setPrefHeight(55.0);
-        closeRippler.getStyleClass().add("closeApp");
         StackPane.setMargin(closeRippler, new Insets(667.0, 0.0, 0.0, 0.0));
 
         BorderPane.setAlignment(borderPaneCenter, Pos.CENTER);
@@ -192,6 +193,9 @@ class MainDesigner {
         menuButton.setPrefSize(30.0, 30.0);
         menuButton.getStyleClass().add("menuButton");
         menuButton.setCursor(Cursor.HAND);
+
+        Circle circle = new Circle();
+        circle.setRadius(4);
 
         menuButtonIconLEFT.setOpacity(0.0);
         menuButtonIconLEFT.setBoundsType(TextBoundsType.VISUAL);
@@ -278,11 +282,12 @@ class MainDesigner {
             rowConstraints.setVgrow(Priority.NEVER);
 
             this.getRowConstraints().add(rowConstraints);
-            this.setCursor(Cursor.HAND);
 
             FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.POWER_OFF, "26px");
             icon.getStyleClass().add("selectListIcon");
+            icon.setMouseTransparent(true);
             Label text = new Label();
+            text.setMouseTransparent(true);
             text.opacityProperty().bind(menuListText.opacityProperty());
             text.setText(label);
             GridPane.setColumnIndex(text, 1);
@@ -421,13 +426,11 @@ class MainDesigner {
             StackPane topStackPane = new StackPane();
             topStackPane.setPrefHeight(53.0);
 
-            Text serverListText = new Text();
-            serverListText.setStrokeType(StrokeType.OUTSIDE);
-            serverListText.setStrokeWidth(0.0);
+            Label serverListText = new Label();
             serverListText.setText("LISTA SERWERÓW");
             StackPane.setAlignment(serverListText, Pos.CENTER_LEFT);
             StackPane.setMargin(serverListText, new Insets(0.0, 0.0, 0.0, 20.0));
-            serverListText.getStyleClass().addAll("fontSemiBold", "fontSize12", "fillWhite");
+            serverListText.getStyleClass().addAll("fontSemiBold", "fontSize12", "textFillWhite");
             // TOP //
 
             // CENTER //
@@ -681,6 +684,7 @@ class MainDesigner {
 
         centerGridPane.getChildren().clear();
         centerGridPane.getChildren().add(new serverList());
+        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
     }
 
     void addServerToList(String name, String version, Integer players, Integer maxPlayers) {
@@ -696,8 +700,10 @@ class MainDesigner {
     }
 
     void setCloseOption(String label) {
-        this.closeRippler.getChildren().clear();
-        this.closeRippler.getChildren().add(new closeItem(label));
+        this.closeRippler.setControl(new closeItem(label));
+        this.closeRippler.setMaskType(JFXRippler.RipplerMask.RECT);
+        this.closeRippler.setPosition(JFXRippler.RipplerPos.FRONT);
+        this.closeRippler.getStyleClass().add("closeApp");
     }
 
     void setRightSite(String first) {
