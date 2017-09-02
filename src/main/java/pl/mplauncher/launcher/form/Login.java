@@ -51,7 +51,7 @@ public class Login extends LoginDesigner {
     }
 
     private void onCloseAction() {
-        Platform.exit();
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> Platform.exit());
     }
 
     private void onPremiumSelected() {
@@ -108,7 +108,7 @@ public class Login extends LoginDesigner {
             System.out.println("Remember: " + rememberButton.isSelected());
 
             if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
-                FormSwitcher.switchTo(FormSwitcher.Form.MAIN);
+                JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
             }
         }
     }

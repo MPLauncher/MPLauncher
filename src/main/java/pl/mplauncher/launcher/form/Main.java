@@ -102,7 +102,7 @@ public class Main extends MainDesigner {
     }
 
     private void closeClicked() {
-        Platform.exit();
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> Platform.exit());
     }
 
     private void discordLogoClicked() {

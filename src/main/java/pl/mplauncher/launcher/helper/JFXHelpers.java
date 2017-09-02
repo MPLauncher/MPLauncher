@@ -16,6 +16,10 @@
 package pl.mplauncher.launcher.helper;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -25,6 +29,34 @@ import java.awt.*;
 import java.net.URI;
 
 public class JFXHelpers {
+
+    /**
+     * Makes double property animation
+     * @param duration time in ms
+     * @param target given doubleproperty
+     * @param endValue final value
+     */
+    public static void doublePropertyAnimation(Duration duration, DoubleProperty target, Double endValue) {
+        doublePropertyAnimation(duration, target, endValue, null);
+    }
+
+    /**
+     * Makes double property animation
+     * @param duration time in ms
+     * @param target given doubleproperty
+     * @param endValue final value
+     * @param onFinished action after the end of animation
+     */
+    public static void doublePropertyAnimation(Duration duration, DoubleProperty target, Double endValue, EventHandler<ActionEvent> onFinished) {
+        Timeline animations = new Timeline();
+        animations.getKeyFrames().add(new KeyFrame(duration, new KeyValue(target, endValue)));
+
+        if (onFinished != null) {
+            animations.setOnFinished(onFinished);
+        }
+
+        animations.play();
+    }
 
     /**
      * Makes fade transition of given node.

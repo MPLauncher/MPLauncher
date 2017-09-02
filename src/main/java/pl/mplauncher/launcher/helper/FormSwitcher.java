@@ -15,6 +15,7 @@
 */
 package pl.mplauncher.launcher.helper;
 
+import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.form.Login;
 import pl.mplauncher.launcher.form.Main;
@@ -27,24 +28,26 @@ public class FormSwitcher {
     }
 
     public static void switchTo(Form to) {
+        if (MPLauncherBootstrap.getStartStage().getOpacity() != 0.0) {
+            MPLauncherBootstrap.getStartStage().setOpacity(0.0);
+        }
+
         switch (to) {
             case LOGIN: {
-                MPLauncherBootstrap.getStartStage().hide();
                 MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Login");
                 MPLauncherBootstrap.getStartStage().setScene(new Login().getLoginScene());
-                MPLauncherBootstrap.getStartStage().centerOnScreen();
-                MPLauncherBootstrap.getStartStage().show();
                 break;
             }
             case MAIN: {
-                MPLauncherBootstrap.getStartStage().hide();
                 MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Main");
                 MPLauncherBootstrap.getStartStage().setScene(new Main().getMainScene());
-                MPLauncherBootstrap.getStartStage().centerOnScreen();
-                MPLauncherBootstrap.getStartStage().show();
                 break;
             }
         }
+
+        MPLauncherBootstrap.getStartStage().centerOnScreen();
+        MPLauncherBootstrap.getStartStage().show();
+        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 1.0);
     }
 
 }
