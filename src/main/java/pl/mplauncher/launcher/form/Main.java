@@ -44,6 +44,42 @@ public class Main extends MainDesigner {
             for (Node nodeIn : newValue.getChildren()) {
                 if (nodeIn instanceof Label) {
                     System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex() + " == " + ((Label) nodeIn).getText());
+
+                    if (menuList.getSelectionModel().getSelectedIndex() == 3) {
+                        setServerList();
+
+                        // Set servers!
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                        addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                    }
                 }
             }
         });

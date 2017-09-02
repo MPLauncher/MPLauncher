@@ -74,6 +74,55 @@
 
 }
 
+.fontSize14 {
+	-fx-font-size: 14;
+}
+
+.fontSize12 {
+	-fx-font-size: 12;
+}
+
+.fontSize10 {
+	-fx-font-size: 10;
+}
+
+.fontSize9 {
+	-fx-font-size: 8;
+}
+
+.fontSize8_5 {
+	-fx-font-size: 8.5;
+}
+
+.fontSize8 {
+	-fx-font-size: 8;
+}
+
+.fontRegular {
+	-fx-font-family: 'Montserrat Regular';
+}
+
+.fontBold {
+	-fx-font-family: 'Montserrat Bold';
+}
+
+.fontSemiBold {
+	-fx-font-family: 'Montserrat SemiBold';
+}
+
+.fillWhite {
+	-fx-fill: #ffffff;
+}
+
+.textFillWhite {
+	-fx-text-fill: #ffffff;
+}
+
+.playButton {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-radius: 15px;
+}
+
 .userOnline_GREEN {
     -fx-fill: #0cfa00;
     -fx-effect: dropshadow(gaussian, #0cfa00, 15, 0.3, 0, 0);
@@ -154,6 +203,65 @@
 	-fx-font-size: 11;
 	-fx-fill: #ffffff;
 }
+
+/* NORMAL */
+.serverList .scroll-bar:horizontal,
+.serverList .scroll-bar:vertical {
+    -fx-background-color: #000000;
+}
+
+.serverList .scroll-bar:horizontal .thumb,
+.serverList .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+
+.serverList .scroll-bar:horizontal .increment-button,
+.serverList .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.serverList .scroll-bar:vertical .increment-button,
+.serverList .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.serverList .scroll-bar .increment-arrow,
+.serverList .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.serverList, .jfx-list-cell {
+    -fx-background-color: transparent;
+}
+
+.serverList .jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.serverList .jfx-list-cell Label
+{
+    -fx-fill: #333333;
+    -fx-text-fill: #333333;
+}
+
+/* SELECTED */
+.serverList .jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.serverList .jfx-list-cell:selected Label
+{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
 
 /* NORMAL */
 .selectList, .jfx-list-cell {
