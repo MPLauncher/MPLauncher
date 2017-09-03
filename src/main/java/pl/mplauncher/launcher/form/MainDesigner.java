@@ -1,15 +1,14 @@
 package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXRippler;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,8 +54,11 @@ class MainDesigner {
     JFXRippler menuButton;
     FontAwesomeIconView menuButtonIconLEFT;
     FontAwesomeIconView menuButtonIconRIGHT;
-    private StackPane serverListleftSite;
-    JFXListView<serverItem> serverList;
+    private ScrollPane serverListleftSite;
+    private StackPane favoriteServerListIndicator;
+    JFXListView<serverItem> favoriteServerList;
+    private StackPane otherServerListIndicator;
+    JFXListView<serverItem> otherServerList;
 
     //Initializer
     void initializeComponent() {
@@ -419,12 +421,13 @@ class MainDesigner {
             GridPane.setValignment(this, VPos.CENTER);
 
             BorderPane container = new BorderPane();
-            container.setStyle("-fx-background-color: #0f0323;");
+            container.getStyleClass().add("serverMenuBP");
             StackPane.setMargin(container, new Insets(25.0, 60.0, 34.0, 65.0));
 
             // TOP //
             StackPane topStackPane = new StackPane();
             topStackPane.setPrefHeight(53.0);
+            topStackPane.getStyleClass().add("serverMenuTop");
 
             Label serverListText = new Label();
             serverListText.setText("LISTA SERWERÓW");
@@ -576,13 +579,57 @@ class MainDesigner {
             // CENTER //
 
             // LEFT //
-            serverListleftSite = new StackPane();
-            serverListleftSite.setMaxWidth(StackPane.USE_PREF_SIZE);
-            serverListleftSite.setPrefWidth(311.0);
+            serverListleftSite = new ScrollPane();
+            serverListleftSite.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            serverListleftSite.setMinSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
+            serverListleftSite.setMaxSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
+            serverListleftSite.setPrefSize(314.0, 445.0);
+            serverListleftSite.setPadding(new Insets(0.0));
+            serverListleftSite.getStyleClass().add("serverListScrollPane");
 
-            serverList = new JFXListView<>();
-            serverList.setFixedCellSize(60.0);
-            serverList.getStyleClass().add("serverList");
+            VBox serverListleftSiteVBox = new VBox();
+            serverListleftSiteVBox.getStyleClass().add("serverListContainer");
+            serverListleftSiteVBox.setPadding(new Insets(0.0));
+
+            favoriteServerList = new JFXListView<>();
+            favoriteServerList.setFixedCellSize(60.0);
+            favoriteServerList.getStyleClass().add("serverList");
+            favoriteServerList.setPadding(new Insets(0.0));
+            favoriteServerList.managedProperty().bind(favoriteServerList.visibleProperty());
+            favoriteServerList.setVisible(false);
+
+            favoriteServerListIndicator = new StackPane();
+            favoriteServerListIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            favoriteServerListIndicator.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            favoriteServerListIndicator.setPrefSize(305.0, 30.0);
+            favoriteServerListIndicator.setPadding(new Insets(0.0));
+            favoriteServerListIndicator.getStyleClass().add("serverListIndicator");
+            favoriteServerListIndicator.managedProperty().bind(favoriteServerList.managedProperty());
+            favoriteServerListIndicator.visibleProperty().bind(favoriteServerList.visibleProperty());
+
+            Label fSLLabel = new Label();
+            fSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
+            fSLLabel.setText("ULUBIONE");
+            StackPane.setAlignment(fSLLabel, Pos.CENTER_LEFT);
+
+            otherServerListIndicator = new StackPane();
+            otherServerListIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            otherServerListIndicator.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            otherServerListIndicator.setPrefSize(305.0, 30.0);
+            otherServerListIndicator.setPadding(new Insets(0.0));
+            otherServerListIndicator.getStyleClass().add("serverListIndicator");
+            otherServerListIndicator.managedProperty().bind(favoriteServerList.managedProperty());
+            otherServerListIndicator.visibleProperty().bind(favoriteServerList.visibleProperty());
+
+            Label oSLLabel = new Label();
+            oSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
+            oSLLabel.setText("POZOSTAŁE");
+            StackPane.setAlignment(oSLLabel, Pos.CENTER_LEFT);
+
+            otherServerList = new JFXListView<>();
+            otherServerList.setFixedCellSize(60.0);
+            otherServerList.getStyleClass().add("serverList");
+            otherServerList.setPadding(new Insets(0.0));
             // LEFT //
 
             //Binding
@@ -592,11 +639,14 @@ class MainDesigner {
             container.setLeft(serverListleftSite);
             topStackPane.getChildren().add(serverListText);
             centerContainer.getChildren().addAll(serverImage, serverInfo, serverOptions);
-            serverListleftSite.getChildren().add(serverList);
+            serverListleftSite.setContent(serverListleftSiteVBox);
             serverInfo.getChildren().addAll(serverName, serverDescription);
             serverOptions.getChildren().addAll(leftserverOptions, playButton, rightserverOptions);
+            serverListleftSiteVBox.getChildren().addAll(favoriteServerListIndicator, favoriteServerList, otherServerListIndicator, otherServerList);
             leftserverOptions.getChildren().addAll(addToFavorite, isInstalled);
             rightserverOptions.getChildren().addAll(ramLabel, ramField);
+            favoriteServerListIndicator.getChildren().add(fSLLabel);
+            otherServerListIndicator.getChildren().add(oSLLabel);
         }
     }
 
@@ -687,9 +737,21 @@ class MainDesigner {
         JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
     }
 
-    void addServerToList(String name, String version, Integer players, Integer maxPlayers) {
-        if (serverList != null) {
-            serverList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
+    void addServerToFavoriteList(String name, String version, Integer players, Integer maxPlayers) {
+        if (favoriteServerList != null) {
+            if (!favoriteServerList.isVisible()) {
+                favoriteServerList.setVisible(true);
+            }
+
+            favoriteServerList.setPrefHeight((favoriteServerList.getItems().size() + 1) * favoriteServerList.getFixedCellSize());
+            favoriteServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
+        }
+    }
+
+    void addServerToOtherList(String name, String version, Integer players, Integer maxPlayers) {
+        if (otherServerList != null) {
+            otherServerList.setPrefHeight((otherServerList.getItems().size() + 1) * otherServerList.getFixedCellSize());
+            otherServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
         } else {
             logger.error("Launcher tried to add server when serverList wasn't initialized yet!");
         }

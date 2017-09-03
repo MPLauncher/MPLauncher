@@ -49,37 +49,54 @@ public class Main extends MainDesigner {
                         JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 0.0, event -> {
                             setServerList();
 
+                            // When Favorite server is selected, deselect other server
+                            favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                if (nV != null && otherServerList != null && !otherServerList.getSelectionModel().isEmpty()) {
+                                    otherServerList.getSelectionModel().clearSelection();
+                                }
+                            }));
+                            otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                if (nV != null && favoriteServerList != null && !favoriteServerList.getSelectionModel().isEmpty()) {
+                                    favoriteServerList.getSelectionModel().clearSelection();
+                                }
+                            }));
+
+                            // Set favorite servers!
+                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+
                             // Set servers!
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
                         });
                     }
                 }
@@ -108,7 +125,7 @@ public class Main extends MainDesigner {
         }
 
         setUserName("Łowca wiaderek :kappa:");
-        setUserOnline(false);
+        setUserOnline(true);
 
         //Set menu
         addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, "PROFIL" + System.lineSeparator() + "UŻYTKOWNIKA");
