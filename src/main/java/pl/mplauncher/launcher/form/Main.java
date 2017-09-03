@@ -17,6 +17,7 @@ import pl.mplauncher.launcher.helper.JFXHelpers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Random;
 
 public class Main extends MainDesigner {
 
@@ -61,42 +62,23 @@ public class Main extends MainDesigner {
                                 }
                             }));
 
-                            // Set favorite servers!
-                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToFavoriteList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-
                             // Set servers!
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
-                            addServerToOtherList("NAJLEPSZY SERWER ŚWIATA", "1.11.2", 11, 100);
+                            for(int x=0; x<53; x++) {
+                                char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+                                StringBuilder sb = new StringBuilder();
+                                Random random = new Random();
+                                for (int i=0; i < random.nextInt(30)+10; i++) {
+                                    char ch = chars[random.nextInt(chars.length)];
+                                    sb.append(ch);
+                                }
+
+                                if (x < 3){
+                                    addServerToFavoriteList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100)+100);
+                                } else {
+                                    addServerToOtherList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100)+100);
+                                }
+                            }
                         });
                     }
                 }

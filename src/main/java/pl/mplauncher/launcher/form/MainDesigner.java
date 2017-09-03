@@ -675,7 +675,7 @@ class MainDesigner {
             Label serverName = new Label();
             serverName.setWrapText(true);
             GridPane.setValignment(serverName, VPos.BOTTOM);
-            serverName.setText(name);
+            serverName.setText(name.toUpperCase());
             GridPane.setMargin(serverName, new Insets(0.0, 0.0, 0.0, 24.0));
             serverName.getStyleClass().addAll("fontSemiBold", "fontSize10", "fillTextWhite");
 
@@ -683,7 +683,7 @@ class MainDesigner {
             GridPane.setValignment(serverVersion, VPos.TOP);
             GridPane.setHalignment(serverVersion, HPos.LEFT);
             GridPane.setRowIndex(serverVersion, 1);
-            serverVersion.setText("WERSJA MC: " + version);
+            serverVersion.setText("WERSJA MC: " + version.toUpperCase());
             GridPane.setMargin(serverVersion, new Insets(0.0, 0.0, 0.0, 24.0));
             serverVersion.getStyleClass().addAll("fontRegular", "fontSize8", "fillTextWhite");
 
@@ -691,7 +691,7 @@ class MainDesigner {
             GridPane.setValignment(serverSlots, VPos.BOTTOM);
             GridPane.setHalignment(serverSlots, HPos.CENTER);
             GridPane.setColumnIndex(serverSlots, 1);
-            serverSlots.setText(slots);
+            serverSlots.setText(slots.toUpperCase());
             serverSlots.getStyleClass().addAll("fontRegular", "fontSize10", "fillTextWhite");
 
             this.getChildren().addAll(serverName, serverVersion, serverSlots);
