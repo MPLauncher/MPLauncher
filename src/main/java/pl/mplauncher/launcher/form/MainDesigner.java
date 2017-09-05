@@ -575,7 +575,7 @@ class MainDesigner {
             GridPane.setColumnIndex(ramField, 1);
             GridPane.setHalignment(ramField, HPos.LEFT);
             GridPane.setMargin(ramField, new Insets(0.0, 0.0, 0.0, 3.0));
-            ramField.getStyleClass().addAll("fontSemiBold", "fontSize8_5", "fillWhite");
+            ramField.getStyleClass().addAll("fontSemiBold", "fontSize8_5", "textFillWhite");
             // CENTER //
 
             // LEFT //
