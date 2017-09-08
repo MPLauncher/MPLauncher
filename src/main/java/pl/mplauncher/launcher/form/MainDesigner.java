@@ -7,7 +7,6 @@ import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -15,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
@@ -28,7 +26,6 @@ import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
-import java.util.Stack;
 
 class MainDesigner {
 
@@ -44,7 +41,7 @@ class MainDesigner {
     Label userName;
     JFXListView<menuItem> menuList;
     JFXRippler closeRippler;
-    public GridPane centerGridPane;
+    GridPane centerGridPane;
     private StackPane firstSPinCenterGP;
     private Text rightCenterFirstText;
     ImageView discordLogo;
@@ -55,9 +52,7 @@ class MainDesigner {
     FontAwesomeIconView menuButtonIconLEFT;
     FontAwesomeIconView menuButtonIconRIGHT;
     private ScrollPane serverListleftSite;
-    private StackPane favoriteServerListIndicator;
     JFXListView<serverItem> favoriteServerList;
-    private StackPane otherServerListIndicator;
     JFXListView<serverItem> otherServerList;
 
     //Initializer
@@ -598,7 +593,7 @@ class MainDesigner {
             favoriteServerList.managedProperty().bind(favoriteServerList.visibleProperty());
             favoriteServerList.setVisible(false);
 
-            favoriteServerListIndicator = new StackPane();
+            StackPane favoriteServerListIndicator = new StackPane();
             favoriteServerListIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
             favoriteServerListIndicator.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
             favoriteServerListIndicator.setPrefSize(305.0, 30.0);
@@ -612,7 +607,7 @@ class MainDesigner {
             fSLLabel.setText("ULUBIONE");
             StackPane.setAlignment(fSLLabel, Pos.CENTER_LEFT);
 
-            otherServerListIndicator = new StackPane();
+            StackPane otherServerListIndicator = new StackPane();
             otherServerListIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
             otherServerListIndicator.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
             otherServerListIndicator.setPrefSize(305.0, 30.0);

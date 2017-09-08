@@ -169,7 +169,7 @@ public class Main extends MainDesigner {
                 animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
 
                 animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(mainMenu.prefWidthProperty(), 91)));
-                animations.setOnFinished(event -> { menuButton.setDisable(false); });
+                animations.setOnFinished(event -> menuButton.setDisable(false));
                 animations.play();
             });
         } else if (menuListText.getOpacity() == 0.0) {
@@ -187,7 +187,7 @@ public class Main extends MainDesigner {
             animations.setOnFinished((ActionEvent) -> {
                 menuListText.setMinWidth(70.0);
                 JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
-                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0, event -> { menuButton.setDisable(false); });
+                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0, event -> menuButton.setDisable(false));
             });
             animations.play();
         }
