@@ -29,16 +29,14 @@ public class Login extends LoginDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    public Login() {
-        initialize();
-
+    public void initialize() {
         snackBar.registerSnackbarContainer(stackPane);
         loginSpinner.setOpacity(0.0);
 
         loginField.setDisableAnimation(true);
         passwordField.setDisableAnimation(true);
 
-        // Premium activated by default!
+        // PREMIUM activated by default!
         premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
         nonpremiumButtonLine.setOpacity(0.0);
 
@@ -51,9 +49,7 @@ public class Login extends LoginDesigner {
             MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
             MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
-    }
 
-    private void initialize() {
         //Form
         initializeComponent();
 

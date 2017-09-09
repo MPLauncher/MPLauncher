@@ -29,6 +29,7 @@ public class MessageBundle {
         this.locale = locale;
         messageBundles.add(this);
     }
+
     public void addMessage(String key, String value) {
         this.messages.put(key, value);
     }

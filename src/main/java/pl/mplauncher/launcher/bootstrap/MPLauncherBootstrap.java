@@ -46,7 +46,7 @@ public class MPLauncherBootstrap extends Application {
     public static void main(String[] args) {
         try {
             MessageBundleIO.load();
-        }catch(IOException e){
+        } catch(IOException e) {
             e.printStackTrace();
         }
         launch(args);

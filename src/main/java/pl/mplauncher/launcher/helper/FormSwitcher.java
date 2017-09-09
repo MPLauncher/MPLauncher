@@ -34,13 +34,19 @@ public class FormSwitcher {
 
         switch (to) {
             case LOGIN: {
+                Login login = new Login();
+                login.initialize();
+
                 MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Login");
-                MPLauncherBootstrap.getStartStage().setScene(new Login().getLoginScene());
+                MPLauncherBootstrap.getStartStage().setScene(login.getLoginScene());
                 break;
             }
             case MAIN: {
+                Main main = new Main();
+                main.initialize();
+
                 MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Main");
-                MPLauncherBootstrap.getStartStage().setScene(new Main().getMainScene());
+                MPLauncherBootstrap.getStartStage().setScene(main.getMainScene());
                 break;
             }
         }
@@ -48,7 +54,8 @@ public class FormSwitcher {
         MPLauncherBootstrap.getStartStage().centerOnScreen();
         MPLauncherBootstrap.getStartStage().show();
         MPLauncherBootstrap.getStartStage().toFront();
-        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 1.0);
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(),
+                1.0);
     }
 
 }

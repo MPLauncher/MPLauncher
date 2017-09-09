@@ -27,12 +27,14 @@ public class MessageBundleIO {
 
     public static void load() throws IOException {
         File dir = new File(System.getenv("APPDATA") + File.separator + ".mplauncher" + File.separator + "lang");
+
         if (!dir.exists()) {
             dir.mkdirs();
             File tmp = new File(dir, "tmp.json");
             tmp.createNewFile();
             Files.delete(tmp.toPath());
         }
+
         if (dir.listFiles().length > 0) {
             for (File f : dir.listFiles()) {
                 if (FilenameUtils.getExtension(f.getPath()).equals("json")) {

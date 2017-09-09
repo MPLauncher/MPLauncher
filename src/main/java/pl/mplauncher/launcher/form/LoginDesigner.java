@@ -203,4 +203,5 @@ class LoginDesigner {
     public Scene getLoginScene() {
         return loginScene;
     }
+
 }

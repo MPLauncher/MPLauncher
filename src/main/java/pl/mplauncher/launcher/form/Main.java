@@ -41,28 +41,30 @@ public class Main extends MainDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    public Main() {
-        initialize();
-
+    public void initialize() {
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
 
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             for (Node nodeIn : newValue.getChildren()) {
                 if (nodeIn instanceof Label) {
-                    System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex() + " == " + ((Label) nodeIn).getText());
+                    System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex()
+                            + " == " + ((Label) nodeIn).getText());
 
                     if (menuList.getSelectionModel().getSelectedIndex() == 3) {
-                        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 0.0, event -> {
+                        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
+                                0.0, event -> {
                             setServerList();
 
                             // When Favorite server is selected, deselect other server
                             favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && otherServerList != null && !otherServerList.getSelectionModel().isEmpty()) {
+                                if (nV != null && otherServerList != null
+                                        && !otherServerList.getSelectionModel().isEmpty()) {
                                     otherServerList.getSelectionModel().clearSelection();
                                 }
                             }));
                             otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && favoriteServerList != null && !favoriteServerList.getSelectionModel().isEmpty()) {
+                                if (nV != null && favoriteServerList != null
+                                        && !favoriteServerList.getSelectionModel().isEmpty()) {
                                     favoriteServerList.getSelectionModel().clearSelection();
                                 }
                             }));
@@ -79,9 +81,11 @@ public class Main extends MainDesigner {
                                 }
 
                                 if (x < 3) {
-                                    addServerToFavoriteList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100) + 100);
+                                    addServerToFavoriteList(sb.toString(), "1.11.2",
+                                            random.nextInt(100), random.nextInt(100) + 100);
                                 } else {
-                                    addServerToOtherList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100) + 100);
+                                    addServerToOtherList(sb.toString(), "1.11.2",
+                                            random.nextInt(100), random.nextInt(100) + 100);
                                 }
                             }
                         });
@@ -127,10 +131,14 @@ public class Main extends MainDesigner {
         URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
-            setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!" + System.lineSeparator() + System.lineSeparator() +
-                    "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
-                    "Styl przybrał nazwę „Callipso” i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout." + System.lineSeparator() +
-                    "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
+            setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"
+                    + System.lineSeparator() + System.lineSeparator() +
+                    "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem " +
+                    "rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
+                    "Styl przybrał nazwę „Callipso” i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout."
+                    + System.lineSeparator() +
+                    "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, " +
+                    "całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
                     "Czytaj więcej.", "IceMeltt", "~miesiąc temu");
         } else {
             logger.error("Couldn't set news image!");
@@ -141,9 +149,7 @@ public class Main extends MainDesigner {
 
         //Set version
         setLauncherVersion("ver 1.0.1-dev. 14");
-    }
 
-    private void initialize() {
         //Form
         initializeComponent();
 
@@ -154,7 +160,8 @@ public class Main extends MainDesigner {
     }
 
     private void closeClicked() {
-        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> Platform.exit());
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(),
+                0.0, event -> Platform.exit());
     }
 
     private void discordLogoClicked() {
@@ -174,37 +181,57 @@ public class Main extends MainDesigner {
                 menuListText.setMinWidth(0.0);
 
                 Timeline animations = new Timeline();
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuButtonIconLEFT.opacityProperty(), 0.0)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuButtonIconRIGHT.opacityProperty(), 1.0)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userAvatar.radiusProperty(), 16)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.radiusProperty(), 2)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.translateXProperty(), 11.9)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.translateYProperty(), 3.6)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconLEFT.opacityProperty(), 0.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconRIGHT.opacityProperty(), 1.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userAvatar.radiusProperty(), 16)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.radiusProperty(), 2)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateXProperty(), 11.9)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateYProperty(), 3.6)));
 
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
 
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(mainMenu.prefWidthProperty(), 91)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(mainMenu.prefWidthProperty(), 91)));
                 animations.setOnFinished(event -> menuButton.setDisable(false));
+
                 animations.play();
             });
         } else if (menuListText.getOpacity() == 0.0) {
             Timeline animations = new Timeline();
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuButtonIconLEFT.opacityProperty(), 1.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuButtonIconRIGHT.opacityProperty(), 0.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userAvatar.radiusProperty(), 41)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.radiusProperty(), 6)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.translateXProperty(), 30.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(userOnline.translateYProperty(), 9.0)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(menuButtonIconLEFT.opacityProperty(), 1.0)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(menuButtonIconRIGHT.opacityProperty(), 0.0)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(userAvatar.radiusProperty(), 41)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(userOnline.radiusProperty(), 6)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(userOnline.translateXProperty(), 30.0)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(userOnline.translateYProperty(), 9.0)));
 
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(menuListIcon.minWidthProperty(), 30.0)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(menuListIcon.minWidthProperty(), 30.0)));
 
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250), new KeyValue(mainMenu.prefWidthProperty(), 220)));
+            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                    new KeyValue(mainMenu.prefWidthProperty(), 220)));
             animations.setOnFinished((ActionEvent) -> {
                 menuListText.setMinWidth(70.0);
                 JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
-                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0, event -> menuButton.setDisable(false));
+                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0,
+                        event -> menuButton.setDisable(false));
             });
+
             animations.play();
         }
     }
+
 }

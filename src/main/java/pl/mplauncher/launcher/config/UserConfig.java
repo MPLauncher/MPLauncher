@@ -59,34 +59,32 @@ public class UserConfig {
     //TODO: Sensitive data shouldn't be saved not encrypted in the file. Use some unique PC ID to encrypt this data.
 
     public enum UserType {
-        Premium,
-        NonPremium
+        PREMIUM,
+        NONPREMIUM
     }
 
     public static class UserData {
-        String username;
-        UUID uuid;
-        String accessToken;
-        String clientToken;
-        boolean remember;
-        UserType userType;
 
-        public UserData(String username, UUID uuid, String accesstoken, String clienttoken, boolean remember) {
+        private final String username;
+        private final UUID uuid;
+        private final String accessToken;
+        private final String clientToken;
+        private final boolean remember;
+        private final UserType userType;
+
+        public UserData(String username, UUID uuid, String accessToken, String clientToken, boolean remember,
+                        UserType userType) {
             this.username = username;
             this.uuid = uuid;
-            this.accessToken = accesstoken;
-            this.clientToken = clienttoken;
+            this.accessToken = accessToken;
+            this.clientToken = clientToken;
             this.remember = remember;
-            this.userType = UserType.Premium;
+            this.userType = userType;
         }
 
         public UserData(String username, boolean remember) {
-            this.username = username;
-            this.uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(Charsets.UTF_8));
-            this.accessToken = "\" \"";
-            this.clientToken = null;
-            this.remember = remember;
-            this.userType = UserType.NonPremium;
+            this(username, UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(Charsets.UTF_8)),
+                    "\" \"", null, remember, UserType.NONPREMIUM);
         }
 
         public String getUsername() {
@@ -112,5 +110,6 @@ public class UserConfig {
         public UserType getUserType() {
             return userType;
         }
+
     }
 }
