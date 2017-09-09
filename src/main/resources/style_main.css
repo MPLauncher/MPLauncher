@@ -39,7 +39,7 @@
 }
 
 .topContent {
-	-fx-padding: 19 0 0 160;
+	-fx-padding: 19 0 0 31;
 }
 
 .menuButtonBackground {
@@ -53,9 +53,8 @@
 
 .mplauncher {
 	-fx-translate-y: 46;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-font-size: 30.5;
-	-fx-line-spacing: 1.5;
 }
 
 .textWhite {
@@ -63,17 +62,65 @@
 }
 
 .textBold {
-	-fx-font-weight: bold;
+	-fx-font-family: 'Montserrat Bold';
 }
 
 .versionText {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-font-size: 12;
-	-fx-line-spacing: 0.6;
 }
 
 .userAvatar {
 
+}
+
+.fontSize14 {
+	-fx-font-size: 14;
+}
+
+.fontSize12 {
+	-fx-font-size: 12;
+}
+
+.fontSize10 {
+	-fx-font-size: 10;
+}
+
+.fontSize9 {
+	-fx-font-size: 8;
+}
+
+.fontSize8_5 {
+	-fx-font-size: 8.5;
+}
+
+.fontSize8 {
+	-fx-font-size: 8;
+}
+
+.fontRegular {
+	-fx-font-family: 'Montserrat Regular';
+}
+
+.fontBold {
+	-fx-font-family: 'Montserrat Bold';
+}
+
+.fontSemiBold {
+	-fx-font-family: 'Montserrat SemiBold';
+}
+
+.fillWhite {
+	-fx-fill: #ffffff;
+}
+
+.textFillWhite {
+	-fx-text-fill: #ffffff;
+}
+
+.playButton {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-radius: 15px;
 }
 
 .userOnline_GREEN {
@@ -87,10 +134,8 @@
 }
 
 .userName {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 14;
-	-fx-font-weight: 600;
-	-fx-line-spacing: 0.7;
 	-fx-text-fill: #ffffff;
 }
 
@@ -100,19 +145,15 @@
 
 .fancyText_1 {
 	-fx-translate-y: 150;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 14;
-	-fx-font-weight: 600;
-	-fx-line-spacing: 0.7;
 	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
 .fancyText_2 {
 	-fx-translate-y: 215;
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 24;
-	-fx-font-weight: 600;
-	-fx-line-spacing: 0.7;
 	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
@@ -121,7 +162,7 @@
 }
 
 .fancyText_3 {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 20;
 	-fx-line-spacing: 1;
 	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
@@ -132,7 +173,7 @@
 }
 
 .newsTitle {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 12;
 	-fx-font-weight: 600;
 	-fx-line-spacing: 0.6;
@@ -146,35 +187,117 @@
 }
 
 .newsArticle {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Regular';
 	-fx-font-size: 11;
-	-fx-font-weight: 100;
-	-fx-line-spacing: 0.6;
 	-fx-text-fill: #ffffff;
 }
 
 .newsAuthor {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat SemiBold';
 	-fx-font-size: 11;
-	-fx-font-weight: 100;
-	-fx-line-spacing: 0.6;
 	-fx-fill: #7b1fa2;
 }
 
 .newsTime {
-	-fx-font-family: Montserrat;
+	-fx-font-family: 'Montserrat Thin';
 	-fx-font-size: 11;
-	-fx-font-weight: 100;
-	-fx-line-spacing: 0.6;
 	-fx-fill: #ffffff;
 }
 
+/* SERVER LIST MENU */
+.serverMenuBP {
+    -fx-background-color: #0f0323;
+}
+
+.serverMenuTop {
+    -fx-background-color: #090118;
+}
+
 /* NORMAL */
+.serverListIndicator {
+    -fx-background-color: #1d0c38;
+}
+.serverListIndicator Label {
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 10;
+    -fx-text-fill: #ffffff;
+}
+
+.serverListContainer {
+	-fx-background-color: #080015;
+}
+
+.serverListScrollPane {
+    -fx-background-color: transparent;
+}
+
+.serverListScrollPane .scroll-bar:horizontal,
+.serverListScrollPane .scroll-bar:vertical {
+    -fx-background-color: #000000;
+}
+
+.serverListScrollPane .scroll-bar:horizontal .thumb,
+.serverListScrollPane .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+
+.serverListScrollPane .scroll-bar:horizontal .increment-button,
+.serverListScrollPane .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.serverListScrollPane .scroll-bar:vertical .increment-button,
+.serverListScrollPane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.serverListScrollPane .scroll-bar .increment-arrow,
+.serverListScrollPane .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.serverList, .jfx-list-cell {
+    -fx-background-color: transparent;
+}
+
+.serverList .jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.serverList .jfx-list-cell Label
+{
+    -fx-fill: #333333;
+    -fx-text-fill: #333333;
+}
+
+/* SELECTED */
+.serverList .jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+}
+
+.serverList .jfx-list-cell:selected Label
+{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
+
+/* NORMAL */
+.selectList {
+    -fx-padding: 0px;
+}
+
 .selectList, .jfx-list-cell {
     -fx-background-color: transparent;
-    -fx-font-family: Montserrat;
+    -fx-font-family: 'Montserrat Light';
     -fx-font-size: 10px;
-    -fx-font-weight: 300;
 }
 
 .selectList .jfx-list-cell .jfx-rippler {
@@ -209,9 +332,8 @@
 .closeApp Label
 {
     -fx-background-color: transparent;
-    -fx-font-family: Montserrat;
+    -fx-font-family: 'Montserrat Light';
     -fx-font-size: 10px;
-    -fx-font-weight: 300;
     -fx-fill: #FFFFFF;
     -fx-text-fill: #FFFFFF;
 }

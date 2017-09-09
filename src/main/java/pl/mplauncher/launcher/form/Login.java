@@ -13,15 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.controller;
+package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.*;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.FormSwitcher;
@@ -30,81 +24,48 @@ import pl.mplauncher.launcher.helper.JFXHelpers;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Login {
-
-    @FXML
-    private StackPane stackPane;
-
-    @FXML
-    private Pane namePane;
-
-    @FXML
-    private Hyperlink closeButton;
-
-    @FXML
-    private JFXButton premiumButton;
-
-    @FXML
-    private Line premiumButtonLine;
-
-    @FXML
-    private JFXButton nonpremiumButton;
-
-    @FXML
-    private Line nonpremiumButtonLine;
-
-    @FXML
-    private JFXTextField loginField;
-
-    @FXML
-    private JFXPasswordField passwordField;
-
-    @FXML
-    private JFXToggleButton rememberButton;
-
-    @FXML
-    private JFXButton loginButton;
-
-    @FXML
-    private JFXSpinner loginSpinner;
-
-    @FXML
-    private JFXSnackbar snackbar;
+public class Login extends LoginDesigner {
 
     private static double xOffset;
     private static double yOffset;
 
-    @FXML
     public void initialize() {
-        snackbar.registerSnackbarContainer(stackPane);
-
+        snackBar.registerSnackbarContainer(stackPane);
         loginSpinner.setOpacity(0.0);
 
         loginField.setDisableAnimation(true);
         passwordField.setDisableAnimation(true);
 
-        // Premium activated by default!
+        // PREMIUM activated by default!
         premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
         nonpremiumButtonLine.setOpacity(0.0);
 
         // Allow to drag entire app via namePane
         namePane.setOnMousePressed(event -> {
-            xOffset = MPLauncherBootstrap.start_stage.getX() - event.getScreenX();
-            yOffset = MPLauncherBootstrap.start_stage.getY() - event.getScreenY();
+            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
+            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
         });
         namePane.setOnMouseDragged(event -> {
-            MPLauncherBootstrap.start_stage.setX(event.getScreenX() + xOffset);
-            MPLauncherBootstrap.start_stage.setY(event.getScreenY() + yOffset);
+            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
+            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
+
+        //Form
+        initializeComponent();
+
+        //Events
+        closeButton.setOnAction(event -> onCloseAction());
+        premiumButton.setOnAction(event -> onPremiumSelected());
+        nonpremiumButton.setOnAction(event -> onNonPremiumSelected());
+        loginButton.setOnAction(event -> onLoginAction());
+        termsHyperlink.setOnAction(event -> onTermsAction());
     }
 
-    @FXML
-    private void closeClicked() {
-        Platform.exit();
+    private void onCloseAction() {
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> Platform.exit());
     }
 
-    @FXML
-    private void premiumSelected() {
+    private void onPremiumSelected() {
         if (!premiumButton.getStyleClass().contains("accountTypeSelected")) {
             premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             nonpremiumButton.getStyleClass().setAll("accountType");
@@ -117,8 +78,7 @@ public class Login {
         }
     }
 
-    @FXML
-    private void nonpremiumSelected() {
+    private void onNonPremiumSelected() {
         if (!nonpremiumButton.getStyleClass().contains("accountTypeSelected")) {
             nonpremiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             premiumButton.getStyleClass().setAll("accountType");
@@ -130,18 +90,17 @@ public class Login {
         }
     }
 
-    @FXML
-    private void loginClicked() {
+    private void onLoginAction() {
         System.out.println("*** LOGIN CLICKED ***");
 
         if (loginField.getText().length() == 0) {
             if (passwordField.isVisible()) {
-                snackbar.show("Uzupełnij nazwę użytkownika/email.", 3000);
+                snackBar.show("Uzupełnij nazwę użytkownika/email.", 3000);
             } else {
-                snackbar.show("Uzupełnij swój nick.", 3000);
+                snackBar.show("Uzupełnij swój nick.", 3000);
             }
         } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
-            snackbar.show("Uzupełnij hasło.", 3000);
+            snackBar.show("Uzupełnij hasło.", 3000);
         } else {
             premiumButton.setDisable(true);
             nonpremiumButton.setDisable(true);
@@ -156,22 +115,22 @@ public class Login {
 
             System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
             System.out.println("Login: " + loginField.getText());
-            if (passwordField.isVisible()) { System.out.println("Password: " + passwordField.getText()); }
+            if (passwordField.isVisible()) {
+                System.out.println("Password: " + passwordField.getText());
+            }
             System.out.println("Remember: " + rememberButton.isSelected());
 
             if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
-                FormSwitcher.switchTo(FormSwitcher.Form.MAIN);
+                JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
             }
         }
     }
 
-    @FXML
-    private void termsClicked() {
+    private void onTermsAction() {
         try {
             JFXHelpers.openWebpage(new URI("https://mplauncher.pl/?p=tos"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
-
 }

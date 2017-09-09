@@ -15,72 +15,47 @@
 */
 package pl.mplauncher.launcher.helper;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.form.Login;
+import pl.mplauncher.launcher.form.Main;
 
-import java.net.URL;
-
-// TODO: maybe not-static?
 public class FormSwitcher {
-
-    private static Scene loginScene;
-    private static Scene mainScene;
 
     public enum Form {
         LOGIN,
         MAIN
     }
 
-    public static boolean initializeForms() throws Exception {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-
-        // Initialize Login.fxml window
-        // TODO: Move fxml to in-code generation - not fxml to be more clear and dynamic.
-        URL loginForm = cl.getResource("Login.fxml");
-        if (loginForm != null) {
-            Parent root = FXMLLoader.load(loginForm);
-            loginScene = new Scene(root, 304, 416);
-            loginScene.setFill(Color.TRANSPARENT);
-        } else {
-            throw new Exception("Couldn't find login form!");
-        }
-
-        // Initialize Main.fxml window
-        // TODO: Move fxml to in-code generation - not fxml to be more clear and dynamic
-        URL mainForm = cl.getResource("Main.fxml");
-        if (mainForm != null) {
-            Parent root = FXMLLoader.load(mainForm);
-            mainScene = new Scene(root, 1178, 722);
-            mainScene.setFill(Color.TRANSPARENT);
-        } else {
-            throw new Exception("Couldn't find main form!");
-        }
-
-        return true;
-    }
-
     public static void switchTo(Form to) {
+        if (MPLauncherBootstrap.getStartStage().getOpacity() != 0.0) {
+            MPLauncherBootstrap.getStartStage().setOpacity(0.0);
+        }
+
         switch (to) {
             case LOGIN: {
-                MPLauncherBootstrap.start_stage.hide();
-                MPLauncherBootstrap.start_stage.setTitle("MPLauncher - Login");
-                MPLauncherBootstrap.start_stage.setScene(loginScene);
-                MPLauncherBootstrap.start_stage.centerOnScreen();
-                MPLauncherBootstrap.start_stage.show();
+                Login login = new Login();
+                login.initialize();
+
+                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Login");
+                MPLauncherBootstrap.getStartStage().setScene(login.getLoginScene());
                 break;
             }
             case MAIN: {
-                MPLauncherBootstrap.start_stage.hide();
-                MPLauncherBootstrap.start_stage.setTitle("MPLauncher - Main");
-                MPLauncherBootstrap.start_stage.setScene(mainScene);
-                MPLauncherBootstrap.start_stage.centerOnScreen();
-                MPLauncherBootstrap.start_stage.show();
+                Main main = new Main();
+                main.initialize();
+
+                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Main");
+                MPLauncherBootstrap.getStartStage().setScene(main.getMainScene());
                 break;
             }
         }
+
+        MPLauncherBootstrap.getStartStage().centerOnScreen();
+        MPLauncherBootstrap.getStartStage().show();
+        MPLauncherBootstrap.getStartStage().toFront();
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(),
+                1.0);
     }
 
 }

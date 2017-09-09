@@ -23,63 +23,110 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.i18n.MessageBundleIO;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
 
-    public static Stage start_stage;
+    private static Stage startStage;
+    private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
     public static void main(String[] args) {
+        try {
+            MessageBundleIO.load();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
 
-        start_stage = stage;
+        startStage = stage;
         // Future use: MPLauncher launcher = new MPLauncher();
+
+        // Future use - app location -> MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
 
+        URL montserratThin = getClass().getClassLoader().getResource("Montserrat-Thin.ttf");
+        if (montserratThin != null) {
+            Font.loadFont(montserratThin.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Thin font!");
+        }
+
+        URL montserratLight = getClass().getClassLoader().getResource("Montserrat-Light.ttf");
+        if (montserratLight != null) {
+            Font.loadFont(montserratLight.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Light font!");
+        }
+
+        URL montserratRegular = getClass().getClassLoader().getResource("Montserrat-Regular.ttf");
+        if (montserratRegular != null) {
+            Font.loadFont(montserratRegular.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Regular font!");
+        }
+
+        URL montserratSemiBold = getClass().getClassLoader().getResource("Montserrat-SemiBold.ttf");
+        if (montserratSemiBold != null) {
+            Font.loadFont(montserratSemiBold.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat SemiBold font!");
+        }
+
+        URL montserratBold = getClass().getClassLoader().getResource("Montserrat-Bold.ttf");
+        if (montserratBold != null) {
+            Font.loadFont(montserratBold.toExternalForm(), 10);
+        } else {
+            logger.error("Couldn't load Montserrat Bold font!");
+        }
+
         /*
           ToDo
-          - Initialize logger
           - Initialize data
           - Initialize config
          */
 
         // Important things on the beginning of the log
-        System.out.println("App started on: " + LocalDateTime.now());
-        System.out.println("App version: " + MPLauncher.class.getPackage().getImplementationVersion());
-        System.out.println("Java version: " + System.getProperty("java.version"));
-        System.out.println("OS Arch: " + System.getProperty("os.arch"));
-        System.out.println("OS Name: " + System.getProperty("os.name"));
-        System.out.println("OS Version: " + System.getProperty("os.version"));
-        System.out.println("Working directory: " + System.getProperty("user.dir"));
-        System.out.println("------------- STARTED LOGGING THE APP -------------");
+        logger.info("App started on: " + LocalDateTime.now());
+        logger.info("App version: " + MPLauncher.class.getPackage().getImplementationVersion());
+        logger.info("Java version: " + System.getProperty("java.version"));
+        logger.info("OS Arch: " + System.getProperty("os.arch"));
+        logger.info("OS Name: " + System.getProperty("os.name"));
+        logger.info("OS Version: " + System.getProperty("os.version"));
+        logger.info("Working directory: " + System.getProperty("user.dir"));
+        logger.info("------------- STARTED LOGGING THE APP -------------");
 
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        if (FormSwitcher.initializeForms()) {
-            System.out.println("Forms has been successfully initialized.");
-            FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
-            /*
-                Login: Test
-                Passw: ForMe
-                For launching main form!
-             */
-        }
+        FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
+        /*
+            Login: Test
+            Passw: ForMe
+            For launching main form!
+         */
     }
 
     private static void showError(Thread t, Throwable e) {
+        logger.error("I've got an exception!", e);
+
         if (Platform.isFxApplicationThread()) {
             // Window with error
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -101,8 +148,7 @@ public class MPLauncherBootstrap extends Application {
             textArea.setEditable(false);
             textArea.setWrapText(false);
 
-            textArea.setMaxWidth(Double.MAX_VALUE);
-            textArea.setMaxHeight(Double.MAX_VALUE);
+            textArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             GridPane.setVgrow(textArea, Priority.ALWAYS);
             GridPane.setHgrow(textArea, Priority.ALWAYS);
 
@@ -113,9 +159,11 @@ public class MPLauncherBootstrap extends Application {
 
             alert.getDialogPane().setExpandableContent(expContent);
             alert.show();
-        } else {
-            e.printStackTrace();
         }
+    }
+
+    public static Stage getStartStage() {
+        return startStage;
     }
 
 }
