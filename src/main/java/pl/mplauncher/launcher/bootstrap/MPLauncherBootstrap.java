@@ -148,8 +148,7 @@ public class MPLauncherBootstrap extends Application {
             textArea.setEditable(false);
             textArea.setWrapText(false);
 
-            textArea.setMaxWidth(Double.MAX_VALUE);
-            textArea.setMaxHeight(Double.MAX_VALUE);
+            textArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             GridPane.setVgrow(textArea, Priority.ALWAYS);
             GridPane.setHgrow(textArea, Priority.ALWAYS);
 
