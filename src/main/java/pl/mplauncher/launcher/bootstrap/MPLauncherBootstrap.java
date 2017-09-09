@@ -30,7 +30,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.i18n.MessageBundleIO;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -41,7 +43,14 @@ public class MPLauncherBootstrap extends Application {
     private static Stage startStage;
     private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        try {
+            MessageBundleIO.load();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) {
