@@ -148,7 +148,7 @@ public class Main extends MainDesigner {
         setRightSite("Znajdziesz nas na:");
 
         //Set version
-        setLauncherVersion("ver 1.0.1-dev. 14");
+        setLauncherVersion("ver 2.0.0-dev2");
 
         //Form
         initializeComponent();
