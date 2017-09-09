@@ -26,16 +26,6 @@ public class Main extends MainDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    private void initialize() {
-        //Form
-        initializeComponent();
-
-        //Events
-        closeRippler.setOnMouseClicked(event -> closeClicked());
-        discordLogo.setOnMouseClicked(event -> discordLogoClicked());
-        menuButton.setOnMouseClicked(event -> menuButtonClicked());
-    }
-
     public Main() {
         initialize();
 
@@ -63,20 +53,20 @@ public class Main extends MainDesigner {
                             }));
 
                             // Set servers!
-                            for(int x=0; x<53; x++) {
+                            for (int x = 0; x < 53; x++) {
                                 char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
                                 StringBuilder sb = new StringBuilder();
                                 Random random = new Random();
-                                for (int i=0; i < random.nextInt(30)+10; i++) {
+                                for (int i = 0; i < random.nextInt(30) + 10; i++) {
                                     char ch = chars[random.nextInt(chars.length)];
                                     sb.append(ch);
                                 }
 
-                                if (x < 3){
-                                    addServerToFavoriteList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100)+100);
+                                if (x < 3) {
+                                    addServerToFavoriteList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100) + 100);
                                 } else {
-                                    addServerToOtherList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100)+100);
+                                    addServerToOtherList(sb.toString(), "1.11.2", random.nextInt(100), random.nextInt(100) + 100);
                                 }
                             }
                         });
@@ -136,6 +126,16 @@ public class Main extends MainDesigner {
 
         //Set version
         setLauncherVersion("ver 1.0.1-dev. 14");
+    }
+
+    private void initialize() {
+        //Form
+        initializeComponent();
+
+        //Events
+        closeRippler.setOnMouseClicked(event -> closeClicked());
+        discordLogo.setOnMouseClicked(event -> discordLogoClicked());
+        menuButton.setOnMouseClicked(event -> menuButtonClicked());
     }
 
     private void closeClicked() {

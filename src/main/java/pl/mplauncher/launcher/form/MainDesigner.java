@@ -1,6 +1,9 @@
 package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXRippler;
+import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.*;
@@ -30,9 +33,6 @@ import java.net.URL;
 class MainDesigner {
 
     private static final Logger logger = LogManager.getLogger(MainDesigner.class);
-
-    //Elements
-    private Scene mainScene;
     Label menuListIcon;
     Label menuListText;
     StackPane mainMenu;
@@ -42,18 +42,20 @@ class MainDesigner {
     JFXListView<menuItem> menuList;
     JFXRippler closeRippler;
     GridPane centerGridPane;
-    private StackPane firstSPinCenterGP;
-    private Text rightCenterFirstText;
     ImageView discordLogo;
     StackPane mainTop;
-    private Text launcherVersion;
-    private StackPane menuButtonSP;
     JFXRippler menuButton;
     FontAwesomeIconView menuButtonIconLEFT;
     FontAwesomeIconView menuButtonIconRIGHT;
-    private ScrollPane serverListleftSite;
     JFXListView<serverItem> favoriteServerList;
     JFXListView<serverItem> otherServerList;
+    //Elements
+    private Scene mainScene;
+    private StackPane firstSPinCenterGP;
+    private Text rightCenterFirstText;
+    private Text launcherVersion;
+    private StackPane menuButtonSP;
+    private ScrollPane serverListleftSite;
 
     //Initializer
     void initializeComponent() {
@@ -224,6 +226,104 @@ class MainDesigner {
         //Parent
         this.mainScene = new Scene(mainForm, 1178, 722);
         this.mainScene.setFill(Color.TRANSPARENT);
+    }
+
+    void setNews(String newsTitle, Image newsImage, String newsArticle, String newsAuthor, String newsTime) {
+        ColumnConstraints firstCC = new ColumnConstraints();
+        firstCC.setHgrow(Priority.SOMETIMES);
+        firstCC.setMinWidth(10.0);
+        firstCC.setPercentWidth(75.0);
+        ColumnConstraints secondCC = new ColumnConstraints();
+        secondCC.setHgrow(Priority.SOMETIMES);
+        secondCC.setMinWidth(10.0);
+        secondCC.setPercentWidth(25.0);
+        secondCC.setPrefWidth(100.0);
+        centerGridPane.getColumnConstraints().clear();
+        centerGridPane.getColumnConstraints().addAll(firstCC, secondCC);
+        RowConstraints firstRC = new RowConstraints();
+        firstRC.setMinHeight(10.0);
+        firstRC.setVgrow(Priority.SOMETIMES);
+        centerGridPane.getRowConstraints().clear();
+        centerGridPane.getRowConstraints().add(firstRC);
+
+        centerGridPane.getChildren().addAll(firstSPinCenterGP, new rightofNews());
+        this.firstSPinCenterGP.getChildren().clear();
+        this.firstSPinCenterGP.getChildren().add(new startNews(newsTitle, newsImage, newsArticle, newsAuthor, newsTime));
+    }
+
+    void setServerList() {
+        ColumnConstraints firstCC = new ColumnConstraints();
+        firstCC.setHgrow(Priority.SOMETIMES);
+        firstCC.setPercentWidth(100.0);
+        centerGridPane.getColumnConstraints().clear();
+        centerGridPane.getColumnConstraints().add(firstCC);
+        RowConstraints firstRC = new RowConstraints();
+        firstRC.setVgrow(Priority.SOMETIMES);
+        centerGridPane.getRowConstraints().clear();
+        centerGridPane.getRowConstraints().add(firstRC);
+
+        centerGridPane.getChildren().clear();
+        centerGridPane.getChildren().add(new serverList());
+        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
+    }
+
+    void addServerToFavoriteList(String name, String version, Integer players, Integer maxPlayers) {
+        if (favoriteServerList != null) {
+            if (!favoriteServerList.isVisible()) {
+                favoriteServerList.setVisible(true);
+            }
+
+            favoriteServerList.setPrefHeight((favoriteServerList.getItems().size() + 1) * favoriteServerList.getFixedCellSize());
+            favoriteServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
+        }
+    }
+
+    void addServerToOtherList(String name, String version, Integer players, Integer maxPlayers) {
+        if (otherServerList != null) {
+            otherServerList.setPrefHeight((otherServerList.getItems().size() + 1) * otherServerList.getFixedCellSize());
+            otherServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
+        } else {
+            logger.error("Launcher tried to add server when serverList wasn't initialized yet!");
+        }
+    }
+
+    void addMenuOption(FontAwesomeIcon glyph, String label) {
+        this.menuList.getItems().add(new menuItem(glyph, label));
+    }
+
+    void setCloseOption(String label) {
+        this.closeRippler.setControl(new closeItem(label));
+        this.closeRippler.setMaskType(JFXRippler.RipplerMask.RECT);
+        this.closeRippler.setPosition(JFXRippler.RipplerPos.FRONT);
+        this.closeRippler.getStyleClass().add("closeApp");
+    }
+
+    void setRightSite(String first) {
+        this.rightCenterFirstText.setText(first);
+    }
+
+    void setLauncherVersion(String version) {
+        this.launcherVersion.setText(version);
+    }
+
+    void setUserAvatar(Image avatar) {
+        this.userAvatar.setFill(new ImagePattern(avatar));
+    }
+
+    void setUserName(String userName) {
+        this.userName.setText(userName);
+    }
+
+    void setUserOnline(boolean premium) {
+        if (premium) {
+            this.userOnline.getStyleClass().setAll("userOnline_GREEN");
+        } else {
+            this.userOnline.getStyleClass().setAll("userOnline_RED");
+        }
+    }
+
+    public Scene getMainScene() {
+        return this.mainScene;
     }
 
     class menuItem extends GridPane {
@@ -691,100 +791,5 @@ class MainDesigner {
 
             this.getChildren().addAll(serverName, serverVersion, serverSlots);
         }
-    }
-
-    void setNews(String newsTitle, Image newsImage, String newsArticle, String newsAuthor, String newsTime) {
-        ColumnConstraints firstCC = new ColumnConstraints();
-        firstCC.setHgrow(Priority.SOMETIMES);
-        firstCC.setMinWidth(10.0);
-        firstCC.setPercentWidth(75.0);
-        ColumnConstraints secondCC = new ColumnConstraints();
-        secondCC.setHgrow(Priority.SOMETIMES);
-        secondCC.setMinWidth(10.0);
-        secondCC.setPercentWidth(25.0);
-        secondCC.setPrefWidth(100.0);
-        centerGridPane.getColumnConstraints().clear();
-        centerGridPane.getColumnConstraints().addAll(firstCC, secondCC);
-        RowConstraints firstRC = new RowConstraints();
-        firstRC.setMinHeight(10.0);
-        firstRC.setVgrow(Priority.SOMETIMES);
-        centerGridPane.getRowConstraints().clear();
-        centerGridPane.getRowConstraints().add(firstRC);
-
-        centerGridPane.getChildren().addAll(firstSPinCenterGP, new rightofNews());
-        this.firstSPinCenterGP.getChildren().clear();
-        this.firstSPinCenterGP.getChildren().add(new startNews(newsTitle, newsImage, newsArticle, newsAuthor, newsTime));
-    }
-
-    void setServerList() {
-        ColumnConstraints firstCC = new ColumnConstraints();
-        firstCC.setHgrow(Priority.SOMETIMES);
-        firstCC.setPercentWidth(100.0);
-        centerGridPane.getColumnConstraints().clear();
-        centerGridPane.getColumnConstraints().add(firstCC);
-        RowConstraints firstRC = new RowConstraints();
-        firstRC.setVgrow(Priority.SOMETIMES);
-        centerGridPane.getRowConstraints().clear();
-        centerGridPane.getRowConstraints().add(firstRC);
-
-        centerGridPane.getChildren().clear();
-        centerGridPane.getChildren().add(new serverList());
-        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
-    }
-
-    void addServerToFavoriteList(String name, String version, Integer players, Integer maxPlayers) {
-        if (favoriteServerList != null) {
-            if (!favoriteServerList.isVisible()) {
-                favoriteServerList.setVisible(true);
-            }
-
-            favoriteServerList.setPrefHeight((favoriteServerList.getItems().size() + 1) * favoriteServerList.getFixedCellSize());
-            favoriteServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
-        }
-    }
-
-    void addServerToOtherList(String name, String version, Integer players, Integer maxPlayers) {
-        if (otherServerList != null) {
-            otherServerList.setPrefHeight((otherServerList.getItems().size() + 1) * otherServerList.getFixedCellSize());
-            otherServerList.getItems().add(new serverItem(name, version, players + "/" + maxPlayers));
-        } else {
-            logger.error("Launcher tried to add server when serverList wasn't initialized yet!");
-        }
-    }
-
-    void addMenuOption(FontAwesomeIcon glyph, String label) {
-        this.menuList.getItems().add(new menuItem(glyph, label));
-    }
-
-    void setCloseOption(String label) {
-        this.closeRippler.setControl(new closeItem(label));
-        this.closeRippler.setMaskType(JFXRippler.RipplerMask.RECT);
-        this.closeRippler.setPosition(JFXRippler.RipplerPos.FRONT);
-        this.closeRippler.getStyleClass().add("closeApp");
-    }
-
-    void setRightSite(String first) {
-        this.rightCenterFirstText.setText(first);
-    }
-
-    void setLauncherVersion(String version) {
-        this.launcherVersion.setText(version);
-    }
-
-    void setUserAvatar(Image avatar) {
-        this.userAvatar.setFill(new ImagePattern(avatar));
-    }
-
-    void setUserName(String userName) {
-        this.userName.setText(userName);
-    }
-
-    void setUserOnline(boolean premium) {
-        if (premium) { this.userOnline.getStyleClass().setAll("userOnline_GREEN"); }
-        else { this.userOnline.getStyleClass().setAll("userOnline_RED");  }
-    }
-
-    public Scene getMainScene() {
-        return this.mainScene;
     }
 }

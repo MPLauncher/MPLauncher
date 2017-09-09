@@ -10,29 +10,28 @@ import java.util.Locale;
 
 public class MessageBundleIO {
 
-    public static void load() throws IOException{
-        File dir = new File(System.getenv("APPDATA")+ File.separator + ".mplauncher" + File.separator + "lang");
-         if (!dir.exists())
-         {
+    public static void load() throws IOException {
+        File dir = new File(System.getenv("APPDATA") + File.separator + ".mplauncher" + File.separator + "lang");
+        if (!dir.exists()) {
             dir.mkdirs();
             File tmp = new File(dir, "tmp.json");
             tmp.createNewFile();
             Files.delete(tmp.toPath());
         }
-        if(dir.listFiles().length > 0){
-            for(File f : dir.listFiles()) {
+        if (dir.listFiles().length > 0) {
+            for (File f : dir.listFiles()) {
                 if (FilenameUtils.getExtension(f.getPath()).equals("json")) {
                     Gson gson = new Gson();
                     JsonReader reader = new JsonReader(new FileReader(f.getPath()));
                     MessageBundle mb = gson.fromJson(reader, MessageBundle.class);
-                    if(Locale.getDefault().equals(mb.getLocale())){
+                    if (Locale.getDefault().equals(mb.getLocale())) {
                         MessageBundle.setCurrentLanguage(mb);
-                    }else if(mb.getLocale().equals(Locale.US)){
+                    } else if(mb.getLocale().equals(Locale.US)) {
                         MessageBundle.setDefaultLanguage(mb);
                     }
                 }
             }
-        }else{
+        } else {
             //TODO download files from server
         }
     }

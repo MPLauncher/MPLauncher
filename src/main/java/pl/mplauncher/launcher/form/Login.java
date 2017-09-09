@@ -14,18 +14,6 @@ public class Login extends LoginDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    private void initialize() {
-        //Form
-        initializeComponent();
-
-        //Events
-        closeButton.setOnAction(event -> onCloseAction());
-        premiumButton.setOnAction(event -> onPremiumSelected());
-        nonpremiumButton.setOnAction(event -> onNonPremiumSelected());
-        loginButton.setOnAction(event -> onLoginAction());
-        termsHyperlink.setOnAction(event -> onTermsAction());
-    }
-
     public Login() {
         initialize();
 
@@ -48,6 +36,18 @@ public class Login extends LoginDesigner {
             MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
             MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
+    }
+
+    private void initialize() {
+        //Form
+        initializeComponent();
+
+        //Events
+        closeButton.setOnAction(event -> onCloseAction());
+        premiumButton.setOnAction(event -> onPremiumSelected());
+        nonpremiumButton.setOnAction(event -> onNonPremiumSelected());
+        loginButton.setOnAction(event -> onLoginAction());
+        termsHyperlink.setOnAction(event -> onTermsAction());
     }
 
     private void onCloseAction() {
@@ -104,7 +104,9 @@ public class Login extends LoginDesigner {
 
             System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
             System.out.println("Login: " + loginField.getText());
-            if (passwordField.isVisible()) { System.out.println("Password: " + passwordField.getText()); }
+            if (passwordField.isVisible()) {
+                System.out.println("Password: " + passwordField.getText());
+            }
             System.out.println("Remember: " + rememberButton.isSelected());
 
             if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
