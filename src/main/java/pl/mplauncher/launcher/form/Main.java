@@ -15,14 +15,17 @@
 */
 package pl.mplauncher.launcher.form;
 
+import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +43,9 @@ public class Main extends MainDesigner {
 
     private static double xOffset;
     private static double yOffset;
+
+    private static JFXDialog installerDialog;
+    private static StackPane mainStackPane;
 
     public void initialize() {
         //Form
@@ -153,6 +159,12 @@ public class Main extends MainDesigner {
         //Set version
         setLauncherVersion("ver 2.0.0-dev2");
 
+        //Installer dialog
+        installerDialog = createInstallerDialog("Instalowanie: libraries", "57.1%", "Zainstalowano 100 spośród 10000 plików.");
+
+        //Main stackpane
+        mainStackPane = getMainStackPane();
+
         //Events
         closeRippler.setOnMouseClicked(event -> closeClicked());
         discordLogo.setOnMouseClicked(event -> discordLogoClicked());
@@ -169,6 +181,12 @@ public class Main extends MainDesigner {
             JFXHelpers.openWebpage(new URI("https://discord.gg/C5pkDan"));
         } catch (URISyntaxException e) {
             logger.error("Failed to open discord invite!", e);
+        }
+    }
+
+    static void playClicked(ActionEvent actionEvent) {
+        if (installerDialog != null) {
+            installerDialog.show(mainStackPane);
         }
     }
 

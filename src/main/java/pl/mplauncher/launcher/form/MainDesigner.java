@@ -15,10 +15,7 @@
 */
 package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXRippler;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.*;
@@ -48,6 +45,8 @@ import java.net.URL;
 class MainDesigner {
 
     private static final Logger logger = LogManager.getLogger(MainDesigner.class);
+
+    StackPane mainStackPane;
     Label menuListIcon;
     Label menuListText;
     StackPane mainMenu;
@@ -75,7 +74,7 @@ class MainDesigner {
     //Initializer
     void initializeComponent() {
         VBox mainForm = new VBox();
-        StackPane mainStackPane = new StackPane();
+        mainStackPane = new StackPane();
         menuListIcon = new Label();
         menuListText = new Label();
         BorderPane borderPane = new BorderPane();
@@ -282,6 +281,10 @@ class MainDesigner {
         JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
     }
 
+    JFXDialog createInstallerDialog(String status, String percentage, String description) {
+        return new InstallerOverlay(status.toUpperCase(), percentage.toUpperCase(), description.toUpperCase());
+    }
+
     void addServerToFavoriteList(String name, String version, Integer players, Integer maxPlayers) {
         if (favoriteServerList != null) {
             if (!favoriteServerList.isVisible()) {
@@ -340,6 +343,8 @@ class MainDesigner {
     public Scene getMainScene() {
         return this.mainScene;
     }
+
+    public StackPane getMainStackPane() { return this.mainStackPane; }
 
     class menuItem extends GridPane {
         menuItem(FontAwesomeIcon glyph, String label) {
@@ -653,6 +658,7 @@ class MainDesigner {
             GridPane.setHalignment(playButton, HPos.CENTER);
             GridPane.setMargin(playButton, new Insets(0.0, 20.0, 0.0, 0.0));
             playButton.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite", "playButton");
+            playButton.setOnAction(Main::playClicked);
 
             GridPane rightserverOptions = new GridPane();
             GridPane.setColumnIndex(rightserverOptions, 1);
@@ -805,6 +811,61 @@ class MainDesigner {
             serverSlots.getStyleClass().addAll("fontRegular", "fontSize10", "fillTextWhite");
 
             this.getChildren().addAll(serverName, serverVersion, serverSlots);
+        }
+    }
+
+    class InstallerOverlay extends JFXDialog {
+        InstallerOverlay(String info1, String info2, String info3) {
+            StackPane content = new StackPane();
+            content.setPrefSize(531.0, 104.0);
+            content.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            content.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
+            content.setAlignment(Pos.CENTER_LEFT);
+            content.getStyleClass().add("installerContent");
+
+            JFXProgressBar progressBar = new JFXProgressBar();
+            progressBar.setPrefSize(384.0, 9.0);
+            progressBar.setProgress(0.571f);
+            StackPane.setMargin(progressBar, new Insets(0, 0, 0, 100.0));
+
+            ImageView logo = new ImageView();
+            logo.setFitWidth(64.0);
+            logo.setFitHeight(70.0);
+            logo.setPickOnBounds(true);
+            logo.setPreserveRatio(true);
+            URL imageUrl = getClass().getClassLoader().getResource("logo-cropped.png");
+            if (imageUrl != null) {
+                Image image = new Image(imageUrl.toString());
+                logo.setImage(image);
+            } else {
+                logger.error("Couldn't set installer overlay logo!");
+            }
+            StackPane.setMargin(logo, new Insets(0, 0, 0, 48));
+
+            Label status = new Label();
+            status.setText(info1);
+            status.getStyleClass().add("fontSemiBold");
+            StackPane.setAlignment(status, Pos.TOP_LEFT);
+            StackPane.setMargin(status, new Insets(32.0, 0, 0, 121.0));
+
+            Label percentage = new Label();
+            percentage.setTextAlignment(TextAlignment.RIGHT);
+            percentage.setText(info2);
+            percentage.getStyleClass().add("fontSemiBold");
+            StackPane.setAlignment(percentage, Pos.TOP_RIGHT);
+            StackPane.setMargin(percentage, new Insets(32.0, 47.0, 0, 0));
+
+            Label description = new Label();
+            description.setText(info3);
+            description.getStyleClass().add("fontLight");
+            StackPane.setAlignment(description, Pos.BOTTOM_LEFT);
+            StackPane.setMargin(description, new Insets(0.0, 0.0, 32.0, 120.0));
+
+            content.getChildren().addAll(progressBar, logo, status, percentage, description);
+
+            this.setOverlayClose(false);
+            this.setAlignment(Pos.CENTER);
+            this.setContent(content);
         }
     }
 }

@@ -98,6 +98,10 @@
 	-fx-font-size: 8;
 }
 
+.fontLight {
+    -fx-font-family: 'Montserrat Light';
+}
+
 .fontRegular {
 	-fx-font-family: 'Montserrat Regular';
 }
@@ -336,4 +340,33 @@
     -fx-font-size: 10px;
     -fx-fill: #FFFFFF;
     -fx-text-fill: #FFFFFF;
+}
+
+/* INSTALLER DIALOG */
+.installerContent Label {
+	-fx-font-size: 10px;
+	-fx-text-fill: #FFFFFF;
+}
+
+.jfx-progress-bar > .track {
+    -fx-background-color: #a7a7a7;
+    -fx-background-radius: 5px;
+}
+
+.jfx-progress-bar > .bar {
+    -fx-background-color: linear-gradient(to bottom, #9c27b0, #6a1b9a);
+    -fx-background-radius: 5px;
+}
+
+.jfx-progress-bar {
+    -fx-effect: innershadow(gaussian, #000000, 4.6, 0.4, 0, 0);
+}
+
+.jfx-dialog-overlay-pane {
+    -fx-background-color: rgba(0, 0, 0, 0.48);
+}
+
+.jfx-dialog-overlay-pane StackPane {
+    -fx-background-color: #1b102e;
+    -fx-background-radius: 5px;
 }
