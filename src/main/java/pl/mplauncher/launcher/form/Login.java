@@ -30,6 +30,9 @@ public class Login extends LoginDesigner {
     private static double yOffset;
 
     public void initialize() {
+        //Form
+        initializeComponent();
+
         snackBar.registerSnackbarContainer(stackPane);
         loginSpinner.setOpacity(0.0);
 
@@ -49,9 +52,6 @@ public class Login extends LoginDesigner {
             MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
             MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
-
-        //Form
-        initializeComponent();
 
         //Events
         closeButton.setOnAction(event -> onCloseAction());

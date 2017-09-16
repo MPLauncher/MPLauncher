@@ -42,6 +42,9 @@ public class Main extends MainDesigner {
     private static double yOffset;
 
     public void initialize() {
+        //Form
+        initializeComponent();
+
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
 
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -149,9 +152,6 @@ public class Main extends MainDesigner {
 
         //Set version
         setLauncherVersion("ver 2.0.0-dev2");
-
-        //Form
-        initializeComponent();
 
         //Events
         closeRippler.setOnMouseClicked(event -> closeClicked());
