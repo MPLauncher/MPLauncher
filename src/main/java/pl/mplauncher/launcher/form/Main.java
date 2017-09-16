@@ -15,13 +15,11 @@
 */
 package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,6 +28,7 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.control.InstallerOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
@@ -44,7 +43,7 @@ public class Main extends MainDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    private static JFXDialog installerDialog;
+    private static InstallerOverlay installerOverlay;
     private static StackPane mainStackPane;
 
     public void initialize() {
@@ -159,9 +158,6 @@ public class Main extends MainDesigner {
         //Set version
         setLauncherVersion("ver 2.0.0-dev2");
 
-        //Installer dialog
-        installerDialog = createInstallerDialog("Instalowanie: libraries", "57.1%", "Zainstalowano 100 spośród 10000 plików.");
-
         //Main stackpane
         mainStackPane = getMainStackPane();
 
@@ -184,10 +180,13 @@ public class Main extends MainDesigner {
         }
     }
 
-    static void playClicked(ActionEvent actionEvent) {
-        if (installerDialog != null) {
-            installerDialog.show(mainStackPane);
-        }
+    static void playClicked() {
+        installerOverlay = new InstallerOverlay(mainStackPane);
+        installerOverlay.setStatus("Instalowanie: LIBRARIES");
+        installerOverlay.setPercentage(0.571f);
+        installerOverlay.setDescription("Zainstalowano 100 spośród 10000 plików.");
+
+        installerOverlay.show();
     }
 
     private void menuButtonClicked() {
