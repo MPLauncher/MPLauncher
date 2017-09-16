@@ -29,6 +29,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.control.InstallerOverlay;
+import pl.mplauncher.launcher.control.SettingsOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
@@ -43,7 +44,6 @@ public class Main extends MainDesigner {
     private static double xOffset;
     private static double yOffset;
 
-    private static InstallerOverlay installerOverlay;
     private static StackPane mainStackPane;
 
     public void initialize() {
@@ -58,45 +58,58 @@ public class Main extends MainDesigner {
                     System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex()
                             + " == " + ((Label) nodeIn).getText());
 
-                    if (menuList.getSelectionModel().getSelectedIndex() == 3) {
-                        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
-                                0.0, event -> {
-                            setServerList();
+                    switch (menuList.getSelectionModel().getSelectedIndex()) {
+                        case 1: {
+                            SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
+                            settingsOverlay.setWindowTitle("Ustawienia");
+                            settingsOverlay.show();
+                            break;
+                        }
+                        case 3: {
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
+                                    0.0, event -> {
+                                        setServerList();
 
-                            // When Favorite server is selected, deselect other server
-                            favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && otherServerList != null
-                                        && !otherServerList.getSelectionModel().isEmpty()) {
-                                    otherServerList.getSelectionModel().clearSelection();
-                                }
-                            }));
-                            otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && favoriteServerList != null
-                                        && !favoriteServerList.getSelectionModel().isEmpty()) {
-                                    favoriteServerList.getSelectionModel().clearSelection();
-                                }
-                            }));
+                                        // When Favorite server is selected, deselect other server
+                                        favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && otherServerList != null
+                                                    && !otherServerList.getSelectionModel().isEmpty()) {
+                                                otherServerList.getSelectionModel().clearSelection();
+                                            }
+                                        }));
+                                        otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && favoriteServerList != null
+                                                    && !favoriteServerList.getSelectionModel().isEmpty()) {
+                                                favoriteServerList.getSelectionModel().clearSelection();
+                                            }
+                                        }));
 
-                            // Set servers!
-                            for (int x = 0; x < 53; x++) {
-                                char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+                                        // Set servers!
+                                        for (int x = 0; x < 53; x++) {
+                                            char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
-                                StringBuilder sb = new StringBuilder();
-                                Random random = new Random();
-                                for (int i = 0; i < random.nextInt(30) + 10; i++) {
-                                    char ch = chars[random.nextInt(chars.length)];
-                                    sb.append(ch);
-                                }
+                                            StringBuilder sb = new StringBuilder();
+                                            Random random = new Random();
+                                            for (int i = 0; i < random.nextInt(30) + 10; i++) {
+                                                char ch = chars[random.nextInt(chars.length)];
+                                                sb.append(ch);
+                                            }
 
-                                if (x < 3) {
-                                    addServerToFavoriteList(sb.toString(), "1.11.2",
-                                            random.nextInt(100), random.nextInt(100) + 100);
-                                } else {
-                                    addServerToOtherList(sb.toString(), "1.11.2",
-                                            random.nextInt(100), random.nextInt(100) + 100);
-                                }
-                            }
-                        });
+                                            if (x < 3) {
+                                                addServerToFavoriteList(sb.toString(), "1.11.2",
+                                                        random.nextInt(100), random.nextInt(100) + 100);
+                                            } else {
+                                                addServerToOtherList(sb.toString(), "1.11.2",
+                                                        random.nextInt(100), random.nextInt(100) + 100);
+                                            }
+                                        }
+                                    });
+                            break;
+                        }
+                        default: {
+                            logger.warn("Not implemented yet!");
+                            break;
+                        }
                     }
                 }
             }
@@ -181,7 +194,7 @@ public class Main extends MainDesigner {
     }
 
     static void playClicked() {
-        installerOverlay = new InstallerOverlay(mainStackPane);
+        InstallerOverlay installerOverlay = new InstallerOverlay(mainStackPane);
         installerOverlay.setStatus("Instalowanie: LIBRARIES");
         installerOverlay.setPercentage(0.571f);
         installerOverlay.setDescription("Zainstalowano 100 spośród 10000 plików.");

@@ -359,7 +359,7 @@
 }
 
 .jfx-progress-bar {
-    -fx-effect: innershadow(gaussian, #000000, 4.6, 0.4, 0, 0);
+    /*-fx-effect: innershadow(gaussian, #000000, 4.6, 0.4, 0, 0);*/
 }
 
 .jfx-dialog-overlay-pane {
@@ -369,4 +369,28 @@
 .jfx-dialog-overlay-pane StackPane {
     -fx-background-color: #1b102e;
     -fx-background-radius: 5px;
+}
+
+/* SETTINGS DIALOG */
+.settingsContent Label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.settingsContent JFXRippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.closeIcon {
+    -fx-background-color: transparent;
+    -fx-fill: #FFFFFF;
+    -fx-text-fill: #FFFFFF;
+    /*-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-text-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-font-size: 25px;*/
+}
+
+.specialButton {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-radius: 15px;
 }
