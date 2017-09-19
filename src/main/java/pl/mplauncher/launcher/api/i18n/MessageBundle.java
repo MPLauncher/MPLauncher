@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.i18n;
+package pl.mplauncher.launcher.api.i18n;
 
 import java.util.*;
 

@@ -18,6 +18,9 @@ package pl.mplauncher.launcher.form;
 import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -38,6 +41,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
@@ -46,21 +50,24 @@ class MainDesigner {
 
     private static final Logger logger = LogManager.getLogger(MainDesigner.class);
 
+    //Draggable window
+    private static double xOffset;
+    private static double yOffset;
+
     private StackPane mainStackPane;
-    Label menuListIcon;
-    Label menuListText;
-    StackPane mainMenu;
-    Circle userAvatar;
-    Circle userOnline;
-    Label userName;
+    private Label menuListIcon;
+    private Label menuListText;
+    private StackPane mainMenu;
+    private Circle userAvatar;
+    private Circle userOnline;
+    private Label userName;
     JFXListView<menuItem> menuList;
-    JFXRippler closeRippler;
+    private JFXRippler closeRippler;
     GridPane centerGridPane;
-    ImageView discordLogo;
-    StackPane mainTop;
-    JFXRippler menuButton;
-    FontAwesomeIconView menuButtonIconLEFT;
-    FontAwesomeIconView menuButtonIconRIGHT;
+    private ImageView discordLogo;
+    private JFXRippler menuButton;
+    private FontAwesomeIconView menuButtonIconLEFT;
+    private FontAwesomeIconView menuButtonIconRIGHT;
     JFXListView<serverItem> favoriteServerList;
     JFXListView<serverItem> otherServerList;
     //Elements
@@ -91,7 +98,7 @@ class MainDesigner {
         discordLogo = new ImageView();
         StackPane firstSPTopGP = new StackPane();
         StackPane topBackground = new StackPane();
-        mainTop = new StackPane();
+        StackPane mainTop = new StackPane();
         launcherVersion = new Text();
         TextFlow topContent = new TextFlow();
         Text firstTextmainTopTF = new Text();
@@ -147,6 +154,8 @@ class MainDesigner {
 
         closeRippler.setMaxHeight(JFXRippler.USE_PREF_SIZE);
         closeRippler.setPrefHeight(55.0);
+        closeRippler.setOnMouseClicked((handler) -> JFXHelpers.doublePropertyAnimation(Duration.millis(500),
+                MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, action -> Main.closeClicked()));
         StackPane.setMargin(closeRippler, new Insets(667.0, 0.0, 0.0, 0.0));
 
         BorderPane.setAlignment(borderPaneCenter, Pos.CENTER);
@@ -172,6 +181,16 @@ class MainDesigner {
         mainTop.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
         mainTop.setPrefSize(886.0, 150.0);
         mainTop.getStyleClass().add("mainTop");
+
+        // Allow to drag entire app via namePane
+        mainTop.setOnMousePressed(event -> {
+            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
+            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
+        });
+        mainTop.setOnMouseDragged(event -> {
+            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
+            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
+        });
         StackPane.setAlignment(mainTop, Pos.TOP_RIGHT);
 
         launcherVersion.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
@@ -206,6 +225,67 @@ class MainDesigner {
         menuButton.setPrefSize(30.0, 30.0);
         menuButton.getStyleClass().add("menuButton");
         menuButton.setCursor(Cursor.HAND);
+        menuButton.setOnMouseClicked((handler) -> {
+            menuButton.setDisable(true);
+
+            if (menuListText.getOpacity() == 1.0) {
+                JFXHelpers.fadeTransition(Duration.millis(125), userName, 1.0, 0.0);
+                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 1.0, 0.0, (ActionEvent) -> {
+                    menuListText.setMinWidth(0.0);
+
+                    Timeline animations = new Timeline();
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuButtonIconLEFT.opacityProperty(), 0.0)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuButtonIconRIGHT.opacityProperty(), 1.0)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userAvatar.radiusProperty(), 16)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.radiusProperty(), 2)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.translateXProperty(), 11.9)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.translateYProperty(), 3.6)));
+
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
+
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(mainMenu.prefWidthProperty(), 91)));
+                    animations.setOnFinished(event -> menuButton.setDisable(false));
+
+                    animations.play();
+                });
+            } else if (menuListText.getOpacity() == 0.0) {
+                Timeline animations = new Timeline();
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconLEFT.opacityProperty(), 1.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconRIGHT.opacityProperty(), 0.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userAvatar.radiusProperty(), 41)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.radiusProperty(), 6)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateXProperty(), 30.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateYProperty(), 9.0)));
+
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuListIcon.minWidthProperty(), 30.0)));
+
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(mainMenu.prefWidthProperty(), 220)));
+                animations.setOnFinished((ActionEvent) -> {
+                    menuListText.setMinWidth(70.0);
+                    JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
+                    JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0,
+                            event -> menuButton.setDisable(false));
+                });
+
+                animations.play();
+            }
+        });
 
         Circle circle = new Circle();
         circle.setRadius(4);
@@ -240,6 +320,8 @@ class MainDesigner {
         //Parent
         this.mainScene = new Scene(mainForm, 1178, 722);
         this.mainScene.setFill(Color.TRANSPARENT);
+
+        JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
     }
 
     void setNews(String newsTitle, Image newsImage, String newsArticle, String newsAuthor, String newsTime) {
@@ -493,6 +575,7 @@ class MainDesigner {
             discordLogo.setPreserveRatio(true);
             discordLogo.setTranslateY(215.0);
             discordLogo.setCursor(Cursor.HAND);
+            discordLogo.setOnMouseClicked(event -> Main.discordLogoClicked());
             URL imgUrl = getClass().getClassLoader().getResource("DiscordLogo.png");
             if (imgUrl != null) {
                 discordLogo.setImage(new Image(imgUrl.toString()));

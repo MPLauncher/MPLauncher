@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.config;
+package pl.mplauncher.launcher.api.config;
 
 import com.google.common.base.Charsets;
 import org.diorite.cfg.annotations.CfgClass;
@@ -24,7 +24,7 @@ import org.diorite.cfg.annotations.defaults.CfgDelegateDefault;
 import java.util.List;
 import java.util.UUID;
 
-@CfgClass(name = "UserConfig")
+@CfgClass(name = "Users")
 @CfgDelegateDefault("{new}")
 @CfgComment("-------------------------------------------------------------------")
 @CfgComment("DON'T MODIFY THIS FILE ON YOUR OWN,")
@@ -33,12 +33,11 @@ import java.util.UUID;
 @CfgComment("Don't ever share this file with anyone!")
 @CfgComment("This file contains your user data needed for launcher to:")
 @CfgComment("- keep you logged in")
-@CfgComment("- save your custom settings")
-@CfgComment("- keep your favorite servers")
+@CfgComment("- read your custom data")
 @CfgComment("When you share this file with someone,")
 @CfgComment("this person will be able to use your account without your knowledge")
 @CfgComment("-------------------------------------------------------------------")
-public class UserConfig {
+public class Users {
 
     /*
         Use for verification if data decrypted by launcher is proper.
@@ -53,9 +52,8 @@ public class UserConfig {
     public String verify;
 
     @CfgName("users")
-    public List<UserData> users;
+    public List<User> users;
 
-    //TODO: Add more data about: favorite servers, resolution, sound settings, ram etc.
     //TODO: Sensitive data shouldn't be saved not encrypted in the file. Use some unique PC ID to encrypt this data.
 
     public enum UserType {
@@ -63,7 +61,7 @@ public class UserConfig {
         NONPREMIUM
     }
 
-    public static class UserData {
+    public static class User {
 
         private final String username;
         private final UUID uuid;
@@ -71,8 +69,9 @@ public class UserConfig {
         private final String clientToken;
         private final boolean remember;
         private final UserType userType;
+        private final String userDataDir;
 
-        public UserData(String username, UUID uuid, String accessToken, String clientToken, boolean remember,
+        public User(String username, UUID uuid, String accessToken, String clientToken, boolean remember,
                         UserType userType) {
             this.username = username;
             this.uuid = uuid;
@@ -80,9 +79,10 @@ public class UserConfig {
             this.clientToken = clientToken;
             this.remember = remember;
             this.userType = userType;
+            this.userDataDir = uuid.toString().split("-")[0];
         }
 
-        public UserData(String username, boolean remember) {
+        public User(String username, boolean remember) {
             this(username, UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(Charsets.UTF_8)),
                     "\" \"", null, remember, UserType.NONPREMIUM);
         }
@@ -109,6 +109,10 @@ public class UserConfig {
 
         public UserType getUserType() {
             return userType;
+        }
+
+        public String getUserDataDir() {
+            return userDataDir;
         }
 
     }

@@ -1,49 +1,49 @@
 .mainForm {
-	-fx-pref-width: 1178;
-	-fx-pref-height: 722;
-	-fx-background-color: #1b102e;
+    -fx-pref-width: 1178;
+    -fx-pref-height: 722;
+    -fx-background-color: #1b102e;
 }
 
 .mainMenu {
-	-fx-alignment: top-center;
-	-fx-pref-width: 220;
-	-fx-pref-height: 722;
-	-fx-background-color: #0f0323;
+    -fx-alignment: top-center;
+    -fx-pref-width: 220;
+    -fx-pref-height: 722;
+    -fx-background-color: #0f0323;
 }
 
 .mainTop {
-	-fx-alignment: top-right;
-	-fx-pref-width: 1087;
-	-fx-pref-height: 170;
-	-fx-background-color: rgba(15, 3, 35, 0.9);
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 27, 0.6, 0, 0);
+    -fx-alignment: top-right;
+    -fx-pref-width: 1087;
+    -fx-pref-height: 170;
+    -fx-background-color: rgba(15, 3, 35, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 27, 0.6, 0, 0);
 }
 
 .mainContent_Small {
-	-fx-pref-width: 958;
-	-fx-pref-height: 552;
+    -fx-pref-width: 958;
+    -fx-pref-height: 552;
 }
 
 .mainContent_Wide {
-	-fx-pref-width: 1087;
-	-fx-pref-height: 552;
+    -fx-pref-width: 1087;
+    -fx-pref-height: 552;
 }
 
 .topBackground {
-	-fx-alignment: top-right;
-	-fx-pref-width: 1087;
-	-fx-pref-height: 170;
-	-fx-background-size: 1087 auto;
-	-fx-background-image: url("mc.jpg");
-	-fx-background-position: center -100;
+    -fx-alignment: top-right;
+    -fx-pref-width: 1087;
+    -fx-pref-height: 170;
+    -fx-background-size: 1087 auto;
+    -fx-background-image: url("mc.jpg");
+    -fx-background-position: center -100;
 }
 
 .topContent {
-	-fx-padding: 19 0 0 31;
+    -fx-padding: 19 0 0 31;
 }
 
 .menuButtonBackground {
-	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
 .menuButton {
@@ -52,9 +52,9 @@
 }
 
 .mplauncher {
-	-fx-translate-y: 46;
-	-fx-font-family: 'Montserrat Regular';
-	-fx-font-size: 30.5;
+    -fx-translate-y: 46;
+    -fx-font-family: 'Montserrat Regular';
+    -fx-font-size: 30.5;
 }
 
 .textWhite {
@@ -62,12 +62,12 @@
 }
 
 .textBold {
-	-fx-font-family: 'Montserrat Bold';
+    -fx-font-family: 'Montserrat Bold';
 }
 
 .versionText {
-	-fx-font-family: 'Montserrat Regular';
-	-fx-font-size: 12;
+    -fx-font-family: 'Montserrat Regular';
+    -fx-font-size: 12;
 }
 
 .userAvatar {
@@ -75,27 +75,27 @@
 }
 
 .fontSize14 {
-	-fx-font-size: 14;
+    -fx-font-size: 14;
 }
 
 .fontSize12 {
-	-fx-font-size: 12;
+    -fx-font-size: 12;
 }
 
 .fontSize10 {
-	-fx-font-size: 10;
+    -fx-font-size: 10;
 }
 
 .fontSize9 {
-	-fx-font-size: 8;
+    -fx-font-size: 8;
 }
 
 .fontSize8_5 {
-	-fx-font-size: 8.5;
+    -fx-font-size: 8.5;
 }
 
 .fontSize8 {
-	-fx-font-size: 8;
+    -fx-font-size: 8;
 }
 
 .fontLight {
@@ -103,23 +103,23 @@
 }
 
 .fontRegular {
-	-fx-font-family: 'Montserrat Regular';
+    -fx-font-family: 'Montserrat Regular';
 }
 
 .fontBold {
-	-fx-font-family: 'Montserrat Bold';
+    -fx-font-family: 'Montserrat Bold';
 }
 
 .fontSemiBold {
-	-fx-font-family: 'Montserrat SemiBold';
+    -fx-font-family: 'Montserrat SemiBold';
 }
 
 .fillWhite {
-	-fx-fill: #ffffff;
+    -fx-fill: #ffffff;
 }
 
 .textFillWhite {
-	-fx-text-fill: #ffffff;
+    -fx-text-fill: #ffffff;
 }
 
 .playButton {
@@ -138,50 +138,49 @@
 }
 
 .userName {
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 14;
-	-fx-text-fill: #ffffff;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 14;
+    -fx-text-fill: #ffffff;
 }
 
 .fancyText {
-	-fx-pref-width: 250;
+    -fx-pref-width: 250;
 }
 
 .fancyText_1 {
-	-fx-translate-y: 150;
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 14;
-	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-translate-y: 150;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 14;
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
 .fancyText_2 {
-	-fx-translate-y: 215;
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 24;
-	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-translate-y: 215;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 24;
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
 .fancyText_3_Container {
-	-fx-translate-y: 351;
+    -fx-translate-y: 351;
 }
 
 .fancyText_3 {
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 20;
-	-fx-line-spacing: 1;
-	-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 20;
+    -fx-line-spacing: 1px;
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
 }
 
 .newsContent {
-	-fx-background-color: #0f0323;
+    -fx-background-color: #0f0323;
 }
 
 .newsTitle {
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 12;
-	-fx-font-weight: 600;
-	-fx-line-spacing: 0.6;
-	-fx-fill: #ffffff;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 12;
+    -fx-line-spacing: 0.6px;
+    -fx-fill: #ffffff;
 }
 
 .newsImage {
@@ -191,21 +190,21 @@
 }
 
 .newsArticle {
-	-fx-font-family: 'Montserrat Regular';
-	-fx-font-size: 11;
-	-fx-text-fill: #ffffff;
+    -fx-font-family: 'Montserrat Regular';
+    -fx-font-size: 11;
+    -fx-text-fill: #ffffff;
 }
 
 .newsAuthor {
-	-fx-font-family: 'Montserrat SemiBold';
-	-fx-font-size: 11;
-	-fx-fill: #7b1fa2;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 11;
+    -fx-fill: #7b1fa2;
 }
 
 .newsTime {
-	-fx-font-family: 'Montserrat Thin';
-	-fx-font-size: 11;
-	-fx-fill: #ffffff;
+    -fx-font-family: 'Montserrat Thin';
+    -fx-font-size: 11;
+    -fx-fill: #ffffff;
 }
 
 /* SERVER LIST MENU */
@@ -228,7 +227,7 @@
 }
 
 .serverListContainer {
-	-fx-background-color: #080015;
+    -fx-background-color: #080015;
 }
 
 .serverListScrollPane {
@@ -344,8 +343,8 @@
 
 /* INSTALLER DIALOG */
 .installerContent Label {
-	-fx-font-size: 10px;
-	-fx-text-fill: #FFFFFF;
+    -fx-font-size: 10px;
+    -fx-text-fill: #FFFFFF;
 }
 
 .jfx-progress-bar > .track {
@@ -366,15 +365,10 @@
     -fx-background-color: rgba(0, 0, 0, 0.48);
 }
 
-.jfx-dialog-overlay-pane StackPane {
+/* SETTINGS DIALOG */
+.settingsContent {
     -fx-background-color: #1b102e;
     -fx-background-radius: 5px;
-}
-
-/* SETTINGS DIALOG */
-.settingsContent Label {
-    -fx-font-size: 10px;
-    -fx-text-fill: #FFFFFF;
 }
 
 .settingsContent JFXRippler {
@@ -382,12 +376,8 @@
 }
 
 .closeIcon {
-    -fx-background-color: transparent;
-    -fx-fill: #FFFFFF;
-    -fx-text-fill: #FFFFFF;
-    /*-fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
-    -fx-text-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
-    -fx-font-size: 25px;*/
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-font-size: 25px !important;
 }
 
 .specialButton {
