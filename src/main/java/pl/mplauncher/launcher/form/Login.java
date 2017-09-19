@@ -17,6 +17,7 @@ package pl.mplauncher.launcher.form;
 
 import javafx.application.Platform;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.helper.JFXHelpers;
@@ -69,7 +70,7 @@ public class Login extends LoginDesigner {
         if (!premiumButton.getStyleClass().contains("accountTypeSelected")) {
             premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             nonpremiumButton.getStyleClass().setAll("accountType");
-            loginField.setPromptText("EMAIL / NICK");
+            loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formPremiumUsername"));
 
             passwordField.setVisible(true);
             JFXHelpers.fadeTransition(Duration.millis(250), nonpremiumButtonLine, 1.0, 0.0);
@@ -82,7 +83,7 @@ public class Login extends LoginDesigner {
         if (!nonpremiumButton.getStyleClass().contains("accountTypeSelected")) {
             nonpremiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
             premiumButton.getStyleClass().setAll("accountType");
-            loginField.setPromptText("NICK");
+            loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formNonPremiumUsername"));
 
             JFXHelpers.fadeTransition(Duration.millis(250), premiumButtonLine, 1.0, 0.0);
             JFXHelpers.fadeTransition(Duration.millis(250), nonpremiumButtonLine, 0.0, 1.0);
@@ -95,12 +96,12 @@ public class Login extends LoginDesigner {
 
         if (loginField.getText().length() == 0) {
             if (passwordField.isVisible()) {
-                snackBar.show("Uzupełnij nazwę użytkownika/email.", 3000);
+                snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoNickname"), 3000);
             } else {
-                snackBar.show("Uzupełnij swój nick.", 3000);
+                snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessageNonPremiumNoNickname"), 3000);
             }
         } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
-            snackBar.show("Uzupełnij hasło.", 3000);
+            snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoPassword"), 3000);
         } else {
             premiumButton.setDisable(true);
             nonpremiumButton.setDisable(true);

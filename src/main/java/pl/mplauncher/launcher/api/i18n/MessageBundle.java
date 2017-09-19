@@ -39,9 +39,9 @@ public class MessageBundle {
     }
 
     public String getMessage(String key) {
-        return messages.getOrDefault(key, MessageBundle.getDefaultLanguage().getMessage(key));
+        return MessageBundle.getDefaultLanguage() == null ? messages.get(key) : messages.getOrDefault(key, MessageBundle.getDefaultLanguage().getMessage(key));
     }
-
+    
     public Map<String, String> getMessages() {
         return messages;
     }

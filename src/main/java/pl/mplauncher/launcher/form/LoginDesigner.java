@@ -33,6 +33,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 
 import java.net.URL;
 
@@ -59,6 +60,7 @@ class LoginDesigner {
 
     //Initializer
     void initializeComponent() {
+        MessageBundle currentLanguage = MessageBundle.getCurrentLanguage();
         VBox loginForm = new VBox();
         this.snackBar = new JFXSnackbar();
         this.stackPane = new StackPane();
@@ -110,7 +112,7 @@ class LoginDesigner {
         premiumButton.setLayoutX(18.0);
         premiumButton.setLayoutY(50.0);
         premiumButton.getStyleClass().add("accountType");
-        premiumButton.setText("PREMIUM");
+        premiumButton.setText(currentLanguage.getMessage("login-premium"));
 
         premiumButtonLine.setEndX(74.74);
         premiumButtonLine.setLayoutX(18.0);
@@ -120,7 +122,7 @@ class LoginDesigner {
         nonpremiumButton.setLayoutX(168.0);
         nonpremiumButton.setLayoutY(50.0);
         nonpremiumButton.getStyleClass().add("accountType");
-        nonpremiumButton.setText("NON-PREMIUM");
+        nonpremiumButton.setText(currentLanguage.getMessage("login-nonPremium"));
 
         nonpremiumButtonLine.setEndX(116.0);
         nonpremiumButtonLine.setLayoutX(168.0);
@@ -132,7 +134,7 @@ class LoginDesigner {
         loginField.setLayoutY(131.0);
         loginField.setPrefHeight(23.0);
         loginField.setPrefWidth(266.0);
-        loginField.setPromptText("EMAIL / NICK");
+        loginField.setPromptText(currentLanguage.getMessage("login-formPremiumUsername"));
         loginField.setLabelFloat(true);
         loginField.getStyleClass().add("input");
 
@@ -141,7 +143,7 @@ class LoginDesigner {
         passwordField.setLayoutY(185.0);
         passwordField.setPrefHeight(23.0);
         passwordField.setPrefWidth(266.0);
-        passwordField.setPromptText("HASŁO");
+        passwordField.setPromptText(currentLanguage.getMessage("login-formPremiumPassword"));
         passwordField.setLabelFloat(true);
         passwordField.getStyleClass().add("input");
 
@@ -150,7 +152,7 @@ class LoginDesigner {
         rememberButton.setPrefHeight(36.0);
         rememberButton.setPrefWidth(194.0);
         rememberButton.getStyleClass().add("toggleButton");
-        rememberButton.setText("ZAPAMIĘTAJ TO KONTO");
+        rememberButton.setText(currentLanguage.getMessage("login-formRememberMe"));
 
         loginSpinner.setLayoutX(139.0);
         loginSpinner.setLayoutY(298.0);
@@ -161,12 +163,12 @@ class LoginDesigner {
         loginButton.setPrefHeight(32.0);
         loginButton.setPrefWidth(131.0);
         loginButton.getStyleClass().add("loginButton");
-        loginButton.setText("ZALOGUJ");
+        loginButton.setText(currentLanguage.getMessage("login-formLogInButton"));
 
         termsHyperlink.setLayoutX(104.0);
         termsHyperlink.setLayoutY(340.0);
         termsHyperlink.getStyleClass().add("smallHyperlink");
-        termsHyperlink.setText("warunki użytkowania");
+        termsHyperlink.setText(currentLanguage.getMessage("login-termsOfUse"));
 
         namePane.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         namePane.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
