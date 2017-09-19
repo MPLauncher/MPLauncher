@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXRippler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -18,12 +17,12 @@ public class SettingsOverlay extends JFXDialog {
     private static final Logger logger = LogManager.getLogger(SettingsOverlay.class);
 
     private JFXDialogLayout contentHandler;
-
-    //private StackPane contentHandler;
     private Label windowTitle;
     private JFXButton saveButton;
-    private JFXRippler closeButton;
 
+    /**
+     * Creates settings overlay.
+     */
     public SettingsOverlay() {
         this(null);
     }
@@ -58,7 +57,7 @@ public class SettingsOverlay extends JFXDialog {
         fa.getStyleClass().add("closeIcon");
         fa.setMouseTransparent(true);
 
-        closeButton = new JFXRippler();
+        JFXRippler closeButton = new JFXRippler();
         closeButton.setMaxSize(JFXRippler.USE_PREF_SIZE, JFXRippler.USE_PREF_SIZE);
         closeButton.setMinSize(JFXRippler.USE_PREF_SIZE, JFXRippler.USE_PREF_SIZE);
         closeButton.setOnMouseClicked(event -> this.close());
@@ -79,10 +78,6 @@ public class SettingsOverlay extends JFXDialog {
 
         contentHandler.setActions(saveButton);
 
-        //StackPane.setAlignment(saveButton, Pos.BOTTOM_RIGHT);
-        //StackPane.setMargin(saveButton, new Insets(0.0, 17.0, 26.0, 0.0));
-
-        //contentHandler.getChildren().addAll(windowTitle, closeButton, saveButton);
         this.setContent(contentHandler);
     }
 

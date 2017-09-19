@@ -15,10 +15,8 @@
 */
 package pl.mplauncher.launcher.bootstrap;
 
-import com.google.common.base.Charsets;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -31,7 +29,6 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
-import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
@@ -40,7 +37,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class MPLauncherBootstrap extends Application {
 
