@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 public class QuestionOverlay extends StackPane {
@@ -59,12 +60,12 @@ public class QuestionOverlay extends StackPane {
         first.setOnAction(action -> { Answered = true; Accepted = false; JFXHelpers.fadeTransition(Duration.millis(500), this, 1.0, 0.0, event -> dialog.close()); });
 
         if (dialogType == DialogType.OkCancel) {
-            first.setText("Okej");
-            second.setText("Anuluj");
+            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
+            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
         }
         else if (dialogType == DialogType.YesNo) {
-            first.setText("Tak");
-            second.setText("Nie");
+            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
+            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
         }
 
         okParent.getChildren().addAll(first, second);

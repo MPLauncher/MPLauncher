@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 
 public class SettingsOverlay extends JFXDialog {
 
@@ -72,7 +73,7 @@ public class SettingsOverlay extends JFXDialog {
 
         // ACTIONS //
         saveButton = new JFXButton();
-        saveButton.setText("ZAPISZ");
+        saveButton.setText(MessageBundle.getCurrentLanguage().getMessage("general-save"));
         saveButton.setPrefSize(100.0, 30.0);
         saveButton.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite", "specialButton");
 
