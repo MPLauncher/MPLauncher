@@ -41,6 +41,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
@@ -624,7 +625,7 @@ class MainDesigner {
             topStackPane.getStyleClass().add("serverMenuTop");
 
             Label serverListText = new Label();
-            serverListText.setText("LISTA SERWERÓW");
+            serverListText.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-title"));
             StackPane.setAlignment(serverListText, Pos.CENTER_LEFT);
             StackPane.setMargin(serverListText, new Insets(0.0, 0.0, 0.0, 20.0));
             serverListText.getStyleClass().addAll("fontSemiBold", "fontSize12", "textFillWhite");
@@ -715,14 +716,14 @@ class MainDesigner {
             leftserverOptions.getRowConstraints().addAll(lsOrow1, lsOrow2);
 
             Label addToFavorite = new Label();
-            addToFavorite.setText("dodaj do ulubionych");
+            addToFavorite.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-addToFav"));
             GridPane.setMargin(addToFavorite, new Insets(0.0, 0.0, 0.0, 20.0));
             addToFavorite.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.HEART_ALT));
             addToFavorite.getGraphic().getStyleClass().add("fillWhite");
             addToFavorite.getStyleClass().addAll("fontRegular", "fontSize10", "textFillWhite");
 
             Label isInstalled = new Label();
-            isInstalled.setText("zainstalowano");
+            isInstalled.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-alreadyInstalled"));
             GridPane.setRowIndex(isInstalled, 1);
             GridPane.setMargin(isInstalled, new Insets(0.0, 0.0, 0.0, 20.0));
             isInstalled.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CHECK));
@@ -732,7 +733,7 @@ class MainDesigner {
             JFXButton playButton = new JFXButton();
             playButton.setPrefWidth(100.0);
             playButton.setPrefHeight(30.0);
-            playButton.setText("GRAJ");
+            playButton.setText(MessageBundle.getCurrentLanguage().getMessage("general-play"));
             GridPane.setColumnIndex(playButton, 2);
             GridPane.setHalignment(playButton, HPos.CENTER);
             GridPane.setMargin(playButton, new Insets(0.0, 20.0, 0.0, 0.0));
@@ -755,7 +756,7 @@ class MainDesigner {
             Text ramLabel = new Text();
             ramLabel.setStrokeType(StrokeType.OUTSIDE);
             ramLabel.setStrokeWidth(0.0);
-            ramLabel.setText("ILOŚĆ RAM");
+            ramLabel.setText(MessageBundle.getCurrentLanguage().getMessage("general-ramAmount"));
             GridPane.setHalignment(ramLabel, HPos.RIGHT);
             GridPane.setMargin(ramLabel, new Insets(0.0, 3.0, 0.0, 0.0));
             ramLabel.getStyleClass().addAll("fontSemiBold", "fontSize10", "fillWhite");
@@ -764,7 +765,7 @@ class MainDesigner {
             ramField.setAlignment(Pos.CENTER);
             ramField.setMaxWidth(JFXTextField.USE_PREF_SIZE);
             ramField.setPrefWidth(50.0);
-            ramField.setPromptText("RAM");
+            ramField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("general-ram"));
             ramField.setFocusColor(Color.WHITE);
             ramField.setUnFocusColor(Color.WHITE);
             GridPane.setColumnIndex(ramField, 1);
@@ -804,7 +805,7 @@ class MainDesigner {
 
             Label fSLLabel = new Label();
             fSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
-            fSLLabel.setText("ULUBIONE");
+            fSLLabel.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-fav"));
             StackPane.setAlignment(fSLLabel, Pos.CENTER_LEFT);
 
             StackPane otherServerListIndicator = new StackPane();
@@ -818,7 +819,7 @@ class MainDesigner {
 
             Label oSLLabel = new Label();
             oSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
-            oSLLabel.setText("POZOSTAŁE");
+            oSLLabel.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-other"));
             StackPane.setAlignment(oSLLabel, Pos.CENTER_LEFT);
 
             otherServerList = new JFXListView<>();
@@ -878,7 +879,7 @@ class MainDesigner {
             GridPane.setValignment(serverVersion, VPos.TOP);
             GridPane.setHalignment(serverVersion, HPos.LEFT);
             GridPane.setRowIndex(serverVersion, 1);
-            serverVersion.setText("WERSJA MC: " + version.toUpperCase());
+            serverVersion.setText(MessageBundle.getCurrentLanguage().getMessage("general-mcVersion") + " " + version.toUpperCase());
             GridPane.setMargin(serverVersion, new Insets(0.0, 0.0, 0.0, 24.0));
             serverVersion.getStyleClass().addAll("fontRegular", "fontSize8", "fillTextWhite");
 
