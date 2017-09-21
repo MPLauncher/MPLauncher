@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.i18n;
+package pl.mplauncher.launcher.api.i18n;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

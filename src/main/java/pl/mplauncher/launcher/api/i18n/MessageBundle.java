@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.i18n;
+package pl.mplauncher.launcher.api.i18n;
 
 import java.util.*;
 
@@ -39,9 +39,9 @@ public class MessageBundle {
     }
 
     public String getMessage(String key) {
-        return messages.getOrDefault(key, MessageBundle.getDefaultLanguage().getMessage(key));
+        return MessageBundle.getDefaultLanguage() == null ? messages.get(key) : messages.getOrDefault(key, MessageBundle.getDefaultLanguage().getMessage(key));
     }
-
+    
     public Map<String, String> getMessages() {
         return messages;
     }

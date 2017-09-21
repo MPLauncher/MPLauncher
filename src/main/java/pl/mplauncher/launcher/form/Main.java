@@ -16,17 +16,17 @@
 package pl.mplauncher.launcher.form;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.control.InstallerOverlay;
+import pl.mplauncher.launcher.control.SettingsOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
@@ -37,12 +37,11 @@ import java.util.Random;
 public class Main extends MainDesigner {
 
     private static final Logger logger = LogManager.getLogger(Main.class);
-
-    private static double xOffset;
-    private static double yOffset;
+    private static StackPane mainStackPane;
 
     public void initialize() {
-        JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
+        //Form
+        initializeComponent();
 
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             for (Node nodeIn : newValue.getChildren()) {
@@ -50,58 +49,61 @@ public class Main extends MainDesigner {
                     System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex()
                             + " == " + ((Label) nodeIn).getText());
 
-                    if (menuList.getSelectionModel().getSelectedIndex() == 3) {
-                        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
-                                0.0, event -> {
-                            setServerList();
+                    switch (menuList.getSelectionModel().getSelectedIndex()) {
+                        case 1: {
+                            SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
+                            settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
+                            settingsOverlay.show();
+                            break;
+                        }
+                        case 3: {
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
+                                    0.0, event -> {
+                                        setServerList();
 
-                            // When Favorite server is selected, deselect other server
-                            favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && otherServerList != null
-                                        && !otherServerList.getSelectionModel().isEmpty()) {
-                                    otherServerList.getSelectionModel().clearSelection();
-                                }
-                            }));
-                            otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                if (nV != null && favoriteServerList != null
-                                        && !favoriteServerList.getSelectionModel().isEmpty()) {
-                                    favoriteServerList.getSelectionModel().clearSelection();
-                                }
-                            }));
+                                        // When Favorite server is selected, deselect other server
+                                        favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && otherServerList != null
+                                                    && !otherServerList.getSelectionModel().isEmpty()) {
+                                                otherServerList.getSelectionModel().clearSelection();
+                                            }
+                                        }));
+                                        otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && favoriteServerList != null
+                                                    && !favoriteServerList.getSelectionModel().isEmpty()) {
+                                                favoriteServerList.getSelectionModel().clearSelection();
+                                            }
+                                        }));
 
-                            // Set servers!
-                            for (int x = 0; x < 53; x++) {
-                                char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+                                        // Set servers!
+                                        for (int x = 0; x < 53; x++) {
+                                            char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
-                                StringBuilder sb = new StringBuilder();
-                                Random random = new Random();
-                                for (int i = 0; i < random.nextInt(30) + 10; i++) {
-                                    char ch = chars[random.nextInt(chars.length)];
-                                    sb.append(ch);
-                                }
+                                            StringBuilder sb = new StringBuilder();
+                                            Random random = new Random();
+                                            for (int i = 0; i < random.nextInt(30) + 10; i++) {
+                                                char ch = chars[random.nextInt(chars.length)];
+                                                sb.append(ch);
+                                            }
 
-                                if (x < 3) {
-                                    addServerToFavoriteList(sb.toString(), "1.11.2",
-                                            random.nextInt(100), random.nextInt(100) + 100);
-                                } else {
-                                    addServerToOtherList(sb.toString(), "1.11.2",
-                                            random.nextInt(100), random.nextInt(100) + 100);
-                                }
-                            }
-                        });
+                                            if (x < 3) {
+                                                addServerToFavoriteList(sb.toString(), "1.11.2",
+                                                        random.nextInt(100), random.nextInt(100) + 100);
+                                            } else {
+                                                addServerToOtherList(sb.toString(), "1.11.2",
+                                                        random.nextInt(100), random.nextInt(100) + 100);
+                                            }
+                                        }
+                                    });
+                            break;
+                        }
+                        default: {
+                            logger.warn("Not implemented yet!");
+                            break;
+                        }
                     }
                 }
             }
-        });
-
-        // Allow to drag entire app via namePane
-        mainTop.setOnMousePressed(event -> {
-            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
-            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
-        });
-        mainTop.setOnMouseDragged(event -> {
-            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
-            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
         });
 
         // -- SET ALL -- //
@@ -119,13 +121,13 @@ public class Main extends MainDesigner {
         setUserOnline(true);
 
         //Set menu
-        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, "PROFIL" + System.lineSeparator() + "UŻYTKOWNIKA");
-        addMenuOption(FontAwesomeIcon.COG, "USTAWIENIA" + System.lineSeparator() + "UŻYTKOWNIKA");
-        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, "NOWOŚCI");
-        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, "WYBÓR SERWERA");
+        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
+        addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
+        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
+        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
 
         //Set close
-        setCloseOption("WYŁĄCZ");
+        setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
         //Set NEWS
         URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
@@ -145,26 +147,20 @@ public class Main extends MainDesigner {
         }
 
         //Set right
-        setRightSite("Znajdziesz nas na:");
+        setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
 
         //Set version
         setLauncherVersion("ver 2.0.0-dev2");
 
-        //Form
-        initializeComponent();
-
-        //Events
-        closeRippler.setOnMouseClicked(event -> closeClicked());
-        discordLogo.setOnMouseClicked(event -> discordLogoClicked());
-        menuButton.setOnMouseClicked(event -> menuButtonClicked());
+        //Main stackpane
+        mainStackPane = getMainStackPane();
     }
 
-    private void closeClicked() {
-        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(),
-                0.0, event -> Platform.exit());
+    static void closeClicked() {
+        Platform.exit();
     }
 
-    private void discordLogoClicked() {
+    static void discordLogoClicked() {
         try {
             JFXHelpers.openWebpage(new URI("https://discord.gg/C5pkDan"));
         } catch (URISyntaxException e) {
@@ -172,66 +168,13 @@ public class Main extends MainDesigner {
         }
     }
 
-    private void menuButtonClicked() {
-        menuButton.setDisable(true);
+    static void playClicked() {
+        InstallerOverlay installerOverlay = new InstallerOverlay(mainStackPane);
+        installerOverlay.setStatus("Instalowanie: LIBRARIES");
+        installerOverlay.setPercentage(0.571f);
+        installerOverlay.setDescription("Zainstalowano 100 spośród 10000 plików.");
 
-        if (menuListText.getOpacity() == 1.0) {
-            JFXHelpers.fadeTransition(Duration.millis(125), userName, 1.0, 0.0);
-            JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 1.0, 0.0, (ActionEvent) -> {
-                menuListText.setMinWidth(0.0);
-
-                Timeline animations = new Timeline();
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(menuButtonIconLEFT.opacityProperty(), 0.0)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(menuButtonIconRIGHT.opacityProperty(), 1.0)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(userAvatar.radiusProperty(), 16)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(userOnline.radiusProperty(), 2)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(userOnline.translateXProperty(), 11.9)));
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(userOnline.translateYProperty(), 3.6)));
-
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
-
-                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                        new KeyValue(mainMenu.prefWidthProperty(), 91)));
-                animations.setOnFinished(event -> menuButton.setDisable(false));
-
-                animations.play();
-            });
-        } else if (menuListText.getOpacity() == 0.0) {
-            Timeline animations = new Timeline();
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(menuButtonIconLEFT.opacityProperty(), 1.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(menuButtonIconRIGHT.opacityProperty(), 0.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(userAvatar.radiusProperty(), 41)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(userOnline.radiusProperty(), 6)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(userOnline.translateXProperty(), 30.0)));
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(userOnline.translateYProperty(), 9.0)));
-
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(menuListIcon.minWidthProperty(), 30.0)));
-
-            animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                    new KeyValue(mainMenu.prefWidthProperty(), 220)));
-            animations.setOnFinished((ActionEvent) -> {
-                menuListText.setMinWidth(70.0);
-                JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
-                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0,
-                        event -> menuButton.setDisable(false));
-            });
-
-            animations.play();
-        }
+        installerOverlay.show();
     }
 
 }

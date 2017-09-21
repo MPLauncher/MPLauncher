@@ -30,7 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.helper.FormSwitcher;
-import pl.mplauncher.launcher.i18n.MessageBundleIO;
+import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
 import java.io.IOException;
 import java.io.PrintWriter;

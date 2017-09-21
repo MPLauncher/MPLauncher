@@ -15,12 +15,12 @@
 */
 package pl.mplauncher.launcher.form;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXRippler;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -41,6 +41,8 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
@@ -48,20 +50,25 @@ import java.net.URL;
 class MainDesigner {
 
     private static final Logger logger = LogManager.getLogger(MainDesigner.class);
-    Label menuListIcon;
-    Label menuListText;
-    StackPane mainMenu;
-    Circle userAvatar;
-    Circle userOnline;
-    Label userName;
+
+    //Draggable window
+    private static double xOffset;
+    private static double yOffset;
+
+    private StackPane mainStackPane;
+    private Label menuListIcon;
+    private Label menuListText;
+    private StackPane mainMenu;
+    private Circle userAvatar;
+    private Circle userOnline;
+    private Label userName;
     JFXListView<menuItem> menuList;
-    JFXRippler closeRippler;
+    private JFXRippler closeRippler;
     GridPane centerGridPane;
-    ImageView discordLogo;
-    StackPane mainTop;
-    JFXRippler menuButton;
-    FontAwesomeIconView menuButtonIconLEFT;
-    FontAwesomeIconView menuButtonIconRIGHT;
+    private ImageView discordLogo;
+    private JFXRippler menuButton;
+    private FontAwesomeIconView menuButtonIconLEFT;
+    private FontAwesomeIconView menuButtonIconRIGHT;
     JFXListView<serverItem> favoriteServerList;
     JFXListView<serverItem> otherServerList;
     //Elements
@@ -75,7 +82,7 @@ class MainDesigner {
     //Initializer
     void initializeComponent() {
         VBox mainForm = new VBox();
-        StackPane mainStackPane = new StackPane();
+        mainStackPane = new StackPane();
         menuListIcon = new Label();
         menuListText = new Label();
         BorderPane borderPane = new BorderPane();
@@ -92,7 +99,7 @@ class MainDesigner {
         discordLogo = new ImageView();
         StackPane firstSPTopGP = new StackPane();
         StackPane topBackground = new StackPane();
-        mainTop = new StackPane();
+        StackPane mainTop = new StackPane();
         launcherVersion = new Text();
         TextFlow topContent = new TextFlow();
         Text firstTextmainTopTF = new Text();
@@ -148,6 +155,8 @@ class MainDesigner {
 
         closeRippler.setMaxHeight(JFXRippler.USE_PREF_SIZE);
         closeRippler.setPrefHeight(55.0);
+        closeRippler.setOnMouseClicked((handler) -> JFXHelpers.doublePropertyAnimation(Duration.millis(500),
+                MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, action -> Main.closeClicked()));
         StackPane.setMargin(closeRippler, new Insets(667.0, 0.0, 0.0, 0.0));
 
         BorderPane.setAlignment(borderPaneCenter, Pos.CENTER);
@@ -173,6 +182,16 @@ class MainDesigner {
         mainTop.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
         mainTop.setPrefSize(886.0, 150.0);
         mainTop.getStyleClass().add("mainTop");
+
+        // Allow to drag entire app via namePane
+        mainTop.setOnMousePressed(event -> {
+            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
+            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
+        });
+        mainTop.setOnMouseDragged(event -> {
+            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
+            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
+        });
         StackPane.setAlignment(mainTop, Pos.TOP_RIGHT);
 
         launcherVersion.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
@@ -207,6 +226,67 @@ class MainDesigner {
         menuButton.setPrefSize(30.0, 30.0);
         menuButton.getStyleClass().add("menuButton");
         menuButton.setCursor(Cursor.HAND);
+        menuButton.setOnMouseClicked((handler) -> {
+            menuButton.setDisable(true);
+
+            if (menuListText.getOpacity() == 1.0) {
+                JFXHelpers.fadeTransition(Duration.millis(125), userName, 1.0, 0.0);
+                JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 1.0, 0.0, (ActionEvent) -> {
+                    menuListText.setMinWidth(0.0);
+
+                    Timeline animations = new Timeline();
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuButtonIconLEFT.opacityProperty(), 0.0)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuButtonIconRIGHT.opacityProperty(), 1.0)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userAvatar.radiusProperty(), 16)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.radiusProperty(), 2)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.translateXProperty(), 11.9)));
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(userOnline.translateYProperty(), 3.6)));
+
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(menuListIcon.minWidthProperty(), 100.0)));
+
+                    animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                            new KeyValue(mainMenu.prefWidthProperty(), 91)));
+                    animations.setOnFinished(event -> menuButton.setDisable(false));
+
+                    animations.play();
+                });
+            } else if (menuListText.getOpacity() == 0.0) {
+                Timeline animations = new Timeline();
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconLEFT.opacityProperty(), 1.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuButtonIconRIGHT.opacityProperty(), 0.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userAvatar.radiusProperty(), 41)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.radiusProperty(), 6)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateXProperty(), 30.0)));
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(userOnline.translateYProperty(), 9.0)));
+
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(menuListIcon.minWidthProperty(), 30.0)));
+
+                animations.getKeyFrames().add(new KeyFrame(Duration.millis(250),
+                        new KeyValue(mainMenu.prefWidthProperty(), 220)));
+                animations.setOnFinished((ActionEvent) -> {
+                    menuListText.setMinWidth(70.0);
+                    JFXHelpers.fadeTransition(Duration.millis(125), userName, 0.0, 1.0);
+                    JFXHelpers.fadeTransition(Duration.millis(125), menuListText, 0.0, 1.0,
+                            event -> menuButton.setDisable(false));
+                });
+
+                animations.play();
+            }
+        });
 
         Circle circle = new Circle();
         circle.setRadius(4);
@@ -241,6 +321,8 @@ class MainDesigner {
         //Parent
         this.mainScene = new Scene(mainForm, 1178, 722);
         this.mainScene.setFill(Color.TRANSPARENT);
+
+        JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
     }
 
     void setNews(String newsTitle, Image newsImage, String newsArticle, String newsAuthor, String newsTime) {
@@ -340,6 +422,8 @@ class MainDesigner {
     public Scene getMainScene() {
         return this.mainScene;
     }
+
+    public StackPane getMainStackPane() { return this.mainStackPane; }
 
     class menuItem extends GridPane {
         menuItem(FontAwesomeIcon glyph, String label) {
@@ -492,6 +576,7 @@ class MainDesigner {
             discordLogo.setPreserveRatio(true);
             discordLogo.setTranslateY(215.0);
             discordLogo.setCursor(Cursor.HAND);
+            discordLogo.setOnMouseClicked(event -> Main.discordLogoClicked());
             URL imgUrl = getClass().getClassLoader().getResource("DiscordLogo.png");
             if (imgUrl != null) {
                 discordLogo.setImage(new Image(imgUrl.toString()));
@@ -540,7 +625,7 @@ class MainDesigner {
             topStackPane.getStyleClass().add("serverMenuTop");
 
             Label serverListText = new Label();
-            serverListText.setText("LISTA SERWERÓW");
+            serverListText.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-title"));
             StackPane.setAlignment(serverListText, Pos.CENTER_LEFT);
             StackPane.setMargin(serverListText, new Insets(0.0, 0.0, 0.0, 20.0));
             serverListText.getStyleClass().addAll("fontSemiBold", "fontSize12", "textFillWhite");
@@ -631,14 +716,14 @@ class MainDesigner {
             leftserverOptions.getRowConstraints().addAll(lsOrow1, lsOrow2);
 
             Label addToFavorite = new Label();
-            addToFavorite.setText("dodaj do ulubionych");
+            addToFavorite.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-addToFav"));
             GridPane.setMargin(addToFavorite, new Insets(0.0, 0.0, 0.0, 20.0));
             addToFavorite.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.HEART_ALT));
             addToFavorite.getGraphic().getStyleClass().add("fillWhite");
             addToFavorite.getStyleClass().addAll("fontRegular", "fontSize10", "textFillWhite");
 
             Label isInstalled = new Label();
-            isInstalled.setText("zainstalowano");
+            isInstalled.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-alreadyInstalled"));
             GridPane.setRowIndex(isInstalled, 1);
             GridPane.setMargin(isInstalled, new Insets(0.0, 0.0, 0.0, 20.0));
             isInstalled.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CHECK));
@@ -648,11 +733,12 @@ class MainDesigner {
             JFXButton playButton = new JFXButton();
             playButton.setPrefWidth(100.0);
             playButton.setPrefHeight(30.0);
-            playButton.setText("GRAJ");
+            playButton.setText(MessageBundle.getCurrentLanguage().getMessage("general-play"));
             GridPane.setColumnIndex(playButton, 2);
             GridPane.setHalignment(playButton, HPos.CENTER);
             GridPane.setMargin(playButton, new Insets(0.0, 20.0, 0.0, 0.0));
             playButton.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite", "playButton");
+            playButton.setOnAction(actionEvent -> Main.playClicked());
 
             GridPane rightserverOptions = new GridPane();
             GridPane.setColumnIndex(rightserverOptions, 1);
@@ -670,7 +756,7 @@ class MainDesigner {
             Text ramLabel = new Text();
             ramLabel.setStrokeType(StrokeType.OUTSIDE);
             ramLabel.setStrokeWidth(0.0);
-            ramLabel.setText("ILOŚĆ RAM");
+            ramLabel.setText(MessageBundle.getCurrentLanguage().getMessage("general-ramAmount"));
             GridPane.setHalignment(ramLabel, HPos.RIGHT);
             GridPane.setMargin(ramLabel, new Insets(0.0, 3.0, 0.0, 0.0));
             ramLabel.getStyleClass().addAll("fontSemiBold", "fontSize10", "fillWhite");
@@ -679,7 +765,7 @@ class MainDesigner {
             ramField.setAlignment(Pos.CENTER);
             ramField.setMaxWidth(JFXTextField.USE_PREF_SIZE);
             ramField.setPrefWidth(50.0);
-            ramField.setPromptText("RAM");
+            ramField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("general-ram"));
             ramField.setFocusColor(Color.WHITE);
             ramField.setUnFocusColor(Color.WHITE);
             GridPane.setColumnIndex(ramField, 1);
@@ -719,7 +805,7 @@ class MainDesigner {
 
             Label fSLLabel = new Label();
             fSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
-            fSLLabel.setText("ULUBIONE");
+            fSLLabel.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-fav"));
             StackPane.setAlignment(fSLLabel, Pos.CENTER_LEFT);
 
             StackPane otherServerListIndicator = new StackPane();
@@ -733,7 +819,7 @@ class MainDesigner {
 
             Label oSLLabel = new Label();
             oSLLabel.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
-            oSLLabel.setText("POZOSTAŁE");
+            oSLLabel.setText(MessageBundle.getCurrentLanguage().getMessage("serverList-other"));
             StackPane.setAlignment(oSLLabel, Pos.CENTER_LEFT);
 
             otherServerList = new JFXListView<>();
@@ -793,7 +879,7 @@ class MainDesigner {
             GridPane.setValignment(serverVersion, VPos.TOP);
             GridPane.setHalignment(serverVersion, HPos.LEFT);
             GridPane.setRowIndex(serverVersion, 1);
-            serverVersion.setText("WERSJA MC: " + version.toUpperCase());
+            serverVersion.setText(MessageBundle.getCurrentLanguage().getMessage("general-mcVersion") + " " + version.toUpperCase());
             GridPane.setMargin(serverVersion, new Insets(0.0, 0.0, 0.0, 24.0));
             serverVersion.getStyleClass().addAll("fontRegular", "fontSize8", "fillTextWhite");
 

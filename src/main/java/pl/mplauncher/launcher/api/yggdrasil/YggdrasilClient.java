@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.yggdrasil;
+package pl.mplauncher.launcher.api.yggdrasil;
 
 import okhttp3.*;
 import okhttp3.internal.ws.RealWebSocket;
