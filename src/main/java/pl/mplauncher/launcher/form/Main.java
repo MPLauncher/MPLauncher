@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.control.InstallerOverlay;
 import pl.mplauncher.launcher.control.SettingsOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
@@ -51,7 +52,7 @@ public class Main extends MainDesigner {
                     switch (menuList.getSelectionModel().getSelectedIndex()) {
                         case 1: {
                             SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
-                            settingsOverlay.setWindowTitle("Ustawienia");
+                            settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
                             settingsOverlay.show();
                             break;
                         }
@@ -120,13 +121,13 @@ public class Main extends MainDesigner {
         setUserOnline(true);
 
         //Set menu
-        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, "PROFIL" + System.lineSeparator() + "UŻYTKOWNIKA");
-        addMenuOption(FontAwesomeIcon.COG, "USTAWIENIA" + System.lineSeparator() + "UŻYTKOWNIKA");
-        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, "NOWOŚCI");
-        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, "WYBÓR SERWERA");
+        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
+        addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
+        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
+        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
 
         //Set close
-        setCloseOption("WYŁĄCZ");
+        setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
         //Set NEWS
         URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
@@ -146,7 +147,7 @@ public class Main extends MainDesigner {
         }
 
         //Set right
-        setRightSite("Znajdziesz nas na:");
+        setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
 
         //Set version
         setLauncherVersion("ver 2.0.0-dev2");
