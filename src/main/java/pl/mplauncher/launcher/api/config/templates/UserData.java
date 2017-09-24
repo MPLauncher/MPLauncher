@@ -1,4 +1,4 @@
-package pl.mplauncher.launcher.api.config;
+package pl.mplauncher.launcher.api.config.templates;
 
 import org.diorite.cfg.annotations.CfgClass;
 import org.diorite.cfg.annotations.CfgComment;

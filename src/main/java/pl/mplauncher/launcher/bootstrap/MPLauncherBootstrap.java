@@ -29,9 +29,12 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
+import pl.mplauncher.launcher.api.config.ConfigUtils;
+import pl.mplauncher.launcher.api.config.templates.AppSetup;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -39,6 +42,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
+
+    private static AppSetup appSetupInstance;
+    private static File dataPath;
 
     private static Stage startStage;
     private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
@@ -56,10 +62,29 @@ public class MPLauncherBootstrap extends Application {
     public void start(Stage stage) {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
 
+        // First run? -> Move it to DataUtils?
+        File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File appSetup = new File(jarPath.getParent() + File.separator + ".MPLauncher.config");
+        if (!appSetup.exists()) {
+            appSetup = new File(System.getProperty("user.home") + File.separator + ".MPLauncher.config");
+            appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class, false);
+        } else {
+            appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class);
+        }
+
+        if (appSetupInstance.firstRun) {
+
+            //TODO:Show window with selection of "where to install launcher"
+
+            appSetupInstance.firstRun = false;
+        } else {
+            dataPath = new File(appSetupInstance.path);
+        }
+
+        //TODO:Rewrite/Move/Correct this code below.
+
         startStage = stage;
         // Future use: MPLauncher launcher = new MPLauncher();
-
-        // Future use - app location -> MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()
 
         stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
 
