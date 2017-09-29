@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 public class QuestionOverlay extends Stage {
@@ -71,16 +72,12 @@ public class QuestionOverlay extends Stage {
         second.setOnAction(action -> JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 0.0, event -> this.close()));
 
         if (dialogType == DialogType.OkCancel) {
-            first.setText("OK");
-            second.setText("Anuluj");
-            //first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
-            //second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
+            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
+            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
         }
         else if (dialogType == DialogType.YesNo) {
-            first.setText("Tak");
-            second.setText("Nie");
-            //first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
-            //second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
+            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
+            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
         }
 
         okParent.getChildren().addAll(first, second);
