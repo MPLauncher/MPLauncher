@@ -15,24 +15,34 @@
 */
 package pl.mplauncher.launcher.bootstrap;
 
+import com.jfoenix.controls.JFXAlert;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.api.config.templates.AppSetup;
+import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
+import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.io.*;
 import java.net.URL;
@@ -66,15 +76,6 @@ public class MPLauncherBootstrap extends Application {
             appSetup = ConfigUtils.getProperGlobalConfigLocation();
         }
         appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class);
-
-        if (appSetupInstance.firstRun) {
-
-            //TODO:Show window with selection of "where to install launcher"
-
-            appSetupInstance.firstRun = false;
-        } else {
-            dataPath = new File(appSetupInstance.path);
-        }
 
         //TODO:Rewrite/Move/Correct this code below.
 
@@ -135,6 +136,19 @@ public class MPLauncherBootstrap extends Application {
         logger.info("------------- STARTED LOGGING THE APP -------------");
 
         stage.initStyle(StageStyle.TRANSPARENT);
+
+        if (appSetupInstance.firstRun) {
+            //TODO:Show window with selection of "where to install launcher"
+
+            QuestionOverlay questionOverlay = new QuestionOverlay(QuestionOverlay.DialogType.OkCancel, "Tytuł", "Treść");
+
+            logger.debug(questionOverlay.getResult());
+
+            appSetupInstance.firstRun = false;
+        } else {
+            dataPath = new File(appSetupInstance.path);
+        }
+
 
         FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
         /*

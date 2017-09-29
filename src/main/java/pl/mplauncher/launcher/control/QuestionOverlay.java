@@ -1,35 +1,46 @@
 package pl.mplauncher.launcher.control;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
-public class QuestionOverlay extends StackPane {
-
-    private boolean Answered;
-    private boolean Accepted;
+public class QuestionOverlay extends Stage {
 
     public enum DialogType {
         YesNo,
-        OkCancel,
+        OkCancel
     }
 
-    //TODO:This is so damn stupid code that it have to be written properly ASAP! It must work like an alert for getting the result.
+    public enum DialogResult {
+        Yes,
+        No,
+        Ok,
+        Cancel
+    }
+
+    private boolean accepted;
+    private DialogType dialogType;
 
     public QuestionOverlay(DialogType dialogType, String dialogTitle, String dialogContent) {
+        this.dialogType = dialogType;
+
         JFXDialogLayout content = new JFXDialogLayout();
-        JFXDialog dialog = new JFXDialog(this, content, JFXDialog.DialogTransition.CENTER);
-        dialog.setOverlayClose(false);
+        Scene scene = new Scene(content);
+        scene.setFill(Color.TRANSPARENT);
+
+        this.setScene(scene);
+        this.initStyle(StageStyle.UNDECORATED);
 
         Text title = new Text(dialogTitle);
         title.setFont(new Font("Montserrat SemiBold", 13));
@@ -52,36 +63,46 @@ public class QuestionOverlay extends StackPane {
         first.setPrefWidth(70.0);
         first.setPrefHeight(30.0);
         first.setButtonType(JFXButton.ButtonType.RAISED);
-        first.setOnAction(action -> { Answered = true; Accepted = true; JFXHelpers.fadeTransition(Duration.millis(500), this, 1.0, 0.0, event -> dialog.close()); });
+        first.setOnAction(action -> { accepted = true; JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 0.0, event -> this.close()); });
 
         JFXButton second = new JFXButton();
         second.setPrefWidth(70.0);
         second.setPrefHeight(30.0);
-        first.setOnAction(action -> { Answered = true; Accepted = false; JFXHelpers.fadeTransition(Duration.millis(500), this, 1.0, 0.0, event -> dialog.close()); });
+        second.setOnAction(action -> JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 0.0, event -> this.close()));
 
         if (dialogType == DialogType.OkCancel) {
-            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
-            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
+            first.setText("OK");
+            second.setText("Anuluj");
+            //first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
+            //second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
         }
         else if (dialogType == DialogType.YesNo) {
-            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
-            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
+            first.setText("Tak");
+            second.setText("Nie");
+            //first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
+            //second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
         }
 
         okParent.getChildren().addAll(first, second);
-
         content.setBody(content2);
         content.setActions(okParent);
 
-        dialog.show();
+        this.setAlwaysOnTop(true);
+        this.centerOnScreen();
+        this.setOpacity(0.0);
+        this.setOnShown(event -> JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 1.0));
+        this.showAndWait();
     }
 
-    public boolean isResult() {
-        return Answered;
+    public DialogResult getResult() {
+        switch (dialogType) {
+            case OkCancel: {
+                return accepted ? DialogResult.Ok : DialogResult.Cancel;
+            }
+            case YesNo: {
+                return accepted ? DialogResult.Yes : DialogResult.No;
+            }
+        }
+        return null;
     }
-
-    public boolean getResult() {
-        return Accepted;
-    }
-
 }
