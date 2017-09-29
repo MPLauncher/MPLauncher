@@ -12,8 +12,16 @@ import java.nio.file.Paths;
 
 public class ConfigUtils {
 
-    public static <T> T loadConfig(final File file, final Class<T> implementationTemplate) {
-        return loadConfig(file, implementationTemplate, true);
+    public static File getProperGlobalConfigLocation() {
+        String OS = System.getProperty("os.name").toLowerCase();
+
+        if (OS.contains("win")) { //Windows
+            return new File(System.getenv("APPDATA") + File.separator + ".MPLauncher.config");
+        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) { //Linux
+            return new File(System.getProperty("user.home") + File.separator + ".config" + File.separator + ".MPLauncher.config");
+        } else { //Mac? Solaris?
+            return new File(System.getProperty("user.home") + File.separator + ".MPLauncher.config");
+        }
     }
 
     /**
@@ -23,7 +31,7 @@ public class ConfigUtils {
      * @param <T> template
      * @return template with config
      */
-    public static <T> T loadConfig(final File file, final Class<T> implementationTemplate, boolean fileVisibleOnWindows) {
+    public static <T> T loadConfig(final File file, final Class<T> implementationTemplate) {
         final Template<T> template = TemplateCreator.getTemplate(implementationTemplate);
         T config;
 
@@ -37,16 +45,17 @@ public class ConfigUtils {
 
                 Validate.isTrue(file.createNewFile(), "Couldn't create " + file.getAbsolutePath() + " config file");
 
-                if (!fileVisibleOnWindows && !file.isHidden()) {
-                    Files.setAttribute(Paths.get(file.getAbsolutePath()), "dos:hidden", Boolean.TRUE, LinkOption.NOFOLLOW_LINKS);
-                }
-
             } catch (IOException e) {
                 throw new RuntimeException("IO exception when creating config file: " + file.getAbsolutePath(), e);
             }
         } else {
             try {
                 try {
+                    // That's because JVM treats hidden files as read-only -> ಠ_ಠ
+                    if (file.isHidden()) {
+                        Files.setAttribute(Paths.get(file.getAbsolutePath()), "dos:hidden", Boolean.FALSE, LinkOption.NOFOLLOW_LINKS);
+                    }
+
                     config = template.load(file);
                     if (config == null) {
                         config = template.fillDefaults(implementationTemplate.newInstance());

@@ -34,10 +34,7 @@ import pl.mplauncher.launcher.api.config.templates.AppSetup;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
 
@@ -64,13 +61,11 @@ public class MPLauncherBootstrap extends Application {
 
         // First run? -> Move it to DataUtils?
         File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        File appSetup = new File(jarPath.getParent() + File.separator + ".MPLauncher.config");
+        File appSetup = new File(jarPath.getParent() + File.separator + "MPLauncher.config");
         if (!appSetup.exists()) {
-            appSetup = new File(System.getProperty("user.home") + File.separator + ".MPLauncher.config");
-            appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class, false);
-        } else {
-            appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class);
+            appSetup = ConfigUtils.getProperGlobalConfigLocation();
         }
+        appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class);
 
         if (appSetupInstance.firstRun) {
 
@@ -131,7 +126,7 @@ public class MPLauncherBootstrap extends Application {
 
         // Important things on the beginning of the log
         logger.info("App started on: " + LocalDateTime.now());
-        logger.info("App version: " + MPLauncher.class.getPackage().getImplementationVersion());
+        logger.info("App version: " + ((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
         logger.info("Java version: " + System.getProperty("java.version"));
         logger.info("OS Arch: " + System.getProperty("os.arch"));
         logger.info("OS Name: " + System.getProperty("os.name"));
