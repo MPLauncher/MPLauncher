@@ -10,10 +10,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.helper.JFXHelpers;
+
+import java.io.File;
 
 public class ConfigurationOverlay extends Stage {
 
@@ -67,9 +72,18 @@ public class ConfigurationOverlay extends Stage {
         vBox.getChildren().add(ownLocationContent);
 
         location = new JFXTextField();
-        location.setText("%AppData%/.mplauncher2.0");
+        location.setText(ConfigUtils.getClassicDataLocation().getParentFile().getAbsolutePath());
         JFXButton selectLocation = new JFXButton();
         selectLocation.setText("Wybierz lokalizacje");
+        selectLocation.setOnAction(event -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Wybierz lokalizacje launchera");
+            directoryChooser.setInitialDirectory(new File(location.getText()));
+            File selectedLocation = directoryChooser.showDialog(this);
+            if (selectedLocation != null) {
+                location.setText(selectedLocation.getAbsolutePath());
+            }
+        });
         ownLocationContent.getChildren().addAll(location, selectLocation);
 
         portable = new JFXRadioButton();
