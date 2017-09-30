@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -11,10 +12,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
@@ -41,6 +42,7 @@ public class ConfigurationOverlay extends Stage {
         Scene scene = new Scene(dialogLayout);
         scene.setFill(Color.TRANSPARENT);
 
+        this.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
         this.setScene(scene);
         this.initStyle(StageStyle.UNDECORATED);
 
@@ -89,6 +91,12 @@ public class ConfigurationOverlay extends Stage {
         portable = new JFXRadioButton();
         portable.setText("Portable (instalacja na Pendrive, działa na każdym PC)");
         portable.setPadding(new Insets(5.0, 0.0, 5.0, 0.0));
+
+        //Disabled because in DEV mode without Jar file it'll not work.
+        if (MPLauncher.class.getPackage().getImplementationVersion() == null) {
+            portable.setDisable(true);
+        }
+
         vBox.getChildren().add(portable);
 
         HBox portableContent = new HBox();

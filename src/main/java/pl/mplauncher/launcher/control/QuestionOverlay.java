@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -41,6 +42,7 @@ public class QuestionOverlay extends Stage {
         Scene scene = new Scene(content);
         scene.setFill(Color.TRANSPARENT);
 
+        this.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
         this.setScene(scene);
         this.initStyle(StageStyle.UNDECORATED);
 
