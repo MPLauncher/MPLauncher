@@ -5,6 +5,9 @@ import org.diorite.cfg.annotations.CfgComment;
 import org.diorite.cfg.annotations.CfgFooterComment;
 import org.diorite.cfg.annotations.CfgName;
 import org.diorite.cfg.annotations.defaults.CfgDelegateDefault;
+import pl.mplauncher.launcher.control.ConfigurationOverlay;
+
+import java.io.File;
 
 @CfgClass(name = "AppSetup")
 @CfgDelegateDefault("{new}")
@@ -21,7 +24,11 @@ public class AppSetup {
     @CfgName("firstRun")
     public boolean firstRun = true;
 
-    @CfgComment("Path of launcher instance")
-    @CfgName("path")
-    public String path;
+    @CfgComment("Type of installation")
+    @CfgComment("installationType")
+    public ConfigurationOverlay.InstallationType installationType;
+
+    @CfgComment("Location of launcher data")
+    @CfgName("dataLocation")
+    public File dataLocation;
 }

@@ -19,6 +19,7 @@ import pl.mplauncher.launcher.helper.JFXHelpers;
 public class QuestionOverlay extends Stage {
 
     public enum DialogType {
+        Ok,
         YesNo,
         OkCancel
     }
@@ -71,16 +72,26 @@ public class QuestionOverlay extends Stage {
         second.setPrefHeight(30.0);
         second.setOnAction(action -> JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 0.0, event -> this.close()));
 
-        if (dialogType == DialogType.OkCancel) {
-            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
-            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
-        }
-        else if (dialogType == DialogType.YesNo) {
-            first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
-            second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
+        switch (dialogType) {
+            case Ok: {
+                first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
+                okParent.getChildren().addAll(first);
+                break;
+            }
+            case OkCancel: {
+                first.setText(MessageBundle.getCurrentLanguage().getMessage("general-ok"));
+                second.setText(MessageBundle.getCurrentLanguage().getMessage("general-cancel"));
+                okParent.getChildren().addAll(first, second);
+                break;
+            }
+            case YesNo: {
+                first.setText(MessageBundle.getCurrentLanguage().getMessage("general-yes"));
+                second.setText(MessageBundle.getCurrentLanguage().getMessage("general-no"));
+                okParent.getChildren().addAll(first, second);
+                break;
+            }
         }
 
-        okParent.getChildren().addAll(first, second);
         content.setBody(content2);
         content.setActions(okParent);
 
@@ -93,6 +104,9 @@ public class QuestionOverlay extends Stage {
 
     public DialogResult getResult() {
         switch (dialogType) {
+            case Ok: {
+                return DialogResult.Ok;
+            }
             case OkCancel: {
                 return accepted ? DialogResult.Ok : DialogResult.Cancel;
             }

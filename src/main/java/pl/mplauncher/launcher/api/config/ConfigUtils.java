@@ -3,6 +3,7 @@ package pl.mplauncher.launcher.api.config;
 import org.apache.commons.lang3.Validate;
 import org.diorite.cfg.system.Template;
 import org.diorite.cfg.system.TemplateCreator;
+import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,16 @@ import java.nio.file.Paths;
 
 public class ConfigUtils {
 
-    public static File getProperGlobalConfigLocation() {
+    public static boolean isGlobalConfigExists() {
+        return getNearJarConfigLocation().exists() || getNearPcConfigLocation().exists();
+    }
+
+    public static File getNearJarConfigLocation() {
+        File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        return new File(jarPath.getParent() + File.separator + "MPLauncher.config");
+    }
+
+    public static File getNearPcConfigLocation() {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows
@@ -22,6 +32,20 @@ public class ConfigUtils {
         } else { //Mac? Solaris?
             return new File(System.getProperty("user.home") + File.separator + ".MPLauncher.config");
         }
+    }
+
+    public static File getClassicDataLocation() {
+        String OS = System.getProperty("os.name").toLowerCase();
+
+        if (OS.contains("win")) { //Windows
+            return new File(System.getenv("APPDATA") + File.separator + ".mplauncher2.0" + File.separator);
+        } else { //Linux / Mac / Solaris
+            return new File(System.getProperty("user.home") + File.separator + ".mplauncher2.0" + File.separator);
+        }
+    }
+
+    public static File getPortableDataLocation() {
+        return new File(new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + File.separator + ".mplauncher2.0" + File.separator);
     }
 
     /**

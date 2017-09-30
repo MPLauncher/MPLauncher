@@ -15,32 +15,33 @@
 */
 package pl.mplauncher.launcher.bootstrap;
 
+import com.google.common.io.Files;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.api.config.templates.AppSetup;
 import pl.mplauncher.launcher.control.ConfigurationOverlay;
+import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
+import java.awt.*;
 import java.io.*;
-import java.net.URL;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
 
     private static AppSetup appSetupInstance;
-    private static File dataPath;
 
     private static Stage startStage;
     private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
@@ -57,62 +58,7 @@ public class MPLauncherBootstrap extends Application {
     @Override
     public void start(Stage stage) {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
-
-        // First run? -> Move it to DataUtils?
-        File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        File appSetup = new File(jarPath.getParent() + File.separator + "MPLauncher.config");
-        if (!appSetup.exists()) {
-            appSetup = ConfigUtils.getProperGlobalConfigLocation();
-        }
-        appSetupInstance = ConfigUtils.loadConfig(appSetup, AppSetup.class);
-
-        //TODO:Rewrite/Move/Correct this code below.
-
         startStage = stage;
-        // Future use: MPLauncher launcher = new MPLauncher();
-
-        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
-
-        URL montserratThin = getClass().getClassLoader().getResource("Montserrat-Thin.ttf");
-        if (montserratThin != null) {
-            Font.loadFont(montserratThin.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Thin font!");
-        }
-
-        URL montserratLight = getClass().getClassLoader().getResource("Montserrat-Light.ttf");
-        if (montserratLight != null) {
-            Font.loadFont(montserratLight.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Light font!");
-        }
-
-        URL montserratRegular = getClass().getClassLoader().getResource("Montserrat-Regular.ttf");
-        if (montserratRegular != null) {
-            Font.loadFont(montserratRegular.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Regular font!");
-        }
-
-        URL montserratSemiBold = getClass().getClassLoader().getResource("Montserrat-SemiBold.ttf");
-        if (montserratSemiBold != null) {
-            Font.loadFont(montserratSemiBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat SemiBold font!");
-        }
-
-        URL montserratBold = getClass().getClassLoader().getResource("Montserrat-Bold.ttf");
-        if (montserratBold != null) {
-            Font.loadFont(montserratBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Bold font!");
-        }
-
-        /*
-          ToDo
-          - Initialize data
-          - Initialize config
-         */
 
         // Important things on the beginning of the log
         logger.info("App started on: " + LocalDateTime.now());
@@ -124,20 +70,99 @@ public class MPLauncherBootstrap extends Application {
         logger.info("Working directory: " + System.getProperty("user.dir"));
         logger.info("------------- STARTED LOGGING THE APP -------------");
 
-        stage.initStyle(StageStyle.TRANSPARENT);
+        // ********* DATA CONFIGURE ********* //
 
-        if (appSetupInstance.firstRun) {
-            ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
+        // First run? -> Move it to DataUtils?
+        boolean configure = false;
+        if (ConfigUtils.isGlobalConfigExists()) {
+            if (ConfigUtils.getNearJarConfigLocation().exists()) {
+                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearJarConfigLocation(), AppSetup.class);
+            } else if (ConfigUtils.getNearPcConfigLocation().exists()) {
+                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+            } else {
+                logger.fatal("Couldn't load Global Config! Config files doesn't exists.");
+                Platform.exit();
+                return;
+            }
 
-            logger.debug("Selected option: " + configurationOverlay.getResult());
-            logger.debug("Location: " + configurationOverlay.getLocation());
+            if (appSetupInstance.dataLocation == null && appSetupInstance.installationType != ConfigurationOverlay.InstallationType.Portable) {
+                configure = true;
+            } else {
+                logger.info("Installation type: " + appSetupInstance.installationType);
 
-            appSetupInstance.firstRun = false;
+                if (appSetupInstance.installationType == ConfigurationOverlay.InstallationType.Portable) {
+                    appSetupInstance.dataLocation = ConfigUtils.getPortableDataLocation(); //Pendrive letter/location may change!
+                }
+
+                logger.info("Application data location: " + appSetupInstance.dataLocation);
+            }
         } else {
-            dataPath = new File(appSetupInstance.path);
+            configure = true;
         }
 
+        if (configure)
+        {
+            ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
+            logger.info("User has configured this installation!");
+            logger.info("Selected configuration: " + configurationOverlay.getResult());
+            logger.info("Location: " + configurationOverlay.getLocation());
 
+            switch (configurationOverlay.getResult()) {
+                case Classic: {
+                    appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+                    appSetupInstance.dataLocation = ConfigUtils.getClassicDataLocation();
+                    Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Classic installation.");
+                    break;
+                }
+                case OwnLocation: {
+                    appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+                    appSetupInstance.dataLocation = new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator);
+                    Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
+                    break;
+                }
+                case Portable: {
+                    //Copy Jar file to selected location.
+                    File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+                    File dstPath = new File(configurationOverlay.getLocation() + File.separator + jarPath.getName());
+                    try {
+                        Files.copy(jarPath, dstPath);
+
+                        appSetupInstance = ConfigUtils.loadConfig(new File(dstPath.getParent() + File.separator + "MPLauncher.config"), AppSetup.class);
+                        appSetupInstance.dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
+                        Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
+
+                        //TODO:Save AppSetup config
+
+                        new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
+                                "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");
+
+                        Desktop.getDesktop().open(dstPath.getParentFile());
+                        System.exit(0);
+                    } catch (IOException e) {
+                        logger.fatal("Couldn't configure portable installation", e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+
+        if (appSetupInstance.firstRun) {
+            //TODO:Download needed files (e.g. lang files)
+
+            appSetupInstance.firstRun = false;
+        }
+
+        // Future use: MPLauncher launcher = new MPLauncher();
+
+        /*
+          ToDo
+          - Initialize data
+          - Initialize config
+         */
+
+        //We are now ready to run our launcher!
+        FormSwitcher.initializeGUI();
         FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
         /*
             Login: Test
