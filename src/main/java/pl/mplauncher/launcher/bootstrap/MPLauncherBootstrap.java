@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.diorite.cfg.Configuration;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.api.config.templates.AppSetup;
@@ -110,12 +111,14 @@ public class MPLauncherBootstrap extends Application {
             switch (configurationOverlay.getResult()) {
                 case Classic: {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+                    appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = ConfigUtils.getClassicDataLocation();
                     Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Classic installation.");
                     break;
                 }
                 case OwnLocation: {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+                    appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator);
                     Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
                     break;
@@ -128,10 +131,12 @@ public class MPLauncherBootstrap extends Application {
                         Files.copy(jarPath, dstPath);
 
                         appSetupInstance = ConfigUtils.loadConfig(new File(dstPath.getParent() + File.separator + "MPLauncher.config"), AppSetup.class);
+                        appSetupInstance.installationType = configurationOverlay.getResult();
                         appSetupInstance.dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
                         Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
 
                         //TODO:Save AppSetup config
+                        Configuration.saveConfigFile(new File(dstPath.getParent() + File.separator + "MPLauncher.config"), AppSetup.class, appSetupInstance);
 
                         new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
                                 "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");

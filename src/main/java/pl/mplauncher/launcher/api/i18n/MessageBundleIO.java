@@ -17,16 +17,22 @@ package pl.mplauncher.launcher.api.i18n;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.Locale;
 
 public class MessageBundleIO {
 
     public final static Gson gson = new Gson();
 
+    //Temporary for writing.
+    public static void load() throws IOException {
+        InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("lang_pl_PL.json");
+        JsonReader reader = new JsonReader(new InputStreamReader(stream));
+        MessageBundle mb = gson.fromJson(reader, MessageBundle.class);
+        MessageBundle.setCurrentLanguage(mb);
+    }
+
+    /*
     public static void load() throws IOException {
         File dir = new File(System.getenv("APPDATA") + File.separator + ".mplauncher" + File.separator + "lang");
 
@@ -53,4 +59,5 @@ public class MessageBundleIO {
             //TODO download files from server
         }
     }
+    */
 }
