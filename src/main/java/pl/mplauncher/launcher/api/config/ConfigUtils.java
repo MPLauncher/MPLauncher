@@ -19,7 +19,7 @@ public class ConfigUtils {
 
     public static File getNearJarConfigLocation() {
         File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        return new File(jarPath.getParent() + File.separator + "MPLauncher.config");
+        return new File(jarPath.getParent() + File.separator + ".mplauncher2.0" + File.separator + "MPLauncher.config");
     }
 
     public static File getNearPcConfigLocation() {

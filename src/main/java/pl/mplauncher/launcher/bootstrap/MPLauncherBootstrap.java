@@ -113,14 +113,30 @@ public class MPLauncherBootstrap extends Application {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
                     appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = ConfigUtils.getClassicDataLocation();
-                    Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Classic installation.");
+                    try {
+                        Configuration.saveConfigFile(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
+                    } catch (IOException e) {
+                        logger.fatal("Couldn't save launcher configuration!", e);
+                    }
+
+                    if (!appSetupInstance.dataLocation.exists()) {
+                        Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Classic installation.");
+                    }
                     break;
                 }
                 case OwnLocation: {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
                     appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator);
-                    Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
+                    try {
+                        Configuration.saveConfigFile(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
+                    } catch (IOException e) {
+                        logger.fatal("Couldn't save launcher configuration!", e);
+                    }
+
+                    if (!appSetupInstance.dataLocation.exists()) {
+                        Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
+                    }
                     break;
                 }
                 case Portable: {
@@ -130,13 +146,16 @@ public class MPLauncherBootstrap extends Application {
                     try {
                         Files.copy(jarPath, dstPath);
 
-                        appSetupInstance = ConfigUtils.loadConfig(new File(dstPath.getParent() + File.separator + "MPLauncher.config"), AppSetup.class);
-                        appSetupInstance.installationType = configurationOverlay.getResult();
-                        appSetupInstance.dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
-                        Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
+                        File dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
 
-                        //TODO:Save AppSetup config
-                        Configuration.saveConfigFile(new File(dstPath.getParent() + File.separator + "MPLauncher.config"), AppSetup.class, appSetupInstance);
+                        if (!dataLocation.exists()) {
+                            Validate.isTrue(dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
+                        }
+
+                        appSetupInstance = ConfigUtils.loadConfig(new File(dataLocation + File.separator + "MPLauncher.config"), AppSetup.class);
+                        appSetupInstance.installationType = configurationOverlay.getResult();
+                        appSetupInstance.dataLocation = dataLocation;
+                        Configuration.saveConfigFile(new File(dataLocation + File.separator + "MPLauncher.config"), AppSetup.class, appSetupInstance);
 
                         new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
                                 "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");
@@ -145,7 +164,6 @@ public class MPLauncherBootstrap extends Application {
                         System.exit(0);
                     } catch (IOException e) {
                         logger.fatal("Couldn't configure portable installation", e);
-                        e.printStackTrace();
                     }
                     break;
                 }
