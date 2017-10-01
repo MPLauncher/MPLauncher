@@ -8,6 +8,8 @@ import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -82,7 +84,11 @@ public class ConfigUtils {
                         Files.setAttribute(Paths.get(file.getAbsolutePath()), "dos:hidden", Boolean.FALSE, LinkOption.NOFOLLOW_LINKS);
                     }
 
-                    config = template.load(file);
+                    try {
+                        config = template.load(file);
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException("ProgrammingWizzard, pls fix it!", e);
+                    }
                     if (config == null) {
                         config = template.fillDefaults(implementationTemplate.newInstance());
                     }

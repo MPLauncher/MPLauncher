@@ -81,7 +81,7 @@ class LoginDesigner {
         Text mp = new Text();
         Text launcher = new Text();
 
-        URL style = getClass().getClassLoader().getResource("style_login.css");
+        URL style = Thread.currentThread().getContextClassLoader().getResource("style_login.css");
         if (style != null) {
             loginForm.getStylesheets().add(style.toExternalForm());
         } else {

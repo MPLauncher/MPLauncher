@@ -80,7 +80,7 @@ public class InstallerOverlay extends JFXDialog {
         logo.setFitHeight(70.0);
         logo.setPickOnBounds(true);
         logo.setPreserveRatio(true);
-        URL imageUrl = getClass().getClassLoader().getResource("logo-cropped.png");
+        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("logo-cropped.png");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
             logo.setImage(image);

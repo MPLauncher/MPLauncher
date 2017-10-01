@@ -114,7 +114,7 @@ class MainDesigner {
         mainForm.setMaxSize(VBox.USE_PREF_SIZE, VBox.USE_PREF_SIZE);
         mainForm.setPrefSize(1178.0, 722.0);
 
-        URL style = getClass().getClassLoader().getResource("style_main.css");
+        URL style = Thread.currentThread().getContextClassLoader().getResource("style_main.css");
         if (style != null) {
             mainForm.getStylesheets().add(style.toExternalForm());
         } else {
@@ -577,7 +577,7 @@ class MainDesigner {
             discordLogo.setTranslateY(215.0);
             discordLogo.setCursor(Cursor.HAND);
             discordLogo.setOnMouseClicked(event -> Main.discordLogoClicked());
-            URL imgUrl = getClass().getClassLoader().getResource("DiscordLogo.png");
+            URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("DiscordLogo.png");
             if (imgUrl != null) {
                 discordLogo.setImage(new Image(imgUrl.toString()));
             } else {
@@ -648,7 +648,7 @@ class MainDesigner {
             centerContainer.getRowConstraints().addAll(cCrow1, cCrow2, cCrow3);
 
             StackPane serverImage = new StackPane();
-            URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
+            URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("mc.jpg");
             if (imageUrl != null) {
                 Image image = new Image(imageUrl.toString());
                 serverImage.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(image.getWidth(), image.getHeight(), false, false, false, true))));

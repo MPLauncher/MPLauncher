@@ -109,7 +109,7 @@ public class Main extends MainDesigner {
         // -- SET ALL -- //
 
         //Set USERNAME
-        URL imgUrl = getClass().getClassLoader().getResource("gaben.jpg");
+        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("gaben.jpg");
         if (imgUrl != null) {
             Image img = new Image(imgUrl.toString());
             setUserAvatar(img);
@@ -130,7 +130,7 @@ public class Main extends MainDesigner {
         setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
         //Set NEWS
-        URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
+        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("mc.jpg");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
             setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"
