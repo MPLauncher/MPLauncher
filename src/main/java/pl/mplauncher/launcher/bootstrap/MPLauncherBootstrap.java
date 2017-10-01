@@ -27,7 +27,6 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.diorite.cfg.Configuration;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.config.ConfigUtils;
 import pl.mplauncher.launcher.api.config.templates.AppSetup;
@@ -113,11 +112,8 @@ public class MPLauncherBootstrap extends Application {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
                     appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = ConfigUtils.getClassicDataLocation();
-                    try {
-                        Configuration.saveConfigFile(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
-                    } catch (IOException e) {
-                        logger.fatal("Couldn't save launcher configuration!", e);
-                    }
+
+                    ConfigUtils.saveConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
 
                     if (!appSetupInstance.dataLocation.exists()) {
                         Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on Classic installation.");
@@ -128,11 +124,8 @@ public class MPLauncherBootstrap extends Application {
                     appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
                     appSetupInstance.installationType = configurationOverlay.getResult();
                     appSetupInstance.dataLocation = new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator);
-                    try {
-                        Configuration.saveConfigFile(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
-                    } catch (IOException e) {
-                        logger.fatal("Couldn't save launcher configuration!", e);
-                    }
+
+                    ConfigUtils.saveConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class, appSetupInstance);
 
                     if (!appSetupInstance.dataLocation.exists()) {
                         Validate.isTrue(appSetupInstance.dataLocation.mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
@@ -155,7 +148,8 @@ public class MPLauncherBootstrap extends Application {
                         appSetupInstance = ConfigUtils.loadConfig(new File(dataLocation + File.separator + "MPLauncher.config"), AppSetup.class);
                         appSetupInstance.installationType = configurationOverlay.getResult();
                         appSetupInstance.dataLocation = dataLocation;
-                        Configuration.saveConfigFile(new File(dataLocation + File.separator + "MPLauncher.config"), AppSetup.class, appSetupInstance);
+
+                        ConfigUtils.saveConfig(new File(dataLocation + File.separator + "MPLauncher.config"), AppSetup.class, appSetupInstance);
 
                         new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
                                 "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");

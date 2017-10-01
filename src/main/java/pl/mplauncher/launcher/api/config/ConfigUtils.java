@@ -3,10 +3,12 @@ package pl.mplauncher.launcher.api.config;
 import org.apache.commons.lang3.Validate;
 import org.diorite.cfg.system.Template;
 import org.diorite.cfg.system.TemplateCreator;
+import org.diorite.utils.DioriteUtils;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
@@ -93,11 +95,36 @@ public class ConfigUtils {
         }
 
         try {
-            template.dump(file, config, false);
+            template.dump(file, config, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException("Can't dump configuration file!", e);
         }
 
         return config;
+    }
+
+    /**
+     * Saves config
+     * @param file file to be saved
+     * @param implementationTemplate template of file to be saved
+     * @param data data of template
+     * @param <T> template
+     */
+    public static <T> void saveConfig(final File file, final Class<T> implementationTemplate, T data) {
+        final Template<T> template = TemplateCreator.getTemplate(implementationTemplate);
+
+        if (!file.exists()) {
+            try {
+                Validate.isTrue(file.createNewFile(), "Couldn't create " + file.getAbsolutePath() + " config file");
+            } catch (IOException e) {
+                throw new RuntimeException("IO exception when creating config file: " + file.getAbsolutePath(), e);
+            }
+        }
+
+        try {
+            template.dump(file, data, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Can't dump configuration file!", e);
+        }
     }
 }
