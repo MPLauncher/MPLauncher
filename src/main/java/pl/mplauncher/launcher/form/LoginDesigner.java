@@ -64,7 +64,7 @@ class LoginDesigner {
         VBox loginForm = new VBox();
         this.snackBar = new JFXSnackbar();
         this.stackPane = new StackPane();
-        Pane pane = new Pane();
+        StackPane pane = new StackPane();
         this.closeButton = new Hyperlink();
         this.premiumButton = new JFXButton();
         this.premiumButtonLine = new Line();
@@ -99,76 +99,70 @@ class LoginDesigner {
         pane.setPrefSize(294.0, 417.0);
         pane.getStyleClass().add("loginContent");
         pane.setPadding(new Insets(16.0, 0, 0, 0));
+        pane.setAlignment(Pos.TOP_CENTER);
         StackPane.setMargin(pane, new Insets(16.0, 0.0, 0.0, 0.0));
 
-        closeButton.setAlignment(Pos.TOP_LEFT);
         closeButton.setEllipsisString("");
-        closeButton.setLayoutX(276.0);
-        closeButton.setLayoutY(2.0);
-        closeButton.getStyleClass().add("closeHyperlink");
         closeButton.setText("X");
         closeButton.setTextOverrun(OverrunStyle.CLIP);
+        closeButton.getStyleClass().add("closeHyperlink");
+        StackPane.setAlignment(closeButton, Pos.TOP_RIGHT);
+        StackPane.setMargin(closeButton, new Insets(-6.0, 15.0, 0.0, 0.0));
 
-        premiumButton.setLayoutX(18.0);
-        premiumButton.setLayoutY(50.0);
-        premiumButton.getStyleClass().add("accountType");
         premiumButton.setText(currentLanguage.getMessage("login-premium"));
+        premiumButton.getStyleClass().add("accountType");
+        StackPane.setAlignment(premiumButton, Pos.TOP_LEFT);
+        StackPane.setMargin(premiumButton, new Insets(65.0, 0.0, 0.0, 18.0));
 
         premiumButtonLine.setEndX(74.74);
-        premiumButtonLine.setLayoutX(18.0);
-        premiumButtonLine.setLayoutY(72.0);
         premiumButtonLine.getStyleClass().add("lineType");
+        StackPane.setAlignment(premiumButtonLine, Pos.TOP_LEFT);
+        StackPane.setMargin(premiumButtonLine, new Insets(82.0, 0.0, 0.0, 17.0));
 
-        nonpremiumButton.setLayoutX(168.0);
-        nonpremiumButton.setLayoutY(50.0);
         nonpremiumButton.getStyleClass().add("accountType");
         nonpremiumButton.setText(currentLanguage.getMessage("login-nonPremium"));
+        StackPane.setAlignment(nonpremiumButton, Pos.TOP_RIGHT);
+        StackPane.setMargin(nonpremiumButton, new Insets(65.0, 16.0, 0.0, 0.0));
 
         nonpremiumButtonLine.setEndX(116.0);
-        nonpremiumButtonLine.setLayoutX(168.0);
-        nonpremiumButtonLine.setLayoutY(72.0);
         nonpremiumButtonLine.getStyleClass().add("lineType");
+        StackPane.setAlignment(nonpremiumButtonLine, Pos.TOP_RIGHT);
+        StackPane.setMargin(nonpremiumButtonLine, new Insets(82.0, 16.0, 0.0, 0.0));
 
         loginField.setFocusColor(Paint.valueOf("WHITE"));
-        loginField.setLayoutX(19.0);
-        loginField.setLayoutY(131.0);
         loginField.setPrefHeight(23.0);
-        loginField.setPrefWidth(266.0);
         loginField.setPromptText(currentLanguage.getMessage("login-formPremiumUsername"));
         loginField.setLabelFloat(true);
         loginField.getStyleClass().add("input");
+        StackPane.setAlignment(loginField, Pos.TOP_LEFT);
+        StackPane.setMargin(loginField, new Insets(121.0, 15.0, 0.0, 20.0));
 
         passwordField.setFocusColor(Paint.valueOf("WHITE"));
-        passwordField.setLayoutX(19.0);
-        passwordField.setLayoutY(185.0);
         passwordField.setPrefHeight(23.0);
-        passwordField.setPrefWidth(266.0);
         passwordField.setPromptText(currentLanguage.getMessage("login-formPremiumPassword"));
         passwordField.setLabelFloat(true);
         passwordField.getStyleClass().add("input");
+        StackPane.setAlignment(passwordField, Pos.TOP_LEFT);
+        StackPane.setMargin(passwordField, new Insets(176.0, 15.0, 0.0, 20.0));
 
-        rememberButton.setLayoutX(2.0);
-        rememberButton.setLayoutY(215.0);
         rememberButton.setPrefHeight(36.0);
-        rememberButton.setPrefWidth(194.0);
-        rememberButton.getStyleClass().add("toggleButton");
         rememberButton.setText(currentLanguage.getMessage("login-formRememberMe"));
+        rememberButton.getStyleClass().add("toggleButton");
+        StackPane.setAlignment(rememberButton, Pos.TOP_LEFT);
+        StackPane.setMargin(rememberButton, new Insets(205.0, 0.0, 0.0, 15.0));
 
-        loginSpinner.setLayoutX(139.0);
-        loginSpinner.setLayoutY(298.0);
         loginSpinner.setPrefWidth(32.0);
+        StackPane.setMargin(loginSpinner, new Insets(298.0, 0.0, 0.0, 0.0));
 
-        loginButton.setLayoutX(92.0);
-        loginButton.setLayoutY(298.0);
-        loginButton.setPrefHeight(32.0);
-        loginButton.setPrefWidth(131.0);
-        loginButton.getStyleClass().add("loginButton");
+        loginButton.setPrefSize(131.0, 32.0);
         loginButton.setText(currentLanguage.getMessage("login-formLogInButton"));
+        loginButton.getStyleClass().add("loginButton");
+        StackPane.setMargin(loginButton, new Insets(298.0, 0.0, 0.0, 0.0));
 
-        termsHyperlink.setLayoutX(104.0);
-        termsHyperlink.setLayoutY(340.0);
-        termsHyperlink.getStyleClass().add("smallHyperlink");
+        termsHyperlink.setTextAlignment(TextAlignment.CENTER);
         termsHyperlink.setText(currentLanguage.getMessage("login-termsOfUse"));
+        termsHyperlink.getStyleClass().add("smallHyperlink");
+        StackPane.setMargin(termsHyperlink, new Insets(342.0, 0.0, 0.0, 0.0));
 
         namePane.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         namePane.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);

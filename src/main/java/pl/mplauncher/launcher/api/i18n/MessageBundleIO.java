@@ -26,7 +26,9 @@ public class MessageBundleIO {
 
     //Temporary for writing.
     public static void load() throws IOException {
-        InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("lang_pl_PL.json");
+        InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("lang_en_EN.json");
+
+        //InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("lang_pl_PL.json");
         JsonReader reader = new JsonReader(new InputStreamReader(stream, "UTF-8"));
         MessageBundle mb = gson.fromJson(reader, MessageBundle.class);
         MessageBundle.setCurrentLanguage(mb);
