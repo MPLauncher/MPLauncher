@@ -3,13 +3,10 @@ package pl.mplauncher.launcher.api.config;
 import org.apache.commons.lang3.Validate;
 import org.diorite.cfg.system.Template;
 import org.diorite.cfg.system.TemplateCreator;
-import org.diorite.utils.DioriteUtils;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -84,11 +81,7 @@ public class ConfigUtils {
                         Files.setAttribute(Paths.get(file.getAbsolutePath()), "dos:hidden", Boolean.FALSE, LinkOption.NOFOLLOW_LINKS);
                     }
 
-                    try {
-                        config = template.load(file);
-                    } catch (RuntimeException e) {
-                        throw new RuntimeException("ProgrammingWizzard, pls fix it!", e);
-                    }
+                    config = template.load(file);
                     if (config == null) {
                         config = template.fillDefaults(implementationTemplate.newInstance());
                     }

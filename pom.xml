@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.diorite</groupId>
             <artifactId>diorite-config-minimal</artifactId>
-            <version>1.3</version>
+            <version>1.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
