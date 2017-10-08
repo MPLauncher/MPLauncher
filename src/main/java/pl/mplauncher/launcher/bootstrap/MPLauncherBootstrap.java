@@ -60,10 +60,10 @@ public class MPLauncherBootstrap extends Application {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
         startStage = stage;
 
-        /*****************************************************/
-        /** By default it's path where is the *.JAR file.   **/
-        /** It's have to be called before log4j2 is loaded! **/
-        /*****************************************************/
+        // *********************************************** //
+        // By default it's path where is the *.JAR file.   //
+        // It's have to be called before log4j2 is loaded! //
+        // *********************************************** //
         System.setProperty("logBasePath", "logs");
 
         // Checking if launcher is already configured.
@@ -93,7 +93,9 @@ public class MPLauncherBootstrap extends Application {
         logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
         // Important things on the beginning of the log
+        logger.info("------------- LOGGER INITIALIZED -------------");
         logger.info("App started on: " + LocalDateTime.now());
+        logger.info("------------- ------------------ -------------");
         logger.info("App version: " + ((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
         logger.info("Java version: " + System.getProperty("java.version"));
         logger.info("OS Arch: " + System.getProperty("os.arch"));
@@ -101,8 +103,6 @@ public class MPLauncherBootstrap extends Application {
         logger.info("OS Version: " + System.getProperty("os.version"));
         logger.info("Working directory: " + System.getProperty("user.dir"));
         logger.info("------------- STARTED LOGGING THE APP -------------");
-        logger.info("Installation type: " + appSetupInstance.installationType);
-        logger.info("Application data location: " + appSetupInstance.dataLocation);
 
         // ********* DATA CONFIGURE ********* //
 
@@ -168,6 +168,9 @@ public class MPLauncherBootstrap extends Application {
                     break;
                 }
             }
+        } else {
+            logger.info("Installation type: " + appSetupInstance.installationType);
+            logger.info("Application data location: " + appSetupInstance.dataLocation);
         }
 
         if (appSetupInstance.firstRun) {
