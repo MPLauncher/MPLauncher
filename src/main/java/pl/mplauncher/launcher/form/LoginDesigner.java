@@ -31,9 +31,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
 
@@ -194,6 +196,26 @@ class LoginDesigner {
         //Parent
         this.loginScene = new Scene(loginForm, 304, 416);
         this.loginScene.setFill(Color.TRANSPARENT);
+    }
+
+    void disableActions(boolean disable) {
+        premiumButton.setDisable(disable);
+        nonpremiumButton.setDisable(disable);
+
+        closeButton.setDisable(disable);
+        loginField.setDisable(disable);
+        passwordField.setDisable(disable);
+        rememberButton.setDisable(disable);
+    }
+
+    void setLoggingIn(boolean loggingIn) {
+        if (loggingIn) {
+            JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 1.0, 0.0, actionEvent -> loginButton.setVisible(false));
+            JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 0.0, 1.0);
+        } else {
+            JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 1.0, 0.0);
+            JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 0.0, 1.0, actionEvent -> loginButton.setVisible(true));
+        }
     }
 
     public Scene getLoginScene() {

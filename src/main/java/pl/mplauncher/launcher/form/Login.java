@@ -24,6 +24,8 @@ import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Login extends LoginDesigner {
 
@@ -58,6 +60,8 @@ public class Login extends LoginDesigner {
         closeButton.setOnAction(event -> onCloseAction());
         premiumButton.setOnAction(event -> onPremiumSelected());
         nonpremiumButton.setOnAction(event -> onNonPremiumSelected());
+        loginField.setOnAction(event -> onLoginAction());
+        passwordField.setOnAction(event -> onLoginAction());
         loginButton.setOnAction(event -> onLoginAction());
         termsHyperlink.setOnAction(event -> onTermsAction());
     }
@@ -103,16 +107,8 @@ public class Login extends LoginDesigner {
         } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
             snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoPassword"), 3000);
         } else {
-            premiumButton.setDisable(true);
-            nonpremiumButton.setDisable(true);
-
-            closeButton.setDisable(true);
-            loginField.setDisable(true);
-            passwordField.setDisable(true);
-            rememberButton.setDisable(true);
-
-            JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 1.0, 0.0, actionEvent -> loginButton.setVisible(false));
-            JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 0.0, 1.0);
+            disableActions(true);
+            setLoggingIn(true);
 
             System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
             System.out.println("Login: " + loginField.getText());
@@ -120,6 +116,30 @@ public class Login extends LoginDesigner {
                 System.out.println("Password: " + passwordField.getText());
             }
             System.out.println("Remember: " + rememberButton.isSelected());
+
+            // Easter EGGS!
+            switch (loginField.getText().toLowerCase()) {
+                case "ilovemplauncher": {
+                    loginField.clear();
+                    snackBar.show("I love You too!" + System.lineSeparator() + "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧", 3000);
+                    disableActions(false);
+                    setLoggingIn(false);
+                    break;
+                }
+                case "ihatemplauncher": {
+                    loginField.clear();
+                    snackBar.show("I'm giving up!" + System.lineSeparator() + "o(╥﹏╥)o", 3000);
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            onCloseAction();
+                            timer.cancel();
+                        }
+                    }, 3500);
+                    break;
+                }
+            }
 
             if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
                 JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
