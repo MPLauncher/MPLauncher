@@ -44,7 +44,7 @@ public class MPLauncherBootstrap extends Application {
     private static AppSetup appSetupInstance;
 
     private static Stage startStage;
-    private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
+    private static Logger logger;
 
     public static void main(String[] args) {
         try {
@@ -60,6 +60,38 @@ public class MPLauncherBootstrap extends Application {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
         startStage = stage;
 
+        /*****************************************************/
+        /** By default it's path where is the *.JAR file.   **/
+        /** It's have to be called before log4j2 is loaded! **/
+        /*****************************************************/
+        System.setProperty("logBasePath", "logs");
+
+        // Checking if launcher is already configured.
+        boolean configure = false;
+        if (ConfigUtils.isGlobalConfigExists()) {
+            if (ConfigUtils.getNearJarConfigLocation().exists()) {
+                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearJarConfigLocation(), AppSetup.class);
+            } else {
+                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
+            }
+
+            if (appSetupInstance.dataLocation == null && appSetupInstance.installationType != ConfigurationOverlay.InstallationType.Portable) {
+                configure = true;
+            } else if (appSetupInstance.installationType == ConfigurationOverlay.InstallationType.Portable) {
+                appSetupInstance.dataLocation = ConfigUtils.getPortableDataLocation(); //Pendrive letter/location may change!
+            }
+        } else {
+            configure = true;
+        }
+
+        // Setting proper log directory.
+        if (!configure) {
+            System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
+        }
+
+        // Initializing the logger.
+        logger = LogManager.getLogger(MPLauncherBootstrap.class);
+
         // Important things on the beginning of the log
         logger.info("App started on: " + LocalDateTime.now());
         logger.info("App version: " + ((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
@@ -69,36 +101,10 @@ public class MPLauncherBootstrap extends Application {
         logger.info("OS Version: " + System.getProperty("os.version"));
         logger.info("Working directory: " + System.getProperty("user.dir"));
         logger.info("------------- STARTED LOGGING THE APP -------------");
+        logger.info("Installation type: " + appSetupInstance.installationType);
+        logger.info("Application data location: " + appSetupInstance.dataLocation);
 
         // ********* DATA CONFIGURE ********* //
-
-        // First run? -> Move it to DataUtils?
-        boolean configure = false;
-        if (ConfigUtils.isGlobalConfigExists()) {
-            if (ConfigUtils.getNearJarConfigLocation().exists()) {
-                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearJarConfigLocation(), AppSetup.class);
-            } else if (ConfigUtils.getNearPcConfigLocation().exists()) {
-                appSetupInstance = ConfigUtils.loadConfig(ConfigUtils.getNearPcConfigLocation(), AppSetup.class);
-            } else {
-                logger.fatal("Couldn't load Global Config! Config files doesn't exists.");
-                Platform.exit();
-                return;
-            }
-
-            if (appSetupInstance.dataLocation == null && appSetupInstance.installationType != ConfigurationOverlay.InstallationType.Portable) {
-                configure = true;
-            } else {
-                logger.info("Installation type: " + appSetupInstance.installationType);
-
-                if (appSetupInstance.installationType == ConfigurationOverlay.InstallationType.Portable) {
-                    appSetupInstance.dataLocation = ConfigUtils.getPortableDataLocation(); //Pendrive letter/location may change!
-                }
-
-                logger.info("Application data location: " + appSetupInstance.dataLocation);
-            }
-        } else {
-            configure = true;
-        }
 
         if (configure)
         {
@@ -230,4 +236,7 @@ public class MPLauncherBootstrap extends Application {
         return startStage;
     }
 
+    public static AppSetup getAppSetupInstance() {
+        return appSetupInstance;
+    }
 }

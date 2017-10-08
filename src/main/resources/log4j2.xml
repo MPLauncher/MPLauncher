@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
-    <Properties>
-        <Property name="basePath">logs</Property>
-    </Properties>
-
     <Appenders>
-        <RollingRandomAccessFile name="fileLogger" fileName="${basePath}/latest.log" filePattern="${basePath}/%d{yyyy-MM-dd}-%i.log.gz">
+        <RollingRandomAccessFile name="fileLogger" fileName="${sys:logBasePath}/latest.log" filePattern="${sys:logBasePath}/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
                 <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t/%level] [%c{1}]: %msg%n</pattern>
             </PatternLayout>
@@ -14,7 +10,7 @@
                 <OnStartupTriggeringPolicy />
             </Policies>
             <DefaultRolloverStrategy>
-                <Delete basePath="${basePath}" maxDepth="1">
+                <Delete basePath="${sys:logBasePath}" maxDepth="1">
                     <IfFileName glob="*.log.gz" />
                     <IfLastModified age="7d" />
                 </Delete>
