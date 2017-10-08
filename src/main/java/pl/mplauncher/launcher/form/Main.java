@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.control.InstallerOverlay;
 import pl.mplauncher.launcher.control.SettingsOverlay;
@@ -150,7 +151,7 @@ public class Main extends MainDesigner {
         setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
 
         //Set version
-        setLauncherVersion("ver 2.0.0-dev2");
+        setLauncherVersion(((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
 
         //Main stackpane
         mainStackPane = getMainStackPane();
