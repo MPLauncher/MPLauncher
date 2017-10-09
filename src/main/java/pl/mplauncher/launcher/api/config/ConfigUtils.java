@@ -15,13 +15,19 @@ import java.nio.file.Paths;
 public class ConfigUtils {
 
     public enum DataDirectory {
-        LOGS
+        LOGS,
+        CONFIG
     }
 
     public static File getLocationForData(DataDirectory type) {
         switch (type) {
             case LOGS: {
                 File toReturn = new File(MPLauncherBootstrap.getAppSetupInstance().dataLocation + File.separator + "logs");
+                if (!toReturn.exists()) { Validate.isTrue(toReturn.mkdirs(), "Couldn't mkdirs() on " + toReturn.getAbsolutePath()); }
+                return toReturn;
+            }
+            case CONFIG: {
+                File toReturn = new File(MPLauncherBootstrap.getAppSetupInstance().dataLocation + File.separator + "config");
                 if (!toReturn.exists()) { Validate.isTrue(toReturn.mkdirs(), "Couldn't mkdirs() on " + toReturn.getAbsolutePath()); }
                 return toReturn;
             }

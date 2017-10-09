@@ -41,6 +41,7 @@ import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
 
+    //TODO: Make API to config so we can read this data anywhere in the launcher.
     private static AppSetup appSetupInstance;
 
     private static Stage startStage;

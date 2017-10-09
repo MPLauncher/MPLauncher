@@ -17,17 +17,23 @@ package pl.mplauncher.launcher.form;
 
 import javafx.application.Platform;
 import javafx.util.Duration;
+import pl.mplauncher.launcher.api.config.ConfigUtils;
+import pl.mplauncher.launcher.api.config.templates.Users;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Login extends LoginDesigner {
+
+    //TODO: Make API to config so we can read this data anywhere in the launcher.
+    private Users usersInstance;
 
     private static double xOffset;
     private static double yOffset;
@@ -64,6 +70,15 @@ public class Login extends LoginDesigner {
         passwordField.setOnAction(event -> onLoginAction());
         loginButton.setOnAction(event -> onLoginAction());
         termsHyperlink.setOnAction(event -> onTermsAction());
+
+        // Load login data //
+        usersInstance = ConfigUtils.loadConfig(new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG) + File.separator + "users.yml"), Users.class);
+
+        if (usersInstance.users.isEmpty()) {
+            // Show login fields
+        } else {
+            // Show profiles to select
+        }
     }
 
     private void onCloseAction() {
@@ -120,7 +135,6 @@ public class Login extends LoginDesigner {
             // Easter EGGS!
             switch (loginField.getText().toLowerCase()) {
                 case "ilovemplauncher": {
-                    loginField.clear();
                     snackBar.show("I love You too!" + System.lineSeparator() + "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧", 3000);
                     disableActions(false);
                     setLoggingIn(false);
@@ -141,8 +155,27 @@ public class Login extends LoginDesigner {
                 }
             }
 
-            if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
-                JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
+            if (passwordField.isVisible()) {
+                //Premium
+                if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
+                    launchMain();
+                } else {
+                    snackBar.show("Invalid credentials!", 3000);
+                    disableActions(false);
+                    setLoggingIn(false);
+                }
+            } else {
+                //NonPremium
+                Users.User user = new Users.User(loginField.getText(), rememberButton.isSelected());
+
+                if (usersInstance.users.stream().map(Users.User::getUuid).anyMatch(user.getUuid()::equals)) {
+                    snackBar.show("This account was added before.", 3000);
+                    disableActions(false);
+                    setLoggingIn(false);
+                } else {
+                    usersInstance.users.add(user);
+                    launchMain();
+                }
             }
         }
     }
@@ -153,5 +186,10 @@ public class Login extends LoginDesigner {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    private void launchMain() {
+        ConfigUtils.saveConfig(new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG) + File.separator + "users.yml"), Users.class, usersInstance);
+        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
     }
 }

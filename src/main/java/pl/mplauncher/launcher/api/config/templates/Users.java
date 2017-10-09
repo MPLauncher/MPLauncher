@@ -21,8 +21,7 @@ import org.diorite.cfg.annotations.CfgComment;
 import org.diorite.cfg.annotations.CfgName;
 import org.diorite.cfg.annotations.defaults.CfgDelegateDefault;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @CfgClass(name = "Users")
 @CfgDelegateDefault("{new}")
@@ -52,7 +51,7 @@ public class Users {
     public String verify;
 
     @CfgName("users")
-    public List<User> users;
+    public ArrayList<User> users = new ArrayList<>();
 
     //TODO: Sensitive data shouldn't be saved not encrypted in the file. Use some unique PC ID to encrypt this data.
 
@@ -79,7 +78,7 @@ public class Users {
             this.clientToken = clientToken;
             this.remember = remember;
             this.userType = userType;
-            this.userDataDir = uuid.toString().split("-")[0];
+            this.userDataDir = username.toLowerCase() + "-" + uuid.toString().split("-")[0];
         }
 
         public User(String username, boolean remember) {
