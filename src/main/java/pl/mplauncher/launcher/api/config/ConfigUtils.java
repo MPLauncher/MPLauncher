@@ -22,17 +22,17 @@ public class ConfigUtils {
     public static File getLocationForData(DataDirectory type) {
         switch (type) {
             case LOGS: {
-                File toReturn = new File(MPLauncherBootstrap.getAppSetupInstance().dataLocation + File.separator + "logs");
+                File toReturn = new File(AppSetup.getInstance().getDataLocation() + File.separator + "logs");
                 if (!toReturn.exists()) { Validate.isTrue(toReturn.mkdirs(), "Couldn't mkdirs() on " + toReturn.getAbsolutePath()); }
                 return toReturn;
             }
             case CONFIG: {
-                File toReturn = new File(MPLauncherBootstrap.getAppSetupInstance().dataLocation + File.separator + "config");
+                File toReturn = new File(AppSetup.getInstance().getDataLocation() + File.separator + "config");
                 if (!toReturn.exists()) { Validate.isTrue(toReturn.mkdirs(), "Couldn't mkdirs() on " + toReturn.getAbsolutePath()); }
                 return toReturn;
             }
             default: {
-                File toReturn = new File(MPLauncherBootstrap.getAppSetupInstance().dataLocation + File.separator + "logs");
+                File toReturn = new File(AppSetup.getInstance().getDataLocation() + File.separator + "logs");
                 if (!toReturn.exists()) { Validate.isTrue(toReturn.mkdirs(), "Couldn't mkdirs() on " + toReturn.getAbsolutePath()); }
                 return toReturn;
             }
