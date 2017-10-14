@@ -24,23 +24,22 @@ public class AppSetup {
 
             if (instance.getInstallationType() == ConfigurationOverlay.InstallationType.Portable) {
                 instance.setDataLocation(ConfigUtils.getPortableDataLocation()); //Pendrive letter/location may change!
+                saveConfig(); //Save it for now
             }
 
-            // Setting proper log directory.
-            System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
-
             if (logger == null) {
+                // Setting proper log directory.
+                System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
                 logger = LogManager.getLogger(AppSetup.class);
             }
             logger.info("AppSetupTemplate has been loaded into memory!");
         } else {
-            // *********************************************** //
-            // By default it's path where is the *.JAR file.   //
-            // It's have to be called before log4j2 is loaded! //
-            // *********************************************** //
-            System.setProperty("logBasePath", "logs");
-
             if (logger == null) {
+                // *********************************************** //
+                // By default it's path where is the *.JAR file.   //
+                // It's have to be called before log4j2 is loaded! //
+                // *********************************************** //
+                System.setProperty("logBasePath", "logs");
                 logger = LogManager.getLogger(AppSetup.class);
             }
             logger.warn("Launcher isn't configured yet!");
