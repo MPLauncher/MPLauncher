@@ -17,23 +17,19 @@ package pl.mplauncher.launcher.form;
 
 import javafx.application.Platform;
 import javafx.util.Duration;
-import pl.mplauncher.launcher.api.config.ConfigUtils;
-import pl.mplauncher.launcher.api.config.templates.Users;
+import pl.mplauncher.launcher.api.config.Users;
+import pl.mplauncher.launcher.api.config.templates.UsersTemplate;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Login extends LoginDesigner {
-
-    //TODO: Make API to config so we can read this data anywhere in the launcher.
-    private Users usersInstance;
 
     private static double xOffset;
     private static double yOffset;
@@ -72,9 +68,7 @@ public class Login extends LoginDesigner {
         termsHyperlink.setOnAction(event -> onTermsAction());
 
         // Load login data //
-        usersInstance = ConfigUtils.loadConfig(new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG) + File.separator + "users.yml"), Users.class);
-
-        if (usersInstance.users.isEmpty()) {
+        if (Users.getInstance().getUsers().isEmpty()) {
             // Show login fields
         } else {
             // Show profiles to select
@@ -166,14 +160,14 @@ public class Login extends LoginDesigner {
                 }
             } else {
                 //NonPremium
-                Users.User user = new Users.User(loginField.getText(), rememberButton.isSelected());
+                UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), rememberButton.isSelected());
 
-                if (usersInstance.users.stream().map(Users.User::getUuid).anyMatch(user.getUuid()::equals)) {
+                if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuid).anyMatch(user.getUuid()::equals)) {
                     snackBar.show("This account was added before.", 3000);
                     disableActions(false);
                     setLoggingIn(false);
                 } else {
-                    usersInstance.users.add(user);
+                    Users.getInstance().getUsers().add(user);
                     launchMain();
                 }
             }
@@ -189,7 +183,7 @@ public class Login extends LoginDesigner {
     }
 
     private void launchMain() {
-        ConfigUtils.saveConfig(new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG) + File.separator + "users.yml"), Users.class, usersInstance);
+        Users.saveConfig();
         JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
     }
 }

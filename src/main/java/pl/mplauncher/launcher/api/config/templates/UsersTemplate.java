@@ -23,7 +23,7 @@ import org.diorite.cfg.annotations.defaults.CfgDelegateDefault;
 
 import java.util.*;
 
-@CfgClass(name = "Users")
+@CfgClass(name = "UsersTemplate")
 @CfgDelegateDefault("{new}")
 @CfgComment("-------------------------------------------------------------------")
 @CfgComment("DON'T MODIFY THIS FILE ON YOUR OWN,")
@@ -36,8 +36,9 @@ import java.util.*;
 @CfgComment("When you share this file with someone,")
 @CfgComment("this person will be able to use your account without your knowledge")
 @CfgComment("-------------------------------------------------------------------")
-public class Users {
+public class UsersTemplate {
 
+    //TODO:Make this verify value
     /*
         Use for verification if data decrypted by launcher is proper.
         This string should be one static value encrypted by PC UID.
@@ -48,10 +49,34 @@ public class Users {
      */
     @CfgComment("Don't ever touch this line!")
     @CfgName("verify")
-    public String verify;
+    private String verify;
 
     @CfgName("users")
-    public ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
+
+    /**
+     * Gets the verify value
+     * @return string value
+     */
+    public String getVerify() {
+        return verify;
+    }
+
+    /**
+     * Sets the verify value
+     * @param verify string value
+     */
+    public void setVerify(String verify) {
+        this.verify = verify;
+    }
+
+    /**
+     * Gets the users list
+     * @return array list of User
+     */
+    public ArrayList<User> getUsers() {
+        return users;
+    }
 
     //TODO: Sensitive data shouldn't be saved not encrypted in the file. Use some unique PC ID to encrypt this data.
 
