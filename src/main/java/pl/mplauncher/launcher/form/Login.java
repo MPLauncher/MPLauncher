@@ -15,6 +15,7 @@
 */
 package pl.mplauncher.launcher.form;
 
+import com.google.common.base.Charsets;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.api.config.Users;
@@ -28,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class Login extends LoginDesigner {
 
@@ -68,11 +70,25 @@ public class Login extends LoginDesigner {
         termsHyperlink.setOnAction(event -> onTermsAction());
 
         // Load login data //
-        if (Users.getInstance().getUsers().isEmpty()) {
-            // Show login fields
-        } else {
-            // Show profiles to select
+
+        // Testing purpose //
+        loginPane.setVisible(false);
+        loginPane.setManaged(false);
+
+        UsersTemplate.User tigur = new UsersTemplate.User("LosTigeros", UUID.nameUUIDFromBytes(("LosTigeros").getBytes(Charsets.UTF_8)),
+                "\" \"", null, true, UsersTemplate.UserType.PREMIUM);
+        UsersTemplate.User cebula = new UsersTemplate.User("Cebula", false);
+
+        for(int x=0; x<5; x++) {
+            accountList.getItems().add(new userAccount(tigur));
+            accountList.getItems().add(new userAccount(cebula));
         }
+
+        //if (Users.getInstance().getUsers().isEmpty()) {
+            // Show login fields
+        //} else {
+            // Show profiles to select
+        //}
     }
 
     private void onCloseAction() {
@@ -107,69 +123,77 @@ public class Login extends LoginDesigner {
     private void onLoginAction() {
         System.out.println("*** LOGIN CLICKED ***");
 
-        if (loginField.getText().length() == 0) {
-            if (passwordField.isVisible()) {
-                snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoNickname"), 3000);
+        if (loginPane.isVisible()) {
+            if (loginField.getText().length() == 0) {
+                if (passwordField.isVisible()) {
+                    snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoNickname"), 3000);
+                } else {
+                    snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessageNonPremiumNoNickname"), 3000);
+                }
+            } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
+                snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoPassword"), 3000);
             } else {
-                snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessageNonPremiumNoNickname"), 3000);
+                disableActions(true);
+                setLoggingIn(true);
+
+                System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
+                System.out.println("Login: " + loginField.getText());
+                if (passwordField.isVisible()) {
+                    System.out.println("Password: " + passwordField.getText());
+                }
+                System.out.println("Remember: " + rememberButton.isSelected());
+
+                // Easter EGGS!
+                switch (loginField.getText().toLowerCase()) {
+                    case "ilovemplauncher": {
+                        snackBar.show("I love You too!" + System.lineSeparator() + "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧", 3000);
+                        disableActions(false);
+                        setLoggingIn(false);
+                        break;
+                    }
+                    case "ihatemplauncher": {
+                        loginField.clear();
+                        snackBar.show("I'm giving up!" + System.lineSeparator() + "o(╥﹏╥)o", 3000);
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                onCloseAction();
+                                timer.cancel();
+                            }
+                        }, 3500);
+                        break;
+                    }
+                }
+
+                if (passwordField.isVisible()) {
+                    //Premium
+                    if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
+                        launchMain();
+                    } else {
+                        snackBar.show("Invalid credentials!", 3000);
+                        disableActions(false);
+                        setLoggingIn(false);
+                    }
+                } else {
+                    //NonPremium
+                    UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), rememberButton.isSelected());
+
+                    if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuid).anyMatch(user.getUuid()::equals)) {
+                        snackBar.show("This account was added before.", 3000);
+                        disableActions(false);
+                        setLoggingIn(false);
+                    } else {
+                        Users.getInstance().getUsers().add(user);
+                        launchMain();
+                    }
+                }
             }
-        } else if (passwordField.isVisible() && passwordField.getText().length() == 0) {
-            snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoPassword"), 3000);
         } else {
-            disableActions(true);
-            setLoggingIn(true);
-
-            System.out.println("Type: " + ((passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
-            System.out.println("Login: " + loginField.getText());
-            if (passwordField.isVisible()) {
-                System.out.println("Password: " + passwordField.getText());
-            }
-            System.out.println("Remember: " + rememberButton.isSelected());
-
-            // Easter EGGS!
-            switch (loginField.getText().toLowerCase()) {
-                case "ilovemplauncher": {
-                    snackBar.show("I love You too!" + System.lineSeparator() + "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧", 3000);
-                    disableActions(false);
-                    setLoggingIn(false);
-                    break;
-                }
-                case "ihatemplauncher": {
-                    loginField.clear();
-                    snackBar.show("I'm giving up!" + System.lineSeparator() + "o(╥﹏╥)o", 3000);
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            onCloseAction();
-                            timer.cancel();
-                        }
-                    }, 3500);
-                    break;
-                }
-            }
-
-            if (passwordField.isVisible()) {
-                //Premium
-                if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
-                    launchMain();
-                } else {
-                    snackBar.show("Invalid credentials!", 3000);
-                    disableActions(false);
-                    setLoggingIn(false);
-                }
+            if (accountList.getSelectionModel().getSelectedIndex() != -1) {
+                snackBar.show("Not implemented yet!", 3000);
             } else {
-                //NonPremium
-                UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), rememberButton.isSelected());
-
-                if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuid).anyMatch(user.getUuid()::equals)) {
-                    snackBar.show("This account was added before.", 3000);
-                    disableActions(false);
-                    setLoggingIn(false);
-                } else {
-                    Users.getInstance().getUsers().add(user);
-                    launchMain();
-                }
+                snackBar.show("Select an account!", 3000);
             }
         }
     }

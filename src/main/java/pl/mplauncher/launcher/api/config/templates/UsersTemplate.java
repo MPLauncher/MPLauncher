@@ -94,6 +94,7 @@ public class UsersTemplate {
         private final boolean remember;
         private final UserType userType;
         private final String userDataDir;
+        private final Date lastLogin;
 
         public User(String username, UUID uuid, String accessToken, String clientToken, boolean remember,
                         UserType userType) {
@@ -104,6 +105,7 @@ public class UsersTemplate {
             this.remember = remember;
             this.userType = userType;
             this.userDataDir = username.toLowerCase() + "-" + uuid.toString().split("-")[0];
+            this.lastLogin = new Date();
         }
 
         public User(String username, boolean remember) {
@@ -139,5 +141,8 @@ public class UsersTemplate {
             return userDataDir;
         }
 
+        public Date getLastLogin() {
+            return lastLogin;
+        }
     }
 }

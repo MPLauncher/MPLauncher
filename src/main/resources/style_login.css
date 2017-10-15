@@ -124,3 +124,117 @@
 .jfx-spinner > .arc {
     -fx-stroke: #6a1b9a;
 }
+
+.textWhite {
+    -fx-fill: #ffffff;
+}
+
+.textBold {
+    -fx-font-family: 'Montserrat Bold';
+}
+
+.fontSize14 {
+    -fx-font-size: 14;
+}
+
+.fontSize12 {
+    -fx-font-size: 12;
+}
+
+.fontSize10 {
+    -fx-font-size: 10;
+}
+
+.fontSize9 {
+    -fx-font-size: 8;
+}
+
+.fontSize8_5 {
+    -fx-font-size: 8.5;
+}
+
+.fontSize8 {
+    -fx-font-size: 8;
+}
+
+.fontLight {
+    -fx-font-family: 'Montserrat Light';
+}
+
+.fontRegular {
+    -fx-font-family: 'Montserrat Regular';
+}
+
+.fontBold {
+    -fx-font-family: 'Montserrat Bold';
+}
+
+.fontSemiBold {
+    -fx-font-family: 'Montserrat SemiBold';
+}
+
+.fillWhite {
+    -fx-fill: #ffffff;
+}
+
+.textFillWhite {
+    -fx-text-fill: #ffffff;
+}
+
+.accountList {
+    -fx-background-color: transparent;
+}
+
+.accountList .jfx-list-cell {
+    -fx-background-color: transparent;
+}
+
+.accountList .jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.accountList .jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+}
+
+.accountList .jfx-list-cell:selected Label
+{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
+.accountList .scroll-bar:horizontal,
+.accountList .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.accountList .scroll-bar:vertical {
+    -fx-padding: 0 10 0 0;
+}
+
+.accountList .scroll-bar:horizontal .thumb,
+.accountList .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+
+.accountList .scroll-bar:horizontal .increment-button,
+.accountList .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.accountList .scroll-bar:vertical .increment-button,
+.accountList .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.accountList .scroll-bar .increment-arrow,
+.accountList .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}

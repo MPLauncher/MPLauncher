@@ -16,15 +16,16 @@
 package pl.mplauncher.launcher.form;
 
 import com.jfoenix.controls.*;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
@@ -34,10 +35,12 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.api.config.templates.UsersTemplate;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 
 class LoginDesigner {
 
@@ -48,6 +51,8 @@ class LoginDesigner {
     JFXSnackbar snackBar;
     StackPane stackPane;
     Hyperlink closeButton;
+    //Login StackPane
+    StackPane loginPane;
     JFXButton premiumButton;
     Line premiumButtonLine;
     JFXButton nonpremiumButton;
@@ -55,6 +60,8 @@ class LoginDesigner {
     JFXTextField loginField;
     JFXPasswordField passwordField;
     JFXToggleButton rememberButton;
+    JFXListView<userAccount> accountList;
+    //After stackpanes
     JFXSpinner loginSpinner;
     JFXButton loginButton;
     Hyperlink termsHyperlink;
@@ -68,6 +75,8 @@ class LoginDesigner {
         this.stackPane = new StackPane();
         StackPane pane = new StackPane();
         this.closeButton = new Hyperlink();
+        //
+        this.loginPane = new StackPane();
         this.premiumButton = new JFXButton();
         this.premiumButtonLine = new Line();
         this.nonpremiumButton = new JFXButton();
@@ -75,6 +84,12 @@ class LoginDesigner {
         this.loginField = new JFXTextField();
         this.passwordField = new JFXPasswordField();
         this.rememberButton = new JFXToggleButton();
+        //
+        StackPane accountPane = new StackPane();
+        VBox forAccount = new VBox();
+        this.accountList = new JFXListView<>();
+        Hyperlink otherAccount = new Hyperlink();
+        //
         this.loginSpinner = new JFXSpinner();
         this.loginButton = new JFXButton();
         this.termsHyperlink = new Hyperlink();
@@ -111,25 +126,28 @@ class LoginDesigner {
         StackPane.setAlignment(closeButton, Pos.TOP_RIGHT);
         StackPane.setMargin(closeButton, new Insets(-6.0, 15.0, 0.0, 0.0));
 
+        loginPane.setAlignment(Pos.TOP_CENTER);
+        StackPane.setMargin(loginPane, new Insets(60.0, 0.0, 0.0, 0.0));
+
         premiumButton.setText(currentLanguage.getMessage("login-premium"));
         premiumButton.getStyleClass().add("accountType");
         StackPane.setAlignment(premiumButton, Pos.TOP_LEFT);
-        StackPane.setMargin(premiumButton, new Insets(65.0, 0.0, 0.0, 18.0));
+        StackPane.setMargin(premiumButton, new Insets(5.0, 0.0, 0.0, 18.0));
 
         premiumButtonLine.setEndX(74.74);
         premiumButtonLine.getStyleClass().add("lineType");
         StackPane.setAlignment(premiumButtonLine, Pos.TOP_LEFT);
-        StackPane.setMargin(premiumButtonLine, new Insets(82.0, 0.0, 0.0, 17.0));
+        StackPane.setMargin(premiumButtonLine, new Insets(22.0, 0.0, 0.0, 17.0));
 
         nonpremiumButton.getStyleClass().add("accountType");
         nonpremiumButton.setText(currentLanguage.getMessage("login-nonPremium"));
         StackPane.setAlignment(nonpremiumButton, Pos.TOP_RIGHT);
-        StackPane.setMargin(nonpremiumButton, new Insets(65.0, 16.0, 0.0, 0.0));
+        StackPane.setMargin(nonpremiumButton, new Insets(5.0, 16.0, 0.0, 0.0));
 
         nonpremiumButtonLine.setEndX(116.0);
         nonpremiumButtonLine.getStyleClass().add("lineType");
         StackPane.setAlignment(nonpremiumButtonLine, Pos.TOP_RIGHT);
-        StackPane.setMargin(nonpremiumButtonLine, new Insets(82.0, 16.0, 0.0, 0.0));
+        StackPane.setMargin(nonpremiumButtonLine, new Insets(22.0, 16.0, 0.0, 0.0));
 
         loginField.setFocusColor(Paint.valueOf("WHITE"));
         loginField.setPrefHeight(23.0);
@@ -137,7 +155,7 @@ class LoginDesigner {
         loginField.setLabelFloat(true);
         loginField.getStyleClass().add("input");
         StackPane.setAlignment(loginField, Pos.TOP_LEFT);
-        StackPane.setMargin(loginField, new Insets(121.0, 15.0, 0.0, 20.0));
+        StackPane.setMargin(loginField, new Insets(61.0, 15.0, 0.0, 20.0));
 
         passwordField.setFocusColor(Paint.valueOf("WHITE"));
         passwordField.setPrefHeight(23.0);
@@ -145,13 +163,40 @@ class LoginDesigner {
         passwordField.setLabelFloat(true);
         passwordField.getStyleClass().add("input");
         StackPane.setAlignment(passwordField, Pos.TOP_LEFT);
-        StackPane.setMargin(passwordField, new Insets(176.0, 15.0, 0.0, 20.0));
+        StackPane.setMargin(passwordField, new Insets(116.0, 15.0, 0.0, 20.0));
 
         rememberButton.setPrefHeight(36.0);
         rememberButton.setText(currentLanguage.getMessage("login-formRememberMe"));
         rememberButton.getStyleClass().add("toggleButton");
         StackPane.setAlignment(rememberButton, Pos.TOP_LEFT);
-        StackPane.setMargin(rememberButton, new Insets(205.0, 0.0, 0.0, 15.0));
+        StackPane.setMargin(rememberButton, new Insets(145.0, 0.0, 0.0, 15.0));
+
+        accountPane.setAlignment(Pos.TOP_CENTER);
+        StackPane.setMargin(accountPane, new Insets(60.0, 0.0, 0.0, 0.0));
+        accountPane.visibleProperty().bind(loginPane.visibleProperty().not());
+        accountPane.managedProperty().bind(loginPane.managedProperty().not());
+
+        accountList.setFixedCellSize(42.0);
+        accountList.getItems().addListener((ListChangeListener<userAccount>) c -> {
+            double desiredHeight = (accountList.getItems().size() * accountList.getFixedCellSize()) + 5;
+            if (desiredHeight > 190.0) {
+                accountList.setPrefHeight(190.0);
+            } else {
+                accountList.setPrefHeight(desiredHeight);
+            }
+        });
+        accountList.setMaxHeight(JFXListView.USE_PREF_SIZE);
+        accountList.getStyleClass().add("accountList");
+        StackPane.setMargin(accountList, new Insets(5.0, 5.0, 0.0, 5.0));
+
+        otherAccount.setText("INNE KONTO");
+        otherAccount.getStyleClass().add("smallHyperlink");
+        otherAccount.setTextAlignment(TextAlignment.LEFT);
+        VBox.setMargin(otherAccount, new Insets(0.0, 0.0, 0.0, 13.0));
+        otherAccount.setOnAction((actionEvent) -> {
+            loginPane.setVisible(true);
+            loginPane.setManaged(true);
+        });
 
         loginSpinner.setPrefWidth(32.0);
         StackPane.setMargin(loginSpinner, new Insets(298.0, 0.0, 0.0, 0.0));
@@ -188,14 +233,58 @@ class LoginDesigner {
         //Children
         loginForm.getChildren().addAll(snackBar, stackPane);
         stackPane.getChildren().addAll(pane, namePane);
-        pane.getChildren().addAll(closeButton, premiumButton, premiumButtonLine, nonpremiumButton, nonpremiumButtonLine,
-                loginField, passwordField, rememberButton, loginSpinner, loginButton, termsHyperlink);
+        pane.getChildren().addAll(closeButton, loginPane, accountPane, loginSpinner, loginButton, termsHyperlink);
+        loginPane.getChildren().addAll(premiumButton, premiumButtonLine, nonpremiumButton, nonpremiumButtonLine,
+                loginField, passwordField, rememberButton);
+        accountPane.getChildren().add(forAccount);
         namePane.getChildren().add(mplauncher);
+        forAccount.getChildren().addAll(accountList, otherAccount);
         mplauncher.getChildren().addAll(mp, launcher);
 
         //Parent
         this.loginScene = new Scene(loginForm, 304, 416);
         this.loginScene.setFill(Color.TRANSPARENT);
+    }
+
+    class userAccount extends StackPane {
+        userAccount(UsersTemplate.User user) {
+            this.setMouseTransparent(true);
+
+            HBox inner = new HBox();
+
+            ImageView avatar = new ImageView();
+            avatar.setFitWidth(32.0);
+            avatar.setFitHeight(32.0);
+            avatar.setPickOnBounds(true);
+            avatar.setPreserveRatio(true);
+            if (user.getUsername().equalsIgnoreCase("cebula")) {
+                avatar.setImage(new Image("https://vignette.wikia.nocookie.net/disneycreate/images/5/51/Onion.png/revision/latest"));
+            } else {
+                avatar.setImage(new Image("https://skiny.mplauncher.pl/api/3d.php?user=" + user.getUsername() + "&vr=0&hr=0&displayHair=true&headOnly=true&format=png&ratio=20&aa=true&layers=false"));
+            }
+
+            VBox info = new VBox();
+            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 2.0));
+
+            Label username = new Label();
+            username.setText(user.getUsername());
+            username.getStyleClass().addAll("fontRegular", "fontSize12");
+
+            Label lastLoggedIn = new Label();
+            lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLogin()));
+            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10");
+
+            Label accountType = new Label();
+            accountType.setText(user.getUserType().name());
+            accountType.setTextAlignment(TextAlignment.RIGHT);
+            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10");
+            StackPane.setAlignment(accountType, Pos.TOP_RIGHT);
+            StackPane.setMargin(accountType, new Insets(2.0, 2.0, 0.0, 0.0));
+
+            this.getChildren().addAll(inner, accountType);
+            inner.getChildren().addAll(avatar, info);
+            info.getChildren().addAll(username, lastLoggedIn);
+        }
     }
 
     void disableActions(boolean disable) {
