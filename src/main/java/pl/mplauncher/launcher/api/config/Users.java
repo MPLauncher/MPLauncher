@@ -25,6 +25,10 @@ public class Users {
     }
 
     public static void saveConfig() {
-        ConfigUtils.saveConfig(location, UsersTemplate.class, instance);
+        if (instance == null) {
+            logger.warn("Tried to save Users config without initializing it!");
+        } else {
+            ConfigUtils.saveConfig(location, UsersTemplate.class, instance);
+        }
     }
 }

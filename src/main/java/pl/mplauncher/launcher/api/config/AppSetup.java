@@ -59,6 +59,10 @@ public class AppSetup {
     }
 
     public static void saveConfig() {
-        ConfigUtils.saveConfig(location, AppSetupTemplate.class, instance);
+        if (instance == null) {
+            logger.warn("Tried to save AppSetupTemplate config without initializing it!");
+        } else {
+            ConfigUtils.saveConfig(location, AppSetupTemplate.class, instance);
+        }
     }
 }
