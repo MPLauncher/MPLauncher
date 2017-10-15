@@ -70,23 +70,12 @@ public class Login extends LoginDesigner {
         termsHyperlink.setOnAction(event -> onTermsAction());
 
         // Load login data //
-        switchToAccountList();
-
-        // Testing purpose //
-        UsersTemplate.User tigur = new UsersTemplate.User("LosTigeros", UUID.nameUUIDFromBytes(("LosTigeros").getBytes(Charsets.UTF_8)),
-                "\" \"", null, true, UsersTemplate.UserType.PREMIUM);
-        UsersTemplate.User cebula = new UsersTemplate.User("Cebula", false);
-
-        for(int x=0; x<5; x++) {
-            accountList.getItems().add(new userAccount(tigur));
-            accountList.getItems().add(new userAccount(cebula));
+        if (!Users.getInstance().getUsers().isEmpty()) {
+            switchToAccountList();
+            for (UsersTemplate.User user : Users.getInstance().getUsers()) {
+                accountList.getItems().add(new userAccount(user));
+            }
         }
-
-        //if (Users.getInstance().getUsers().isEmpty()) {
-            // Show login fields
-        //} else {
-            // Show profiles to select
-        //}
     }
 
     private void onCloseAction() {
@@ -167,6 +156,20 @@ public class Login extends LoginDesigner {
                 if (passwordField.isVisible()) {
                     //Premium
                     if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
+                        //Testing purpose
+                        UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), UUID.nameUUIDFromBytes((loginField.getText()).getBytes(Charsets.UTF_8)),
+                                "\" \"", null, rememberButton.isSelected(), UsersTemplate.UserType.PREMIUM);
+
+                        if (rememberButton.isSelected()) {
+                            if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuidAsUUID).anyMatch(user.getUuidAsUUID()::equals)) {
+                                snackBar.show("This account was added before.", 3000);
+                                disableActions(false);
+                                setLoggingIn(false);
+                            } else {
+                                Users.getInstance().getUsers().add(user);
+                            }
+                        }
+
                         launchMain();
                     } else {
                         snackBar.show("Invalid credentials!", 3000);
@@ -177,14 +180,17 @@ public class Login extends LoginDesigner {
                     //NonPremium
                     UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), rememberButton.isSelected());
 
-                    if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuid).anyMatch(user.getUuid()::equals)) {
-                        snackBar.show("This account was added before.", 3000);
-                        disableActions(false);
-                        setLoggingIn(false);
-                    } else {
-                        Users.getInstance().getUsers().add(user);
-                        launchMain();
+                    if (rememberButton.isSelected()) {
+                        if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuidAsUUID).anyMatch(user.getUuidAsUUID()::equals)) {
+                            snackBar.show("This account was added before.", 3000);
+                            disableActions(false);
+                            setLoggingIn(false);
+                        } else {
+                            Users.getInstance().getUsers().add(user);
+                        }
                     }
+
+                    launchMain();
                 }
             }
         } else {

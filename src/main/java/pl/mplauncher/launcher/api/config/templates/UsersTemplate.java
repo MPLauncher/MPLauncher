@@ -88,24 +88,35 @@ public class UsersTemplate {
     public static class User {
 
         private final String username;
-        private final UUID uuid;
+        private final String uuid;
         private final String accessToken;
         private final String clientToken;
         private final boolean remember;
         private final UserType userType;
         private final String userDataDir;
-        private final Date lastLogin;
+        private final long lastLogin;
+
+        User() {
+            username = null;
+            uuid = null;
+            accessToken = null;
+            clientToken = null;
+            remember = false;
+            userType = null;
+            userDataDir = null;
+            lastLogin = 0;
+        }
 
         public User(String username, UUID uuid, String accessToken, String clientToken, boolean remember,
                         UserType userType) {
             this.username = username;
-            this.uuid = uuid;
+            this.uuid = uuid.toString();
             this.accessToken = accessToken;
             this.clientToken = clientToken;
             this.remember = remember;
             this.userType = userType;
             this.userDataDir = username.toLowerCase() + "-" + uuid.toString().split("-")[0];
-            this.lastLogin = new Date();
+            this.lastLogin = new Date().getTime();
         }
 
         public User(String username, boolean remember) {
@@ -117,8 +128,12 @@ public class UsersTemplate {
             return username;
         }
 
-        public UUID getUuid() {
+        public String getUuid() {
             return uuid;
+        }
+
+        public UUID getUuidAsUUID() {
+            return UUID.fromString(uuid);
         }
 
         public String getAccessToken() {
@@ -141,8 +156,10 @@ public class UsersTemplate {
             return userDataDir;
         }
 
-        public Date getLastLogin() {
+        public long getLastLogin() {
             return lastLogin;
         }
+
+        public Date getLastLoginDate() { return new Date(lastLogin); }
     }
 }

@@ -277,7 +277,7 @@ class LoginDesigner {
             username.getStyleClass().addAll("fontRegular", "fontSize12");
 
             Label lastLoggedIn = new Label();
-            lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLogin()));
+            lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLoginDate()));
             lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10");
 
             Label accountType = new Label();
