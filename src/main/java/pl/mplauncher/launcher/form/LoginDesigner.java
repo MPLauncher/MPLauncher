@@ -60,6 +60,8 @@ class LoginDesigner {
     JFXTextField loginField;
     JFXPasswordField passwordField;
     JFXToggleButton rememberButton;
+    //Account pane
+    private StackPane accountPane;
     JFXListView<userAccount> accountList;
     //After stackpanes
     JFXSpinner loginSpinner;
@@ -85,7 +87,7 @@ class LoginDesigner {
         this.passwordField = new JFXPasswordField();
         this.rememberButton = new JFXToggleButton();
         //
-        StackPane accountPane = new StackPane();
+        this.accountPane = new StackPane();
         VBox forAccount = new VBox();
         this.accountList = new JFXListView<>();
         Hyperlink otherAccount = new Hyperlink();
@@ -173,6 +175,7 @@ class LoginDesigner {
 
         accountPane.setAlignment(Pos.TOP_CENTER);
         StackPane.setMargin(accountPane, new Insets(60.0, 0.0, 0.0, 0.0));
+        accountPane.setOpacity(0.0);
         accountPane.visibleProperty().bind(loginPane.visibleProperty().not());
         accountPane.managedProperty().bind(loginPane.managedProperty().not());
 
@@ -193,10 +196,13 @@ class LoginDesigner {
         otherAccount.getStyleClass().add("smallHyperlink");
         otherAccount.setTextAlignment(TextAlignment.LEFT);
         VBox.setMargin(otherAccount, new Insets(0.0, 0.0, 0.0, 13.0));
-        otherAccount.setOnAction((actionEvent) -> {
-            loginPane.setVisible(true);
-            loginPane.setManaged(true);
-        });
+        otherAccount.setOnAction((actionEvent) ->
+            JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 0.0, (actionEvent1) -> {
+                loginPane.setVisible(true);
+                loginPane.setManaged(true);
+                JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 1.0);
+            })
+        );
 
         loginSpinner.setPrefWidth(32.0);
         StackPane.setMargin(loginSpinner, new Insets(298.0, 0.0, 0.0, 0.0));
@@ -285,6 +291,14 @@ class LoginDesigner {
             inner.getChildren().addAll(avatar, info);
             info.getChildren().addAll(username, lastLoggedIn);
         }
+    }
+
+    void switchToAccountList() {
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 0.0, (event) -> {
+            loginPane.setVisible(false);
+            loginPane.setManaged(false);
+            JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 1.0);
+        });
     }
 
     void disableActions(boolean disable) {

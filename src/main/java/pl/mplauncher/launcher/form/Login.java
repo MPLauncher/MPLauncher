@@ -70,11 +70,9 @@ public class Login extends LoginDesigner {
         termsHyperlink.setOnAction(event -> onTermsAction());
 
         // Load login data //
+        switchToAccountList();
 
         // Testing purpose //
-        loginPane.setVisible(false);
-        loginPane.setManaged(false);
-
         UsersTemplate.User tigur = new UsersTemplate.User("LosTigeros", UUID.nameUUIDFromBytes(("LosTigeros").getBytes(Charsets.UTF_8)),
                 "\" \"", null, true, UsersTemplate.UserType.PREMIUM);
         UsersTemplate.User cebula = new UsersTemplate.User("Cebula", false);
