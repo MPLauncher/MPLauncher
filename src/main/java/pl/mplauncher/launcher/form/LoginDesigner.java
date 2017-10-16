@@ -214,7 +214,7 @@ class LoginDesigner {
 
         termsHyperlink.setTextAlignment(TextAlignment.CENTER);
         termsHyperlink.setText(currentLanguage.getMessage("login-termsOfUse"));
-        termsHyperlink.getStyleClass().add("smallHyperlink");
+        termsHyperlink.getStyleClass().addAll("smallHyperlink", "textFillLightGray");
         StackPane.setMargin(termsHyperlink, new Insets(342.0, 0.0, 0.0, 0.0));
 
         namePane.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -270,20 +270,20 @@ class LoginDesigner {
             }
 
             VBox info = new VBox();
-            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 2.0));
+            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 8.0));
 
             Label username = new Label();
             username.setText(user.getUsername());
-            username.getStyleClass().addAll("fontRegular", "fontSize12");
+            username.getStyleClass().addAll("fontRegular", "fontSize12", "textFillWhite");
 
             Label lastLoggedIn = new Label();
             lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLoginDate()));
-            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10");
+            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10", "textFillLightGray");
 
             Label accountType = new Label();
             accountType.setText(user.getUserType().name());
             accountType.setTextAlignment(TextAlignment.RIGHT);
-            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10");
+            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite");
             StackPane.setAlignment(accountType, Pos.TOP_RIGHT);
             StackPane.setMargin(accountType, new Insets(2.0, 2.0, 0.0, 0.0));
 
