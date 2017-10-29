@@ -58,7 +58,7 @@ public class ConfigurationOverlay extends Stage {
         info.setFont(new Font("Montserrat Regular", 10));
 
         classic = new JFXRadioButton();
-        classic.setText("Klasycznie (instalacja w %AppData%/.mplauncher2.0)");
+        classic.setText("Klasycznie (instalacja w " + ConfigUtils.getClassicDataLocation().getPath() + ")");
         classic.setPadding(new Insets(5.0, 0.0, 5.0, 0.0));
         classic.setSelected(true);
         vBox.getChildren().add(classic);
@@ -153,7 +153,7 @@ public class ConfigurationOverlay extends Stage {
         } else if (portable.isSelected()) {
             return driveList.getSelectionModel().getSelectedItem();
         } else {
-            return "%AppData%/.mplauncher2.0"; //TODO:Make proper return via ConfigUtils.
+            return ConfigUtils.getClassicDataLocation().getAbsolutePath();
         }
     }
 }
