@@ -28,8 +28,9 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
-import pl.mplauncher.launcher.api.config.AppSetup;
-import pl.mplauncher.launcher.api.config.ConfigUtils;
+import pl.mplauncher.launcher.config.ConfigUtils;
+import pl.mplauncher.launcher.config.AppConfiguration;
+import pl.mplauncher.launcher.config.ConfigurationFactory;
 import pl.mplauncher.launcher.control.ConfigurationOverlay;
 import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.helper.FormSwitcher;
@@ -59,7 +60,8 @@ public class MPLauncherBootstrap extends Application {
         startStage = stage;
 
         // Initializing the app setup and logger.
-        AppSetup.initialize();
+        AppConfiguration app = ConfigurationFactory.getAppSetup();
+//        AppSetup.initialize();
         logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
         // Important things on the beginning of the log
@@ -76,55 +78,41 @@ public class MPLauncherBootstrap extends Application {
 
         // ********* DATA CONFIGURE ********* //
 
-        if (AppSetup.getInstance() == null) {
+        if (!ConfigUtils.isGlobalConfigExists()) {
             ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
             logger.info("User has configured this installation!");
             logger.info("Selected configuration: " + configurationOverlay.getResult());
             logger.info("Location: " + configurationOverlay.getLocation());
 
-            //TODO:Checking for location changes and forcing some values if they aren't changed.
             switch (configurationOverlay.getResult()) {
                 case Classic: {
-                    AppSetup.configure(ConfigUtils.getNearPcConfigLocation());
-                    AppSetup.getInstance().setInstallationType(configurationOverlay.getResult());
-                    AppSetup.getInstance().setDataLocation(ConfigUtils.getClassicDataLocation());
-
-                    AppSetup.saveConfig();
-                    if (!AppSetup.getInstance().getDataLocation().exists()) {
-                        Validate.isTrue(AppSetup.getInstance().getDataLocation().mkdirs(), "Couldn't mkdirs() on Classic installation.");
-                    }
+                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
+                    app.setDataLocation(ConfigUtils.getClassicDataLocation());
                     break;
                 }
+
                 case OwnLocation: {
-                    AppSetup.configure(ConfigUtils.getNearPcConfigLocation());
-                    AppSetup.getInstance().setInstallationType(configurationOverlay.getResult());
-                    AppSetup.getInstance().setDataLocation(new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
-
-                    AppSetup.saveConfig();
-
-                    if (!AppSetup.getInstance().getDataLocation().exists()) {
-                        Validate.isTrue(AppSetup.getInstance().getDataLocation().mkdirs(), "Couldn't mkdirs() on OwnLocation installation.");
-                    }
+                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
+                    app.setDataLocation(new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
                     break;
                 }
+
                 case Portable: {
-                    //Copy Jar file to selected location.
                     File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
                     File dstPath = new File(configurationOverlay.getLocation() + File.separator + jarPath.getName());
                     try {
                         Files.copy(jarPath, dstPath);
-
                         File dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
 
                         if (!dataLocation.exists()) {
                             Validate.isTrue(dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
                         }
 
-                        AppSetup.configure(new File(dataLocation + File.separator + "MPLauncher.config"));
-                        AppSetup.getInstance().setInstallationType(configurationOverlay.getResult());
-                        AppSetup.getInstance().setDataLocation(dataLocation);
+                        app.setConfigLocation(new File(dataLocation + File.separator + "MPLauncher.config"));
+                        app.setInstallationType(configurationOverlay.getResult());
+                        app.setDataLocation(dataLocation);
 
-                        AppSetup.saveConfig();
+                        app.save();
 
                         new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
                                 "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");
@@ -134,17 +122,32 @@ public class MPLauncherBootstrap extends Application {
                     } catch (IOException e) {
                         logger.fatal("Couldn't configure portable installation", e);
                     }
+                    break;
                 }
             }
+
+            app.setInstallationType(configurationOverlay.getResult());
+            app.save();
+
+            if (!app.getDataLocation().exists()) {
+                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", configurationOverlay.getResult().name()));
+                ConfigurationFactory.getUsers().save();
+            } else {
+                ConfigurationFactory.getUsers().load();
+            }
+
         } else {
-            logger.info("Installation type: " + AppSetup.getInstance().getInstallationType());
-            logger.info("Application data location: " + AppSetup.getInstance().getDataLocation());
+            app = ConfigurationFactory.getAppSetup(true);
+            ConfigurationFactory.getUsers(true);
+
+            logger.info("Installation type: " + app.getInstallationType());
+            logger.info("Application data location: " + app.getDataLocation());
         }
 
-        if (AppSetup.getInstance().getFirstRun()) {
+        if (app.isFirstRun()) {
             //TODO:Download needed files (e.g. lang files)
 
-            AppSetup.getInstance().setFirstRun(false);
+            app.setFirstRun(false);
         }
 
         // Future use: MPLauncher launcher = new MPLauncher();

@@ -35,11 +35,13 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.mplauncher.launcher.api.config.templates.UsersTemplate;
+import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.config.UserProfile;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
+import java.util.Date;
 
 class LoginDesigner {
 
@@ -196,11 +198,11 @@ class LoginDesigner {
         otherAccount.setTextAlignment(TextAlignment.LEFT);
         VBox.setMargin(otherAccount, new Insets(0.0, 0.0, 0.0, 13.0));
         otherAccount.setOnAction((actionEvent) ->
-            JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 0.0, (actionEvent1) -> {
-                loginPane.setVisible(true);
-                loginPane.setManaged(true);
-                JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 1.0);
-            })
+                JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 0.0, (actionEvent1) -> {
+                    loginPane.setVisible(true);
+                    loginPane.setManaged(true);
+                    JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 1.0);
+                })
         );
 
         loginSpinner.setPrefWidth(32.0);
@@ -252,7 +254,7 @@ class LoginDesigner {
     }
 
     class userAccount extends StackPane {
-        userAccount(UsersTemplate.User user) {
+        userAccount(UserProfile user) {
             this.setMouseTransparent(true);
 
             HBox inner = new HBox();
@@ -279,7 +281,7 @@ class LoginDesigner {
             prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
 
             Label lastLoggedIn = new Label();
-            lastLoggedIn.setText(prettyTime.format(user.getLastLoginDate()));
+            lastLoggedIn.setText(prettyTime.format(new Date(user.getLastLogin())));
             lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10", "textFillLightGray");
 
             Label accountType = new Label();
