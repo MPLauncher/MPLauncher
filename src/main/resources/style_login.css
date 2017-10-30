@@ -1,0 +1,244 @@
+.loginForm {
+    -fx-max-width: 304;
+    -fx-max-height: 416;
+    -fx-pref-width: 304;
+    -fx-pref-height: 416;
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.loginName {
+    -fx-pref-width: 168;
+    -fx-pref-height: 32;
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.loginContent {
+    -fx-pref-width: 304;
+    -fx-pref-height: 400;
+    -fx-background-color: linear-gradient(to bottom, #140036, #1f0126);
+}
+
+.mplauncher {
+    -fx-font-family: 'Montserrat Regular';
+    -fx-font-size: 12px;
+    -fx-line-spacing: 0.6px;
+    -fx-padding: -3 0 0 0;
+}
+
+.textWhite {
+    -fx-fill: #ffffff;
+}
+
+.textBold {
+    -fx-font-family: 'Montserrat Bold';
+}
+
+.accountType {
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 15px;
+    -fx-text-fill: #341961;
+    -fx-line-spacing: 0.8px;
+    -fx-padding: 0 0 4 0;
+}
+
+.accountTypeSelected {
+    -fx-text-fill: #ffffff;
+}
+
+.lineType {
+    -fx-stroke: #7b1fa2;
+    -fx-stroke-width: 2px;
+}
+
+.defaultText {
+    -fx-font-family: 'Montserrat Regular';
+    -fx-font-size: 12px;
+    -fx-line-spacing: 0.6px;
+    -fx-text-fill: #4a228e;
+}
+
+.input {
+    -jfx-unfocus-color: #7b1fa2;
+    -fx-font-size: 12px;
+    -fx-font-family: 'Montserrat Regular';
+    -fx-text-fill: #ffffff;
+}
+
+.toggleButton {
+    -jfx-toggle-line-color: #341961;
+    -jfx-toggle-color: #9c27b0;
+    -jfx-untoggle-color: #341961;
+    -jfx-untoggle-line-color: #140020;
+    -fx-font-family: 'Montserrat Light';
+    -fx-font-size: 10px;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 0;
+}
+
+.loginButton {
+    -fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-border-width: 2px;
+    -fx-border-radius: 0px;
+    -fx-font-family: 'Montserrat SemiBold';
+    -fx-font-size: 12px;
+    -fx-text-fill: #ffffff;
+}
+
+.smallHyperlink {
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-font-family: 'Montserrat Light';
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 10px;
+}
+
+.closeHyperlink {
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-pref-width: 10px;
+    -fx-pref-height: 17px;
+    -fx-font-family: 'Montserrat Light';
+    -fx-font-size: 13px;
+    -fx-text-fill: #972ff3;
+    -fx-underline: false;
+}
+
+.closeHyperlink:hover {
+    -fx-text-fill: #ffffff;
+}
+
+.jfx-snackbar-content {
+    -fx-background-color: rgba(50, 50, 50, 0.5);
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-action {
+    -fx-text-fill: #ff4081;
+}
+
+.jfx-spinner > .arc {
+    -fx-stroke: #6a1b9a;
+}
+
+.textWhite {
+    -fx-fill: #ffffff;
+}
+
+.textBold {
+    -fx-font-family: 'Montserrat Bold';
+}
+
+.fontSize14 {
+    -fx-font-size: 14;
+}
+
+.fontSize12 {
+    -fx-font-size: 12;
+}
+
+.fontSize10 {
+    -fx-font-size: 10;
+}
+
+.fontSize9 {
+    -fx-font-size: 8;
+}
+
+.fontSize8_5 {
+    -fx-font-size: 8.5;
+}
+
+.fontSize8 {
+    -fx-font-size: 8;
+}
+
+.fontLight {
+    -fx-font-family: 'Montserrat Light';
+}
+
+.fontRegular {
+    -fx-font-family: 'Montserrat Regular';
+}
+
+.fontBold {
+    -fx-font-family: 'Montserrat Bold';
+}
+
+.fontSemiBold {
+    -fx-font-family: 'Montserrat SemiBold';
+}
+
+.fillWhite {
+    -fx-fill: #ffffff;
+}
+
+.textFillWhite {
+    -fx-text-fill: #ffffff;
+}
+
+.textFillLightGray {
+    -fx-text-fill: #cdcdcd;
+}
+
+.accountList {
+    -fx-background-color: transparent;
+}
+
+.accountList .jfx-list-cell {
+    -fx-background-color: transparent;
+}
+
+.accountList .jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #7b1fa2;
+}
+
+.accountList .jfx-list-cell:selected {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+}
+
+.accountList .jfx-list-cell:selected Label
+{
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
+.accountList .scroll-bar:horizontal,
+.accountList .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.accountList .scroll-bar:vertical {
+    -fx-padding: 0 10 0 0;
+}
+
+.accountList .scroll-bar:horizontal .thumb,
+.accountList .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+
+.accountList .scroll-bar:horizontal .increment-button,
+.accountList .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.accountList .scroll-bar:vertical .increment-button,
+.accountList .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.accountList .scroll-bar .increment-arrow,
+.accountList .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
