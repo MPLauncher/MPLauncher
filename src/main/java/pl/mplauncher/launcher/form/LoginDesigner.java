@@ -40,7 +40,6 @@ import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 
 class LoginDesigner {
 
@@ -276,8 +275,11 @@ class LoginDesigner {
             username.setText(user.getUsername());
             username.getStyleClass().addAll("fontRegular", "fontSize12", "textFillWhite");
 
+            PrettyTime prettyTime = new PrettyTime();
+            prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
+
             Label lastLoggedIn = new Label();
-            lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLoginDate()));
+            lastLoggedIn.setText(prettyTime.format(user.getLastLoginDate()));
             lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10", "textFillLightGray");
 
             Label accountType = new Label();
