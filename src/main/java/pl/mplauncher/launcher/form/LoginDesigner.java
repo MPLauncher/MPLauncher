@@ -35,12 +35,13 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.mplauncher.launcher.api.config.templates.UsersTemplate;
+import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.config.UserProfile;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 
 class LoginDesigner {
 
@@ -197,11 +198,11 @@ class LoginDesigner {
         otherAccount.setTextAlignment(TextAlignment.LEFT);
         VBox.setMargin(otherAccount, new Insets(0.0, 0.0, 0.0, 13.0));
         otherAccount.setOnAction((actionEvent) ->
-            JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 0.0, (actionEvent1) -> {
-                loginPane.setVisible(true);
-                loginPane.setManaged(true);
-                JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 1.0);
-            })
+                JFXHelpers.doublePropertyAnimation(Duration.millis(500), accountPane.opacityProperty(), 0.0, (actionEvent1) -> {
+                    loginPane.setVisible(true);
+                    loginPane.setManaged(true);
+                    JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 1.0);
+                })
         );
 
         loginSpinner.setPrefWidth(32.0);
@@ -214,7 +215,7 @@ class LoginDesigner {
 
         termsHyperlink.setTextAlignment(TextAlignment.CENTER);
         termsHyperlink.setText(currentLanguage.getMessage("login-termsOfUse"));
-        termsHyperlink.getStyleClass().add("smallHyperlink");
+        termsHyperlink.getStyleClass().addAll("smallHyperlink", "textFillLightGray");
         StackPane.setMargin(termsHyperlink, new Insets(342.0, 0.0, 0.0, 0.0));
 
         namePane.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -253,7 +254,7 @@ class LoginDesigner {
     }
 
     class userAccount extends StackPane {
-        userAccount(UsersTemplate.User user) {
+        userAccount(UserProfile user) {
             this.setMouseTransparent(true);
 
             HBox inner = new HBox();
@@ -270,20 +271,23 @@ class LoginDesigner {
             }
 
             VBox info = new VBox();
-            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 2.0));
+            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 8.0));
 
             Label username = new Label();
             username.setText(user.getUsername());
-            username.getStyleClass().addAll("fontRegular", "fontSize12");
+            username.getStyleClass().addAll("fontRegular", "fontSize12", "textFillWhite");
+
+            PrettyTime prettyTime = new PrettyTime();
+            prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
 
             Label lastLoggedIn = new Label();
-            lastLoggedIn.setText("Ostatnie logowanie: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(user.getLastLoginDate()));
-            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10");
+            lastLoggedIn.setText(prettyTime.format(new Date(user.getLastLogin())));
+            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10", "textFillLightGray");
 
             Label accountType = new Label();
             accountType.setText(user.getUserType().name());
             accountType.setTextAlignment(TextAlignment.RIGHT);
-            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10");
+            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite");
             StackPane.setAlignment(accountType, Pos.TOP_RIGHT);
             StackPane.setMargin(accountType, new Insets(2.0, 2.0, 0.0, 0.0));
 

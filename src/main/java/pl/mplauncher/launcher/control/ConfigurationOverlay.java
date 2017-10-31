@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.MPLauncher;
-import pl.mplauncher.launcher.api.config.ConfigUtils;
+import pl.mplauncher.launcher.config.ConfigUtils;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.io.File;

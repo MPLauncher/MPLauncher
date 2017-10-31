@@ -18,10 +18,10 @@ package pl.mplauncher.launcher.form;
 import com.google.common.base.Charsets;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import pl.mplauncher.launcher.api.config.Users;
-import pl.mplauncher.launcher.api.config.templates.UsersTemplate;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.config.ConfigurationFactory;
+import pl.mplauncher.launcher.config.UserProfile;
 import pl.mplauncher.launcher.helper.FormSwitcher;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
@@ -70,9 +70,9 @@ public class Login extends LoginDesigner {
         termsHyperlink.setOnAction(event -> onTermsAction());
 
         // Load login data //
-        if (!Users.getInstance().getUsers().isEmpty()) {
+        if (!ConfigurationFactory.getUsers().getUsers().isEmpty()) {
             switchToAccountList();
-            for (UsersTemplate.User user : Users.getInstance().getUsers()) {
+            for (UserProfile user : ConfigurationFactory.getUsers().getUsers()) {
                 accountList.getItems().add(new userAccount(user));
             }
         }
@@ -153,24 +153,13 @@ public class Login extends LoginDesigner {
                     }
                 }
 
+                UserProfile user = null;
                 if (passwordField.isVisible()) {
                     //Premium
                     if (loginField.getText().equals("Test") && passwordField.getText().equals("ForMe")) {
                         //Testing purpose
-                        UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), UUID.nameUUIDFromBytes((loginField.getText()).getBytes(Charsets.UTF_8)),
-                                "\" \"", null, rememberButton.isSelected(), UsersTemplate.UserType.PREMIUM);
-
-                        if (rememberButton.isSelected()) {
-                            if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuidAsUUID).anyMatch(user.getUuidAsUUID()::equals)) {
-                                snackBar.show("This account was added before.", 3000);
-                                disableActions(false);
-                                setLoggingIn(false);
-                            } else {
-                                Users.getInstance().getUsers().add(user);
-                            }
-                        }
-
-                        launchMain();
+                        user = new UserProfile(loginField.getText(), UUID.nameUUIDFromBytes((loginField.getText()).getBytes(Charsets.UTF_8)),
+                                "\" \"", null, rememberButton.isSelected(), UserProfile.Type.PREMIUM);
                     } else {
                         snackBar.show("Invalid credentials!", 3000);
                         disableActions(false);
@@ -178,20 +167,20 @@ public class Login extends LoginDesigner {
                     }
                 } else {
                     //NonPremium
-                    UsersTemplate.User user = new UsersTemplate.User(loginField.getText(), rememberButton.isSelected());
-
-                    if (rememberButton.isSelected()) {
-                        if (Users.getInstance().getUsers().stream().map(UsersTemplate.User::getUuidAsUUID).anyMatch(user.getUuidAsUUID()::equals)) {
-                            snackBar.show("This account was added before.", 3000);
-                            disableActions(false);
-                            setLoggingIn(false);
-                        } else {
-                            Users.getInstance().getUsers().add(user);
-                        }
-                    }
-
-                    launchMain();
+                    user = new UserProfile(loginField.getText(), rememberButton.isSelected());
                 }
+
+                if (rememberButton.isSelected() && user != null) {
+                    if (ConfigurationFactory.getUsers().getUsers().stream().map(UserProfile::getUUID).anyMatch(user.getUUID()::equals)) {
+                        snackBar.show("This account was added before.", 3000);
+                        disableActions(false);
+                        setLoggingIn(false);
+                    } else {
+                        ConfigurationFactory.getUsers().getUsers().add(user);
+                    }
+                }
+
+                launchMain();
             }
         } else {
             if (accountList.getSelectionModel().getSelectedIndex() != -1) {
@@ -211,7 +200,7 @@ public class Login extends LoginDesigner {
     }
 
     private void launchMain() {
-        Users.saveConfig();
+        ConfigurationFactory.getUsers().save();
         JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
     }
 }

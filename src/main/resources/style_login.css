@@ -71,7 +71,7 @@
     -jfx-untoggle-line-color: #140020;
     -fx-font-family: 'Montserrat Light';
     -fx-font-size: 10px;
-    -fx-text-fill: #4a228e;
+    -fx-text-fill: #ffffff;
     -fx-padding: 0;
 }
 
@@ -88,7 +88,7 @@
     -fx-border-color: transparent;
     -fx-padding: 0;
     -fx-font-family: 'Montserrat Light';
-    -fx-text-fill: #4a228e;
+    -fx-text-fill: #ffffff;
     -fx-font-size: 10px;
 }
 
@@ -99,7 +99,7 @@
     -fx-pref-height: 17px;
     -fx-font-family: 'Montserrat Light';
     -fx-font-size: 13px;
-    -fx-text-fill: #341961;
+    -fx-text-fill: #972ff3;
     -fx-underline: false;
 }
 
@@ -181,6 +181,10 @@
     -fx-text-fill: #ffffff;
 }
 
+.textFillLightGray {
+    -fx-text-fill: #cdcdcd;
+}
+
 .accountList {
     -fx-background-color: transparent;
 }
@@ -194,7 +198,7 @@
 }
 
 .accountList .jfx-list-cell:selected {
-    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-color: rgba(255, 255, 255, 0.06);
 }
 
 .accountList .jfx-list-cell:selected Label
