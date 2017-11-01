@@ -22,21 +22,21 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
-import pl.mplauncher.launcher.form.Login;
-import pl.mplauncher.launcher.form.Main;
+import pl.mplauncher.launcher.screen.Login;
+import pl.mplauncher.launcher.screen.Main;
 
 import java.net.URL;
 
-public class FormSwitcher {
+public class GUI {
 
-    private static final Logger logger = LogManager.getLogger(FormSwitcher.class);
+    private static final Logger logger = LogManager.getLogger(GUI.class);
 
-    public enum Form {
+    public enum Screen {
         LOGIN,
         MAIN
     }
 
-    public static void initializeGUI() {
+    public static void initialize() {
         MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
 
         URL montserratThin = Thread.currentThread().getContextClassLoader().getResource("Montserrat-Thin.ttf");
@@ -77,7 +77,7 @@ public class FormSwitcher {
         MPLauncherBootstrap.getStartStage().initStyle(StageStyle.TRANSPARENT);
     }
 
-    public static void switchTo(Form to) {
+    public static void switchScreen(Screen to) {
         MPLauncherBootstrap.getStartStage().setOpacity(0.0);
 
         switch (to) {

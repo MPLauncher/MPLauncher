@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.form;
+package pl.mplauncher.launcher.screen;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
@@ -42,7 +42,7 @@ public class Main extends MainDesigner {
     private static StackPane mainStackPane;
 
     public void initialize() {
-        //Form
+        //Screen
         initializeComponent();
 
         menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

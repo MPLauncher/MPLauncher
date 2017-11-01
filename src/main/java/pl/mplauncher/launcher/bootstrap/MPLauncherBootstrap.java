@@ -33,7 +33,7 @@ import pl.mplauncher.launcher.config.AppConfiguration;
 import pl.mplauncher.launcher.config.ConfigurationFactory;
 import pl.mplauncher.launcher.control.ConfigurationOverlay;
 import pl.mplauncher.launcher.control.QuestionOverlay;
-import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.helper.GUI;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
 import java.awt.*;
@@ -174,8 +174,8 @@ public class MPLauncherBootstrap extends Application {
          */
 
         //We are now ready to run our launcher!
-        FormSwitcher.initializeGUI();
-        FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
+        GUI.initialize();
+        GUI.switchScreen(GUI.Screen.LOGIN);
         /*
             Login: Test
             Passw: ForMe

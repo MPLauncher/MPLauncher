@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.form;
+package pl.mplauncher.launcher.screen;
 
 import com.jfoenix.controls.*;
 import javafx.collections.ListChangeListener;

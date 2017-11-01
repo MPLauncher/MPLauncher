@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.form;
+package pl.mplauncher.launcher.screen;
 
 import com.google.common.base.Charsets;
 import javafx.application.Platform;
@@ -22,7 +22,7 @@ import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.config.ConfigurationFactory;
 import pl.mplauncher.launcher.config.UserProfile;
-import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.helper.GUI;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
 import java.net.URI;
@@ -37,7 +37,7 @@ public class Login extends LoginDesigner {
     private static double yOffset;
 
     public void initialize() {
-        //Form
+        //Screen
         initializeComponent();
 
         snackBar.registerSnackbarContainer(stackPane);
@@ -201,6 +201,6 @@ public class Login extends LoginDesigner {
 
     private void launchMain() {
         ConfigurationFactory.getUsers().save();
-        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> FormSwitcher.switchTo(FormSwitcher.Form.MAIN));
+        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> GUI.switchScreen(GUI.Screen.MAIN));
     }
 }
