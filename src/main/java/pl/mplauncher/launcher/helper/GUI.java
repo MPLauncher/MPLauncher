@@ -22,8 +22,9 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
-import pl.mplauncher.launcher.screen.Login;
-import pl.mplauncher.launcher.screen.Main;
+import pl.mplauncher.launcher.screen.LoginScreen;
+import pl.mplauncher.launcher.screen.MainScreen;
+import pl.mplauncher.launcher.screen.Screen;
 
 import java.net.URL;
 
@@ -31,7 +32,7 @@ public class GUI {
 
     private static final Logger logger = LogManager.getLogger(GUI.class);
 
-    public enum Screen {
+    public enum ScreenType {
         LOGIN,
         MAIN
     }
@@ -59,27 +60,26 @@ public class GUI {
         MPLauncherBootstrap.getStartStage().initStyle(StageStyle.TRANSPARENT);
     }
 
-    public static void switchScreen(Screen to) {
+    public static void switchScreen(ScreenType to) {
         MPLauncherBootstrap.getStartStage().setOpacity(0.0);
+
+        Screen screen = null;
 
         switch (to) {
             case LOGIN: {
-                Login login = new Login();
-                login.initialize();
-
-                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Login");
-                MPLauncherBootstrap.getStartStage().setScene(login.getLoginScene());
+                screen = new LoginScreen();
                 break;
             }
             case MAIN: {
-                Main main = new Main();
-                main.initialize();
-
-                MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - Main");
-                MPLauncherBootstrap.getStartStage().setScene(main.getMainScene());
+                screen = new MainScreen();
                 break;
             }
         }
+
+        screen.initialize();
+
+        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - LoginScreen");
+        MPLauncherBootstrap.getStartStage().setScene(screen.layout.getScene());
 
         MPLauncherBootstrap.getStartStage().centerOnScreen();
         MPLauncherBootstrap.getStartStage().show();

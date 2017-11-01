@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.screen;
+package pl.mplauncher.launcher.screen.layout;
 
 import com.jfoenix.controls.*;
 import javafx.collections.ListChangeListener;
@@ -30,43 +30,41 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.helper.JFXHelpers;
+import pl.mplauncher.launcher.screen.Screen;
 import pl.mplauncher.launcher.screen.component.UserAccountListItem;
 
 import java.net.URL;
 
-class LoginDesigner {
+public class LoginLayout extends Layout{
 
-    private static final Logger logger = LogManager.getLogger(LoginDesigner.class);
-
-    //Elements
-    private Scene loginScene;
-    JFXSnackbar snackBar;
-    StackPane stackPane;
-    Hyperlink closeButton;
-    //Login StackPane
-    StackPane loginPane;
-    JFXButton premiumButton;
-    Line premiumButtonLine;
-    JFXButton nonpremiumButton;
-    Line nonpremiumButtonLine;
-    JFXTextField loginField;
-    JFXPasswordField passwordField;
-    JFXToggleButton rememberButton;
+    public JFXSnackbar snackBar;
+    public StackPane stackPane;
+    public Hyperlink closeButton;
+    //LoginScreen StackPane
+    public StackPane loginPane;
+    public JFXButton premiumButton;
+    public Line premiumButtonLine;
+    public JFXButton nonpremiumButton;
+    public Line nonpremiumButtonLine;
+    public JFXTextField loginField;
+    public JFXPasswordField passwordField;
+    public JFXToggleButton rememberButton;
     //Account pane
     private StackPane accountPane;
-    JFXListView<UserAccountListItem> accountList;
+    public JFXListView<UserAccountListItem> accountList;
     //After stackpanes
-    JFXSpinner loginSpinner;
-    JFXButton loginButton;
-    Hyperlink termsHyperlink;
-    Pane namePane;
+    public JFXSpinner loginSpinner;
+    public JFXButton loginButton;
+    public Hyperlink termsHyperlink;
+    public Pane namePane;
 
-    //Initializer
-    void initializeComponent() {
+    public LoginLayout(Screen screen) {
+        super(screen);
+    }
+
+    public void initialize() {
         MessageBundle currentLanguage = MessageBundle.getCurrentLanguage();
         VBox loginForm = new VBox();
         this.snackBar = new JFXSnackbar();
@@ -100,7 +98,7 @@ class LoginDesigner {
         if (style != null) {
             loginForm.getStylesheets().add(style.toExternalForm());
         } else {
-            logger.error("Couldn't load CSS style for the Login form!");
+            screen.logger.error("Couldn't load CSS style for the LoginScreen form!");
         }
         loginForm.getStyleClass().add("loginForm");
 
@@ -244,11 +242,11 @@ class LoginDesigner {
         mplauncher.getChildren().addAll(mp, launcher);
 
         //Parent
-        this.loginScene = new Scene(loginForm, 304, 416);
-        this.loginScene.setFill(Color.TRANSPARENT);
+        this.scene = new Scene(loginForm, 304, 416);
+        this.scene.setFill(Color.TRANSPARENT);
     }
 
-    void switchToAccountList() {
+    public void switchToAccountList() {
         JFXHelpers.doublePropertyAnimation(Duration.millis(500), loginPane.opacityProperty(), 0.0, (event) -> {
             loginPane.setVisible(false);
             loginPane.setManaged(false);
@@ -256,7 +254,7 @@ class LoginDesigner {
         });
     }
 
-    void disableActions(boolean disable) {
+    public void disableActions(boolean disable) {
         premiumButton.setDisable(disable);
         nonpremiumButton.setDisable(disable);
 
@@ -266,7 +264,7 @@ class LoginDesigner {
         rememberButton.setDisable(disable);
     }
 
-    void setLoggingIn(boolean loggingIn) {
+    public void setLoggingIn(boolean loggingIn) {
         if (loggingIn) {
             JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 1.0, 0.0, actionEvent -> loginButton.setVisible(false));
             JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 0.0, 1.0);
@@ -274,10 +272,6 @@ class LoginDesigner {
             JFXHelpers.fadeTransition(Duration.millis(250), loginSpinner, 1.0, 0.0);
             JFXHelpers.fadeTransition(Duration.millis(250), loginButton, 0.0, 1.0, actionEvent -> loginButton.setVisible(true));
         }
-    }
-
-    public Scene getLoginScene() {
-        return loginScene;
     }
 
 }

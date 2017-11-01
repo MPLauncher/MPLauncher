@@ -175,9 +175,9 @@ public class MPLauncherBootstrap extends Application {
 
         //We are now ready to run our launcher!
         GUI.initialize();
-        GUI.switchScreen(GUI.Screen.LOGIN);
+        GUI.switchScreen(GUI.ScreenType.LOGIN);
         /*
-            Login: Test
+            LoginScreen: Test
             Passw: ForMe
             For launching main form!
          */
