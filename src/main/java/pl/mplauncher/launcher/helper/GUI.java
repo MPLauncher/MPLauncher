@@ -39,39 +39,21 @@ public class GUI {
     public static void initialize() {
         MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
 
-        URL montserratThin = Thread.currentThread().getContextClassLoader().getResource("Montserrat-Thin.ttf");
-        if (montserratThin != null) {
-            Font.loadFont(montserratThin.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Thin font!");
-        }
+        final String[] requiredFonts = {
+                "Montserrat-Thin.ttf",
+                "Montserrat-Light.ttf",
+                "Montserrat-Regular.ttf",
+                "Montserrat-SemiBold.ttf",
+                "Montserrat-Bold.ttf"
+        };
 
-        URL montserratLight = Thread.currentThread().getContextClassLoader().getResource("Montserrat-Light.ttf");
-        if (montserratLight != null) {
-            Font.loadFont(montserratLight.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Light font!");
-        }
-
-        URL montserratRegular = Thread.currentThread().getContextClassLoader().getResource("Montserrat-Regular.ttf");
-        if (montserratRegular != null) {
-            Font.loadFont(montserratRegular.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Regular font!");
-        }
-
-        URL montserratSemiBold = Thread.currentThread().getContextClassLoader().getResource("Montserrat-SemiBold.ttf");
-        if (montserratSemiBold != null) {
-            Font.loadFont(montserratSemiBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat SemiBold font!");
-        }
-
-        URL montserratBold = Thread.currentThread().getContextClassLoader().getResource("Montserrat-Bold.ttf");
-        if (montserratBold != null) {
-            Font.loadFont(montserratBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Bold font!");
+        for (String fontFilename : requiredFonts) {
+            URL fontURL = Thread.currentThread().getContextClassLoader().getResource(fontFilename);
+            if (fontURL != null) {
+                Font.loadFont(fontURL.toExternalForm(), 10);
+            } else {
+                logger.error("Couldn't load " + fontFilename + " font!");
+            }
         }
 
         MPLauncherBootstrap.getStartStage().initStyle(StageStyle.TRANSPARENT);
