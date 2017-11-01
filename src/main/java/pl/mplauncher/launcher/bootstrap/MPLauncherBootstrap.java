@@ -142,14 +142,18 @@ public class MPLauncherBootstrap extends Application {
 
             if (!app.getDataLocation().exists()) {
                 Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", configurationOverlay.getResult().name()));
-                ConfigurationFactory.getUsers().save();
-            } else {
-                ConfigurationFactory.getUsers().load();
             }
+
+            ConfigurationFactory.getUsers().load(true);
 
         } else {
             app = ConfigurationFactory.getAppSetup(true);
-            ConfigurationFactory.getUsers(true);
+
+            if (!app.getDataLocation().exists()) {
+                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", app.getInstallationType()));
+            }
+
+            ConfigurationFactory.getUsers().load(true);
 
             logger.info("Installation type: " + app.getInstallationType());
             logger.info("Application data location: " + app.getDataLocation());

@@ -15,12 +15,20 @@ abstract class Configuration<T> {
     }
 
     public T load() {
+        return load(false);
+    }
+
+    public T load(boolean autocreate) {
         File loadLocation;
 
         if (location == null) {
             loadLocation = getDefaultLocation();
         } else {
             loadLocation = location;
+        }
+
+        if (!loadLocation.exists() && autocreate) {
+            save();
         }
 
         try {
