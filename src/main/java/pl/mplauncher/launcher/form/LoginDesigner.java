@@ -205,7 +205,7 @@ class LoginDesigner {
                 })
         );
 
-        loginSpinner.setPrefWidth(32.0);
+        loginSpinner.setRadius(13);
         StackPane.setMargin(loginSpinner, new Insets(298.0, 0.0, 0.0, 0.0));
 
         loginButton.setPrefSize(131.0, 32.0);
