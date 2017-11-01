@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.control.InstallerOverlay;
+import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.control.SettingsOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
 
@@ -100,6 +101,10 @@ public class Main extends MainDesigner {
                         }
                         default: {
                             logger.warn("Not implemented yet!");
+
+                            //Example of how QuestionOverlay works.
+                            QuestionOverlay questionOverlay = new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Not implemented", "This is not implemented yet!");
+                            logger.info("Clicked: " + questionOverlay.getResult());
                             break;
                         }
                     }

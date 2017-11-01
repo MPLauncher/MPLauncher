@@ -78,9 +78,7 @@ public class FormSwitcher {
     }
 
     public static void switchTo(Form to) {
-        if (MPLauncherBootstrap.getStartStage().getOpacity() != 0.0) {
-            MPLauncherBootstrap.getStartStage().setOpacity(0.0);
-        }
+        MPLauncherBootstrap.getStartStage().setOpacity(0.0);
 
         switch (to) {
             case LOGIN: {
