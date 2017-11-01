@@ -24,6 +24,7 @@ import pl.mplauncher.launcher.config.ConfigurationFactory;
 import pl.mplauncher.launcher.config.UserProfile;
 import pl.mplauncher.launcher.helper.GUI;
 import pl.mplauncher.launcher.helper.JFXHelpers;
+import pl.mplauncher.launcher.screen.component.UserAccountListItem;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -73,7 +74,7 @@ public class Login extends LoginDesigner {
         if (!ConfigurationFactory.getUsers().getUsers().isEmpty()) {
             switchToAccountList();
             for (UserProfile user : ConfigurationFactory.getUsers().getUsers()) {
-                accountList.getItems().add(new userAccount(user));
+                accountList.getItems().add(new UserAccountListItem(user));
             }
         }
     }

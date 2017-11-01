@@ -21,10 +21,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -35,13 +32,11 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
-import pl.mplauncher.launcher.config.UserProfile;
 import pl.mplauncher.launcher.helper.JFXHelpers;
+import pl.mplauncher.launcher.screen.component.UserAccountListItem;
 
 import java.net.URL;
-import java.util.Date;
 
 class LoginDesigner {
 
@@ -63,7 +58,7 @@ class LoginDesigner {
     JFXToggleButton rememberButton;
     //Account pane
     private StackPane accountPane;
-    JFXListView<userAccount> accountList;
+    JFXListView<UserAccountListItem> accountList;
     //After stackpanes
     JFXSpinner loginSpinner;
     JFXButton loginButton;
@@ -181,7 +176,7 @@ class LoginDesigner {
         accountPane.managedProperty().bind(loginPane.managedProperty().not());
 
         accountList.setFixedCellSize(42.0);
-        accountList.getItems().addListener((ListChangeListener<userAccount>) c -> {
+        accountList.getItems().addListener((ListChangeListener<UserAccountListItem>) c -> {
             double desiredHeight = (accountList.getItems().size() * accountList.getFixedCellSize()) + 5;
             if (desiredHeight > 190.0) {
                 accountList.setPrefHeight(190.0);
@@ -251,50 +246,6 @@ class LoginDesigner {
         //Parent
         this.loginScene = new Scene(loginForm, 304, 416);
         this.loginScene.setFill(Color.TRANSPARENT);
-    }
-
-    class userAccount extends StackPane {
-        userAccount(UserProfile user) {
-            this.setMouseTransparent(true);
-
-            HBox inner = new HBox();
-
-            ImageView avatar = new ImageView();
-            avatar.setFitWidth(32.0);
-            avatar.setFitHeight(32.0);
-            avatar.setPickOnBounds(true);
-            avatar.setPreserveRatio(true);
-            if (user.getUsername().equalsIgnoreCase("cebula")) {
-                avatar.setImage(new Image("https://vignette.wikia.nocookie.net/disneycreate/images/5/51/Onion.png/revision/latest"));
-            } else {
-                avatar.setImage(new Image("https://skiny.mplauncher.pl/api/3d.php?user=" + user.getUsername() + "&vr=0&hr=0&displayHair=true&headOnly=true&format=png&ratio=20&aa=true&layers=false"));
-            }
-
-            VBox info = new VBox();
-            HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 8.0));
-
-            Label username = new Label();
-            username.setText(user.getUsername());
-            username.getStyleClass().addAll("fontRegular", "fontSize12", "textFillWhite");
-
-            PrettyTime prettyTime = new PrettyTime();
-            prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
-
-            Label lastLoggedIn = new Label();
-            lastLoggedIn.setText(prettyTime.format(new Date(user.getLastLogin())));
-            lastLoggedIn.getStyleClass().addAll("fontLight", "fontSize10", "textFillLightGray");
-
-            Label accountType = new Label();
-            accountType.setText(user.getUserType().name());
-            accountType.setTextAlignment(TextAlignment.RIGHT);
-            accountType.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite");
-            StackPane.setAlignment(accountType, Pos.TOP_RIGHT);
-            StackPane.setMargin(accountType, new Insets(2.0, 2.0, 0.0, 0.0));
-
-            this.getChildren().addAll(inner, accountType);
-            inner.getChildren().addAll(avatar, info);
-            info.getChildren().addAll(username, lastLoggedIn);
-        }
     }
 
     void switchToAccountList() {
