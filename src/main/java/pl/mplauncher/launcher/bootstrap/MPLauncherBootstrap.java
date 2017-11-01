@@ -59,9 +59,20 @@ public class MPLauncherBootstrap extends Application {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
         startStage = stage;
 
-        // Initializing the app setup and logger.
+        // Initializing the app setup.
         AppConfiguration app = ConfigurationFactory.getAppSetup();
-//        AppSetup.initialize();
+
+        // Initialize logger
+        if (ConfigUtils.isGlobalConfigExists()) {
+            System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
+        } else {
+            // *********************************************** //
+            // By default it's path where is the *.JAR file.   //
+            // It's have to be called before log4j2 is loaded! //
+            // *********************************************** //
+            System.setProperty("logBasePath", "logs");
+        }
+
         logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
         // Important things on the beginning of the log
