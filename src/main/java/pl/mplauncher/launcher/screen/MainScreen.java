@@ -22,8 +22,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.control.InstallerOverlay;
@@ -114,7 +112,7 @@ public class MainScreen extends Screen<MainLayout> {
         // -- SET ALL -- //
 
         //Set USERNAME
-        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("gaben.jpg");
+        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("images/gaben.jpg");
         if (imgUrl != null) {
             Image img = new Image(imgUrl.toString());
             layout.setUserAvatar(img);
@@ -135,7 +133,7 @@ public class MainScreen extends Screen<MainLayout> {
         layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
         //Set NEWS
-        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("mc.jpg");
+        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("images/mc.jpg");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
             layout.setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"

@@ -61,7 +61,7 @@ public class ServerList extends StackPane {
         centerContainer.getRowConstraints().addAll(cCrow1, cCrow2, cCrow3);
 
         StackPane serverImage = new StackPane();
-        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("mc.jpg");
+        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("images/mc.jpg");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
             serverImage.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(image.getWidth(), image.getHeight(), false, false, false, true))));

@@ -34,7 +34,7 @@
     -fx-pref-width: 1087;
     -fx-pref-height: 170;
     -fx-background-size: 1087 auto;
-    -fx-background-image: url("mc.jpg");
+    -fx-background-image: url("../images/mc.jpg");
     -fx-background-position: center -100;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .newsImage {
-    -fx-background-image: url('mc.jpg');
+    -fx-background-image: url('../images/mc.jpg');
     -fx-background-size: cover;
     -fx-background-position: center center;
 }

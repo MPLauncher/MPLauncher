@@ -34,7 +34,7 @@ public class RightOfNews extends StackPane {
         parent.discordLogo.setTranslateY(215.0);
         parent.discordLogo.setCursor(Cursor.HAND);
         parent.discordLogo.setOnMouseClicked(event -> ((MainScreen) parent.screen).discordLogoClicked());
-        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("DiscordLogo.png");
+        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("images/DiscordLogo.png");
         if (imgUrl != null) {
             parent.discordLogo.setImage(new Image(imgUrl.toString()));
         } else {

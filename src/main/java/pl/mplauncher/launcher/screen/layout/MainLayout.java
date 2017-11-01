@@ -93,7 +93,7 @@ public class MainLayout extends Layout {
         mainForm.setMaxSize(VBox.USE_PREF_SIZE, VBox.USE_PREF_SIZE);
         mainForm.setPrefSize(1178.0, 722.0);
 
-        URL style = Thread.currentThread().getContextClassLoader().getResource("style_main.css");
+        URL style = Thread.currentThread().getContextClassLoader().getResource("styles/main.css");
         if (style != null) {
             mainForm.getStylesheets().add(style.toExternalForm());
         } else {

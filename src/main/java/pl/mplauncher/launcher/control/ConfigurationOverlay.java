@@ -42,7 +42,7 @@ public class ConfigurationOverlay extends Stage {
         Scene scene = new Scene(dialogLayout);
         scene.setFill(Color.TRANSPARENT);
 
-        this.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
+        this.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo.png")));
         this.setScene(scene);
         this.initStyle(StageStyle.UNDECORATED);
 

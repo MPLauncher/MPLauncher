@@ -26,6 +26,7 @@ import pl.mplauncher.launcher.screen.LoginScreen;
 import pl.mplauncher.launcher.screen.MainScreen;
 import pl.mplauncher.launcher.screen.Screen;
 
+import java.io.File;
 import java.net.URL;
 
 public class GUI {
@@ -38,7 +39,7 @@ public class GUI {
     }
 
     public static void initialize() {
-        MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("logo.png")));
+        MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo.png")));
 
         final String[] requiredFonts = {
                 "Montserrat-Thin.ttf",
@@ -49,7 +50,7 @@ public class GUI {
         };
 
         for (String fontFilename : requiredFonts) {
-            URL fontURL = Thread.currentThread().getContextClassLoader().getResource(fontFilename);
+            URL fontURL = Thread.currentThread().getContextClassLoader().getResource("fonts" + File.separator + fontFilename);
             if (fontURL != null) {
                 Font.loadFont(fontURL.toExternalForm(), 10);
             } else {

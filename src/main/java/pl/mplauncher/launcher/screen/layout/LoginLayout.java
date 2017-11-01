@@ -94,7 +94,7 @@ public class LoginLayout extends Layout{
         Text mp = new Text();
         Text launcher = new Text();
 
-        URL style = Thread.currentThread().getContextClassLoader().getResource("style_login.css");
+        URL style = Thread.currentThread().getContextClassLoader().getResource("styles/login.css");
         if (style != null) {
             loginForm.getStylesheets().add(style.toExternalForm());
         } else {
