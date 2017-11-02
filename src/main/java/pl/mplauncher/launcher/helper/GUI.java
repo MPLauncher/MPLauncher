@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap;
@@ -79,7 +80,7 @@ public class GUI {
 
         screen.initialize();
 
-        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - LoginScreen");
+        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - " + StringUtils.capitalize(to.name().toLowerCase()));
         MPLauncherBootstrap.getStartStage().setScene(screen.layout.getScene());
 
         MPLauncherBootstrap.getStartStage().centerOnScreen();
