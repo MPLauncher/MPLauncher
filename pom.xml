@@ -74,12 +74,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.diorite</groupId>
-            <artifactId>diorite-config-minimal</artifactId>
-            <version>1.4</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx-commons</artifactId>
             <version>8.15</version>
