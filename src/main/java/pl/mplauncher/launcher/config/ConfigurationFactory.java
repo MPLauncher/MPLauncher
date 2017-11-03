@@ -17,6 +17,11 @@ public class ConfigurationFactory {
     public static AppConfiguration getAppSetup(boolean reload) {
         if (appConfiguration == null) {
             appConfiguration = new AppConfiguration();
+            AppConfiguration loaded = appConfiguration.load();
+
+            if (loaded != null) {
+                appConfiguration = loaded;
+            }
         }
 
         if (reload) {
@@ -33,6 +38,11 @@ public class ConfigurationFactory {
     public static UsersConfiguration getUsers(boolean reload) {
         if (usersConfiguration == null) {
             usersConfiguration = new UsersConfiguration();
+            UsersConfiguration loaded = usersConfiguration.load();
+
+            if (loaded != null) {
+                usersConfiguration = loaded;
+            }
         }
 
         if (reload) {

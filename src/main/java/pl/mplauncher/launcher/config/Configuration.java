@@ -1,6 +1,8 @@
 package pl.mplauncher.launcher.config;
 
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.io.*;
@@ -15,10 +17,6 @@ abstract class Configuration<T> {
     }
 
     public T load() {
-        return load(false);
-    }
-
-    public T load(boolean autocreate) {
         File loadLocation;
 
         if (location == null) {
@@ -27,7 +25,7 @@ abstract class Configuration<T> {
             loadLocation = location;
         }
 
-        if (!loadLocation.exists() && autocreate) {
+        if (!loadLocation.exists()) {
             save();
         }
 
@@ -36,6 +34,8 @@ abstract class Configuration<T> {
             return ConfigurationFactory.gson.fromJson(reader, getClass());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (JsonSyntaxException e) {
+            FileUtils.deleteQuietly(loadLocation);
         }
 
         return null;
