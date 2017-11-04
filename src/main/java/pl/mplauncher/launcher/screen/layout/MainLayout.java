@@ -266,7 +266,7 @@ public class MainLayout extends Layout {
                 animations.play();
             }
         });
-        
+
         menuButtonIconLEFT.setOpacity(0.0);
         menuButtonIconLEFT.setBoundsType(TextBoundsType.VISUAL);
         menuButtonIconLEFT.getStyleClass().add("menuButton");

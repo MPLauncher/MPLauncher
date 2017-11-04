@@ -14,7 +14,6 @@ import pl.mplauncher.launcher.screen.layout.MainLayout;
 public class CloseItem extends GridPane {
 
     public CloseItem(MainLayout parent, String label) {
-        this.setMouseTransparent(true);
         this.setPadding(new Insets(0.0, 13.0, 13.0, 13.0));
 
         ColumnConstraints first = new ColumnConstraints();
