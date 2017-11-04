@@ -161,6 +161,8 @@ public class MPLauncherBootstrap extends Application {
             app.setFirstRun(false);
         }
 
+        ConfigurationFactory.getUsers().load();
+
         // Future use: MPLauncher launcher = new MPLauncher();
 
         /*

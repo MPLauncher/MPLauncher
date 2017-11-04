@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 public class ConfigurationFactory {
 
-    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private static AppConfiguration appConfiguration = null;
     private static UsersConfiguration usersConfiguration = null;
@@ -14,18 +14,13 @@ public class ConfigurationFactory {
         return getAppSetup(false);
     }
 
-    public static AppConfiguration getAppSetup(boolean reload) {
+    public static AppConfiguration getAppSetup(boolean fromFile) {
         if (appConfiguration == null) {
             appConfiguration = new AppConfiguration();
-            AppConfiguration loaded = appConfiguration.load();
-
-            if (loaded != null) {
-                appConfiguration = loaded;
-            }
         }
 
-        if (reload) {
-            appConfiguration = appConfiguration.load();
+        if (fromFile) {
+            appConfiguration.load();
         }
 
         return appConfiguration;
@@ -35,18 +30,13 @@ public class ConfigurationFactory {
         return getUsers(false);
     }
 
-    public static UsersConfiguration getUsers(boolean reload) {
+    public static UsersConfiguration getUsers(boolean fromFile) {
         if (usersConfiguration == null) {
             usersConfiguration = new UsersConfiguration();
-            UsersConfiguration loaded = usersConfiguration.load();
-
-            if (loaded != null) {
-                usersConfiguration = loaded;
-            }
         }
 
-        if (reload) {
-            usersConfiguration = usersConfiguration.load();
+        if (fromFile) {
+            usersConfiguration.load();
         }
 
         return usersConfiguration;

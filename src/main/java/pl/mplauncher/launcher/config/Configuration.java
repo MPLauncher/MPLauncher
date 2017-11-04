@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.io.*;
+import java.lang.reflect.Field;
 
 abstract class Configuration<T> {
 
@@ -16,7 +17,11 @@ abstract class Configuration<T> {
         this.location = location;
     }
 
-    public T load() {
+    public void load() {
+        load(false);
+    }
+
+    public void load(boolean autocreate) {
         File loadLocation;
 
         if (location == null) {
@@ -25,20 +30,18 @@ abstract class Configuration<T> {
             loadLocation = location;
         }
 
-        if (!loadLocation.exists()) {
+        if (!loadLocation.exists() && autocreate) {
             save();
         }
 
         try {
             JsonReader reader = new JsonReader(new FileReader(loadLocation));
-            return ConfigurationFactory.gson.fromJson(reader, getClass());
+            applyFields(ConfigurationFactory.gson.fromJson(reader, getClass()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (JsonSyntaxException e) {
             FileUtils.deleteQuietly(loadLocation);
         }
-
-        return null;
     }
 
     public void save() {
@@ -60,6 +63,19 @@ abstract class Configuration<T> {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void applyFields(T from) {
+        Class<T> fromClass = (Class<T>) from.getClass();
+
+        for (Field field : fromClass.getDeclaredFields()) {
+            try {
+                field.setAccessible(true);
+                field.set(this, field.get(from));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 

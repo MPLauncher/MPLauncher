@@ -18,7 +18,6 @@ public class UsersConfiguration extends Configuration<UsersConfiguration> {
 
     @Override
     File getDefaultLocation() {
-        System.out.println(ConfigurationFactory.getAppSetup().getDataLocation());
         return new File(ConfigurationFactory.getAppSetup().getDataLocation(), "users.json");
     }
 
