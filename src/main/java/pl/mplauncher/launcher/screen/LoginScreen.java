@@ -45,7 +45,7 @@ public class LoginScreen extends Screen<LoginLayout> {
         layout.passwordField.setDisableAnimation(true);
 
         // PREMIUM activated by default!
-        layout.premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
+        layout.premiumButton.getStyleClass().add("accountTypeSelected");
         layout.nonpremiumButtonLine.setOpacity(0.0);
 
         // Allow to drag entire app via namePane
@@ -87,8 +87,8 @@ public class LoginScreen extends Screen<LoginLayout> {
 
     private void onPremiumSelected() {
         if (!layout.premiumButton.getStyleClass().contains("accountTypeSelected")) {
-            layout.premiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
-            layout.nonpremiumButton.getStyleClass().setAll("accountType");
+            layout.premiumButton.getStyleClass().add("accountTypeSelected");
+            layout.nonpremiumButton.getStyleClass().remove("accountTypeSelected");
             layout.loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formPremiumUsername"));
 
             layout.passwordField.setVisible(true);
@@ -100,8 +100,8 @@ public class LoginScreen extends Screen<LoginLayout> {
 
     private void onNonPremiumSelected() {
         if (!layout.nonpremiumButton.getStyleClass().contains("accountTypeSelected")) {
-            layout.nonpremiumButton.getStyleClass().setAll("accountType", "accountTypeSelected");
-            layout.premiumButton.getStyleClass().setAll("accountType");
+            layout.nonpremiumButton.getStyleClass().add("accountTypeSelected");
+            layout.premiumButton.getStyleClass().remove("accountTypeSelected");
             layout.loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formNonPremiumUsername"));
 
             JFXHelpers.fadeTransition(Duration.millis(250), layout.premiumButtonLine, 1.0, 0.0);
