@@ -56,7 +56,6 @@ public class SettingsOverlay extends JFXDialog {
 
         FontAwesomeIconView fa = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
         fa.getStyleClass().add("closeIcon");
-        fa.setMouseTransparent(true);
 
         JFXRippler closeButton = new JFXRippler();
         closeButton.setMaxSize(JFXRippler.USE_PREF_SIZE, JFXRippler.USE_PREF_SIZE);
