@@ -34,7 +34,7 @@
     -fx-pref-width: 1087;
     -fx-pref-height: 170;
     -fx-background-size: 1087 auto;
-    -fx-background-image: url("mc.jpg");
+    -fx-background-image: url("../images/mc.jpg");
     -fx-background-position: center -100;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .newsImage {
-    -fx-background-image: url('mc.jpg');
+    -fx-background-image: url('../images/mc.jpg');
     -fx-background-size: cover;
     -fx-background-position: center center;
 }
@@ -277,7 +277,7 @@
 .serverList .jfx-list-cell Label
 {
     -fx-fill: #333333;
-    -fx-text-fill: #333333;
+    -fx-text-fill: #646464;
 }
 
 /* SELECTED */
@@ -311,7 +311,7 @@
 .selectList .jfx-list-cell Label
 {
     -fx-fill: #341961;
-    -fx-text-fill: #341961;
+    -fx-text-fill: #ffffff;
 }
 
 /* SELECTED */

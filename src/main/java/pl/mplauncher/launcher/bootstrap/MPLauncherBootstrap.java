@@ -15,33 +15,35 @@
 */
 package pl.mplauncher.launcher.bootstrap;
 
+import com.google.common.io.Files;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;
-import pl.mplauncher.launcher.helper.FormSwitcher;
+import pl.mplauncher.launcher.config.ConfigUtils;
+import pl.mplauncher.launcher.config.AppConfiguration;
+import pl.mplauncher.launcher.config.ConfigurationFactory;
+import pl.mplauncher.launcher.control.ConfigurationOverlay;
+import pl.mplauncher.launcher.control.QuestionOverlay;
+import pl.mplauncher.launcher.helper.GUI;
 import pl.mplauncher.launcher.api.i18n.MessageBundleIO;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URL;
+import java.awt.*;
+import java.io.*;
 import java.time.LocalDateTime;
 
 public class MPLauncherBootstrap extends Application {
 
     private static Stage startStage;
-    private static final Logger logger = LogManager.getLogger(MPLauncherBootstrap.class);
+    private static Logger logger;
 
     public static void main(String[] args) {
         try {
@@ -55,58 +57,30 @@ public class MPLauncherBootstrap extends Application {
     @Override
     public void start(Stage stage) {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
-
         startStage = stage;
-        // Future use: MPLauncher launcher = new MPLauncher();
 
-        // Future use - app location -> MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()
+        // Initializing the app setup.
+        AppConfiguration app = ConfigurationFactory.getAppSetup();
 
-        stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("logo.png")));
-
-        URL montserratThin = getClass().getClassLoader().getResource("Montserrat-Thin.ttf");
-        if (montserratThin != null) {
-            Font.loadFont(montserratThin.toExternalForm(), 10);
+        // Initialize logger
+        if (ConfigUtils.isGlobalConfigExists()) {
+            app.load();
+            System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
         } else {
-            logger.error("Couldn't load Montserrat Thin font!");
+            // *********************************************** //
+            // By default it's path where is the *.JAR file.   //
+            // It's have to be called before log4j2 is loaded! //
+            // *********************************************** //
+            System.setProperty("logBasePath", "logs");
         }
 
-        URL montserratLight = getClass().getClassLoader().getResource("Montserrat-Light.ttf");
-        if (montserratLight != null) {
-            Font.loadFont(montserratLight.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Light font!");
-        }
-
-        URL montserratRegular = getClass().getClassLoader().getResource("Montserrat-Regular.ttf");
-        if (montserratRegular != null) {
-            Font.loadFont(montserratRegular.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Regular font!");
-        }
-
-        URL montserratSemiBold = getClass().getClassLoader().getResource("Montserrat-SemiBold.ttf");
-        if (montserratSemiBold != null) {
-            Font.loadFont(montserratSemiBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat SemiBold font!");
-        }
-
-        URL montserratBold = getClass().getClassLoader().getResource("Montserrat-Bold.ttf");
-        if (montserratBold != null) {
-            Font.loadFont(montserratBold.toExternalForm(), 10);
-        } else {
-            logger.error("Couldn't load Montserrat Bold font!");
-        }
-
-        /*
-          ToDo
-          - Initialize data
-          - Initialize config
-         */
+        logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
         // Important things on the beginning of the log
+        logger.info("------------- LOGGER INITIALIZED -------------");
         logger.info("App started on: " + LocalDateTime.now());
-        logger.info("App version: " + MPLauncher.class.getPackage().getImplementationVersion());
+        logger.info("------------- ------------------ -------------");
+        logger.info("App version: " + ((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
         logger.info("Java version: " + System.getProperty("java.version"));
         logger.info("OS Arch: " + System.getProperty("os.arch"));
         logger.info("OS Name: " + System.getProperty("os.name"));
@@ -114,11 +88,95 @@ public class MPLauncherBootstrap extends Application {
         logger.info("Working directory: " + System.getProperty("user.dir"));
         logger.info("------------- STARTED LOGGING THE APP -------------");
 
-        stage.initStyle(StageStyle.TRANSPARENT);
+        // ********* DATA CONFIGURE ********* //
 
-        FormSwitcher.switchTo(FormSwitcher.Form.LOGIN);
+        if (!ConfigUtils.isGlobalConfigExists()) {
+            ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
+            logger.info("User has configured this installation!");
+            logger.info("Selected configuration: " + configurationOverlay.getResult());
+            logger.info("Location: " + configurationOverlay.getLocation());
+
+            switch (configurationOverlay.getResult()) {
+                case Classic: {
+                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
+                    app.setDataLocation(ConfigUtils.getClassicDataLocation());
+                    break;
+                }
+
+                case OwnLocation: {
+                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
+                    app.setDataLocation(new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
+                    break;
+                }
+
+                case Portable: {
+                    File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+                    File dstPath = new File(configurationOverlay.getLocation() + File.separator + jarPath.getName());
+                    try {
+                        Files.copy(jarPath, dstPath);
+                        File dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
+
+                        if (!dataLocation.exists()) {
+                            Validate.isTrue(dataLocation.mkdirs(), "Couldn't mkdirs() on Portable installation.");
+                        }
+
+                        app.setConfigLocation(new File(dataLocation + File.separator + "MPLauncher.config"));
+                        app.setInstallationType(configurationOverlay.getResult());
+                        app.setDataLocation(dataLocation);
+
+                        app.save();
+
+                        new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Instalacja zakończona!",
+                                "Launcher możesz uruchamiać za pomocą pliku .jar znajdującego się w wybranej lokalizacji.");
+
+                        Desktop.getDesktop().open(dstPath.getParentFile());
+                        System.exit(0);
+                    } catch (IOException e) {
+                        logger.fatal("Couldn't configure portable installation", e);
+                    }
+                    break;
+                }
+            }
+
+            app.setInstallationType(configurationOverlay.getResult());
+            app.save();
+
+            if (!app.getDataLocation().exists()) {
+                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", configurationOverlay.getResult().name()));
+            }
+
+        } else {
+            app = ConfigurationFactory.getAppSetup(true);
+
+            if (!app.getDataLocation().exists()) {
+                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", app.getInstallationType()));
+            }
+
+            logger.info("Installation type: " + app.getInstallationType());
+            logger.info("Application data location: " + app.getDataLocation());
+        }
+
+        if (app.isFirstRun()) {
+            //TODO:Download needed files (e.g. lang files)
+
+            app.setFirstRun(false);
+        }
+
+        ConfigurationFactory.getUsers().load();
+
+        // Future use: MPLauncher launcher = new MPLauncher();
+
         /*
-            Login: Test
+          ToDo
+          - Initialize data
+          - Initialize config
+         */
+
+        //We are now ready to run our launcher!
+        GUI.initialize();
+        GUI.switchScreen(GUI.ScreenType.LOGIN);
+        /*
+            LoginScreen: Test
             Passw: ForMe
             For launching main form!
          */
@@ -165,5 +223,4 @@ public class MPLauncherBootstrap extends Application {
     public static Stage getStartStage() {
         return startStage;
     }
-
 }

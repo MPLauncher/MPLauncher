@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.form;
+package pl.mplauncher.launcher.screen;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Platform;
@@ -22,34 +22,33 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.control.InstallerOverlay;
+import pl.mplauncher.launcher.control.QuestionOverlay;
 import pl.mplauncher.launcher.control.SettingsOverlay;
 import pl.mplauncher.launcher.helper.JFXHelpers;
+import pl.mplauncher.launcher.screen.layout.MainLayout;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Random;
 
-public class Main extends MainDesigner {
+public class MainScreen extends Screen<MainLayout> {
 
-    private static final Logger logger = LogManager.getLogger(Main.class);
-    private static StackPane mainStackPane;
+    private static StackPane mainStackPane; // TODO
 
     public void initialize() {
-        //Form
-        initializeComponent();
+        layout.initialize();
 
-        menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        layout.menuList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             for (Node nodeIn : newValue.getChildren()) {
                 if (nodeIn instanceof Label) {
-                    System.out.println("New Selection -> ID: " + menuList.getSelectionModel().getSelectedIndex()
+                    System.out.println("New Selection -> ID: " + layout.menuList.getSelectionModel().getSelectedIndex()
                             + " == " + ((Label) nodeIn).getText());
 
-                    switch (menuList.getSelectionModel().getSelectedIndex()) {
+                    switch (layout.menuList.getSelectionModel().getSelectedIndex()) {
                         case 1: {
                             SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
                             settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
@@ -57,21 +56,21 @@ public class Main extends MainDesigner {
                             break;
                         }
                         case 3: {
-                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(),
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
                                     0.0, event -> {
-                                        setServerList();
+                                        layout.setServerList();
 
                                         // When Favorite server is selected, deselect other server
-                                        favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                            if (nV != null && otherServerList != null
-                                                    && !otherServerList.getSelectionModel().isEmpty()) {
-                                                otherServerList.getSelectionModel().clearSelection();
+                                        layout.favoriteServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && layout.otherServerList != null
+                                                    && !layout.otherServerList.getSelectionModel().isEmpty()) {
+                                                layout.otherServerList.getSelectionModel().clearSelection();
                                             }
                                         }));
-                                        otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
-                                            if (nV != null && favoriteServerList != null
-                                                    && !favoriteServerList.getSelectionModel().isEmpty()) {
-                                                favoriteServerList.getSelectionModel().clearSelection();
+                                        layout.otherServerList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                                            if (nV != null && layout.favoriteServerList != null
+                                                    && !layout.favoriteServerList.getSelectionModel().isEmpty()) {
+                                                layout.favoriteServerList.getSelectionModel().clearSelection();
                                             }
                                         }));
 
@@ -87,10 +86,10 @@ public class Main extends MainDesigner {
                                             }
 
                                             if (x < 3) {
-                                                addServerToFavoriteList(sb.toString(), "1.11.2",
+                                                layout.addServerToFavoriteList(sb.toString(), "1.11.2",
                                                         random.nextInt(100), random.nextInt(100) + 100);
                                             } else {
-                                                addServerToOtherList(sb.toString(), "1.11.2",
+                                                layout.addServerToOtherList(sb.toString(), "1.11.2",
                                                         random.nextInt(100), random.nextInt(100) + 100);
                                             }
                                         }
@@ -99,6 +98,10 @@ public class Main extends MainDesigner {
                         }
                         default: {
                             logger.warn("Not implemented yet!");
+
+                            //Example of how QuestionOverlay works.
+                            QuestionOverlay questionOverlay = new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Not implemented", "This is not implemented yet!");
+                            logger.info("Clicked: " + questionOverlay.getResult());
                             break;
                         }
                     }
@@ -109,31 +112,31 @@ public class Main extends MainDesigner {
         // -- SET ALL -- //
 
         //Set USERNAME
-        URL imgUrl = getClass().getClassLoader().getResource("gaben.jpg");
+        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("images/gaben.jpg");
         if (imgUrl != null) {
             Image img = new Image(imgUrl.toString());
-            setUserAvatar(img);
+            layout.setUserAvatar(img);
         } else {
             logger.error("Couldn't set user avatar!");
         }
 
-        setUserName("Łowca wiaderek :kappa:");
-        setUserOnline(true);
+        layout.setUserName("Łowca wiaderek :kappa:");
+        layout.setUserOnline(true);
 
         //Set menu
-        addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
-        addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
-        addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
-        addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
+        layout.addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
+        layout.addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
+        layout.addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
+        layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
 
         //Set close
-        setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
+        layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
         //Set NEWS
-        URL imageUrl = getClass().getClassLoader().getResource("mc.jpg");
+        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("images/mc.jpg");
         if (imageUrl != null) {
             Image image = new Image(imageUrl.toString());
-            setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"
+            layout.setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"
                     + System.lineSeparator() + System.lineSeparator() +
                     "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem " +
                     "rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
@@ -147,20 +150,25 @@ public class Main extends MainDesigner {
         }
 
         //Set right
-        setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
+        layout.setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
 
         //Set version
-        setLauncherVersion("ver 2.0.0-dev2");
+        layout.setLauncherVersion(((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
 
-        //Main stackpane
-        mainStackPane = getMainStackPane();
+        //MainScreen stackpane
+        mainStackPane = layout.getMainStackPane();
     }
 
-    static void closeClicked() {
+    @Override
+    MainLayout createLayout() {
+        return new MainLayout(this);
+    }
+
+    public void closeClicked() {
         Platform.exit();
     }
 
-    static void discordLogoClicked() {
+    public void discordLogoClicked() {
         try {
             JFXHelpers.openWebpage(new URI("https://discord.gg/C5pkDan"));
         } catch (URISyntaxException e) {
@@ -168,7 +176,7 @@ public class Main extends MainDesigner {
         }
     }
 
-    static void playClicked() {
+    public void playClicked() {
         InstallerOverlay installerOverlay = new InstallerOverlay(mainStackPane);
         installerOverlay.setStatus("Instalowanie: LIBRARIES");
         installerOverlay.setPercentage(0.571f);
