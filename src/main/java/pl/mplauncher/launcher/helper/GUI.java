@@ -51,7 +51,7 @@ public class GUI {
         };
 
         for (String fontFilename : requiredFonts) {
-            URL fontURL = Thread.currentThread().getContextClassLoader().getResource("fonts" + File.separator + fontFilename);
+            URL fontURL = Thread.currentThread().getContextClassLoader().getResource("fonts/" + fontFilename);
             if (fontURL != null) {
                 Font.loadFont(fontURL.toExternalForm(), 10);
             } else {
