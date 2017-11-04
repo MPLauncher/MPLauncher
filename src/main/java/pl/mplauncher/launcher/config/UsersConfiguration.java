@@ -33,7 +33,7 @@ public class UsersConfiguration extends Configuration<UsersConfiguration> {
 
     @Override
     File getDefaultLocation() {
-        return new File(ConfigurationFactory.getAppSetup().getDataLocation(), "users.json");
+        return new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG), "users.json");
     }
 
 }
