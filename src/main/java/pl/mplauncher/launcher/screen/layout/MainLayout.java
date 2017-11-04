@@ -266,19 +266,14 @@ public class MainLayout extends Layout {
                 animations.play();
             }
         });
-
-        Circle circle = new Circle();
-        circle.setRadius(4);
-
+        
         menuButtonIconLEFT.setOpacity(0.0);
         menuButtonIconLEFT.setBoundsType(TextBoundsType.VISUAL);
         menuButtonIconLEFT.getStyleClass().add("menuButton");
-        menuButtonIconLEFT.setMouseTransparent(true);
 
         menuButtonIconRIGHT.setOpacity(0.0);
         menuButtonIconRIGHT.setBoundsType(TextBoundsType.VISUAL);
         menuButtonIconRIGHT.getStyleClass().add("menuButton");
-        menuButtonIconRIGHT.setMouseTransparent(true);
 
         //Children
         mainForm.getChildren().add(mainStackPane);
