@@ -64,6 +64,7 @@ public class MPLauncherBootstrap extends Application {
 
         // Initialize logger
         if (ConfigUtils.isGlobalConfigExists()) {
+            app.load();
             System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
         } else {
             // *********************************************** //
