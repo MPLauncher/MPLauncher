@@ -177,12 +177,18 @@ public class SettingsOverlay extends JFXDialog {
 
     class SettingOption extends StackPane {
         SettingOption(String info, Node child) {
+            this.getStyleClass().add("settingOption");
             Label infoLabel = new Label();
             infoLabel.setText(info);
             infoLabel.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite");
             StackPane.setAlignment(infoLabel, Pos.CENTER_LEFT);
 
             StackPane.setAlignment(child, Pos.CENTER_RIGHT);
+            if (child instanceof JFXComboBox) {
+                StackPane.setMargin(child, new Insets(0, 7, 0, 0));
+                ((JFXComboBox) child).setPrefWidth(122);
+                ((JFXComboBox) child).setMaxWidth(USE_PREF_SIZE);
+            }
 
             this.getChildren().addAll(infoLabel, child);
         }
