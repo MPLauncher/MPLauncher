@@ -171,7 +171,7 @@
                         <manifestEntries>
                             <Implementation-Title>MPLauncher</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
-                            <Main-Class>pl.mplauncher.launcher.bootstrap.MPLauncherBootstrap</Main-Class>
+                            <Main-Class>pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
