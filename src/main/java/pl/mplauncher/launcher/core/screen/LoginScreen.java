@@ -22,6 +22,7 @@ import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.config.ConfigurationFactory;
 import pl.mplauncher.launcher.core.config.UserProfile;
+import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.GUI;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.component.UserAccountListItem;
@@ -183,11 +184,14 @@ public class LoginScreen extends Screen<LoginLayout> {
                     }
                 }
 
+                ApplicationFactory.getUsersManager().setCurrentProfile(user);
                 launchMain();
             }
         } else {
             if (layout.accountList.getSelectionModel().getSelectedIndex() != -1) {
-                layout.snackBar.show("Not implemented yet!", 3000);
+                UserProfile profile = layout.accountList.getSelectionModel().getSelectedItem().profile;
+                ApplicationFactory.getUsersManager().setCurrentProfile(profile);
+                launchMain();
             } else {
                 layout.snackBar.show("Select an account!", 3000);
             }

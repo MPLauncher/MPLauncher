@@ -24,9 +24,11 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.InstallerOverlay;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.control.SettingsOverlay;
+import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
@@ -111,16 +113,13 @@ public class MainScreen extends Screen<MainLayout> {
 
         // -- SET ALL -- //
 
-        //Set USERNAME
-        URL imgUrl = Thread.currentThread().getContextClassLoader().getResource("images/gaben.jpg");
-        if (imgUrl != null) {
-            Image img = new Image(imgUrl.toString());
-            layout.setUserAvatar(img);
-        } else {
-            logger.error("Couldn't set user avatar!");
-        }
+        UserProfile profile = ApplicationFactory.getUsersManager().getCurrentProfile();
 
-        layout.setUserName("Łowca wiaderek :kappa:");
+        //Set USERNAME
+        Image img = new Image("https://skiny.mplauncher.pl/api/3d.php?user=" + profile.getUsername() + "&vr=0&hr=0&displayHair=true&headOnly=true&format=png&ratio=20&aa=true&layers=false");
+        layout.setUserAvatar(img);
+
+        layout.setUserName(profile.getUsername());
         layout.setUserOnline(true);
 
         //Set menu

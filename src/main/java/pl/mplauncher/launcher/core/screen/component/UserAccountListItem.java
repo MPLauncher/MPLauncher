@@ -32,8 +32,11 @@ import java.util.Date;
 
 public class UserAccountListItem extends StackPane {
 
+    public UserProfile profile;
+
     public UserAccountListItem(UserProfile user) {
         this.setMouseTransparent(true);
+        this.profile = user;
 
         HBox inner = new HBox();
 
