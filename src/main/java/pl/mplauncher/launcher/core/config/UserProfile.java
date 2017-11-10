@@ -22,6 +22,8 @@ import java.util.UUID;
 
 public class UserProfile {
 
+    private transient UserSpecificConfiguration configuration;
+
     private String username;
     private String uuid;
 
@@ -114,6 +116,19 @@ public class UserProfile {
 
     public void setUserDataDir(String userDataDir) {
         this.userDataDir = userDataDir;
+    }
+
+    public UserSpecificConfiguration getConfiguration() {
+        if (configuration == null) {
+            configuration = new UserSpecificConfiguration(this);
+            configuration.load(true);
+        }
+
+        return configuration;
+    }
+
+    public void setConfiguration(UserSpecificConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     public enum Type {

@@ -27,6 +27,8 @@ import javafx.scene.layout.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.config.UserSpecificConfiguration;
+import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 
 public class SettingsOverlay extends JFXDialog {
 
@@ -109,25 +111,39 @@ public class SettingsOverlay extends JFXDialog {
             bodyGridPane.getRowConstraints().add(rowConstraints);
         }
 
+        UserSpecificConfiguration userConfig = ApplicationFactory.getUsersManager().getCurrentProfile().getConfiguration();
+
         SettingOption option_1 = new SettingOption("DYNAMICZNA IKONA/LOGO", new JFXCheckBox());
         GridPane.setColumnIndex(option_1, 0);
         GridPane.setRowIndex(option_1, 0);
         GridPane.setMargin(option_1, new Insets(0.0, 10.0, 0.0, 0.0));
+
+        ((JFXCheckBox) option_1.getChild()).setSelected(userConfig.isEnableDynamicIcon());
+
 
         SettingOption option_2 = new SettingOption("WYŁĄCZ WYGLĄD EVENTOWY", new JFXCheckBox());
         GridPane.setColumnIndex(option_2, 0);
         GridPane.setRowIndex(option_2, 1);
         GridPane.setMargin(option_2, new Insets(0.0, 10.0, 0.0, 0.0));
 
+        ((JFXCheckBox) option_2.getChild()).setSelected(userConfig.isDisableEventTheme());
+
+
         SettingOption option_3 = new SettingOption("URUCHAMIAJ Z SYSTEMEM", new JFXCheckBox());
         GridPane.setColumnIndex(option_3, 0);
         GridPane.setRowIndex(option_3, 2);
         GridPane.setMargin(option_3, new Insets(0.0, 10.0, 0.0, 0.0));
 
+        ((JFXCheckBox) option_3.getChild()).setSelected(userConfig.isAutostart());
+
+
         SettingOption option_4 = new SettingOption("DEBUGUJ LAUNCHER", new JFXCheckBox());
         GridPane.setColumnIndex(option_4, 0);
         GridPane.setRowIndex(option_4, 3);
         GridPane.setMargin(option_4, new Insets(0.0, 10.0, 0.0, 0.0));
+
+        ((JFXCheckBox) option_4.getChild()).setSelected(userConfig.isDebugApplication());
+
 
         JFXComboBox<String> languages = new JFXComboBox<>();
         languages.getItems().addAll("POLSKI", "ANGIELSKI", "BAKA");
@@ -136,6 +152,9 @@ public class SettingsOverlay extends JFXDialog {
         GridPane.setRowIndex(option_language, 4);
         GridPane.setMargin(option_language, new Insets(0.0, 10.0, 0.0, 0.0));
 
+        languages.setValue(userConfig.getLanguage());
+
+
         JFXComboBox<String> themes = new JFXComboBox<>();
         themes.getItems().addAll("NAJLEPSZY", "KAWAII");
         SettingOption option_theme = new SettingOption("MOTYW", themes);
@@ -143,20 +162,31 @@ public class SettingsOverlay extends JFXDialog {
         GridPane.setRowIndex(option_theme, 5);
         GridPane.setMargin(option_theme, new Insets(0.0, 10.0, 0.0, 0.0));
 
+        themes.setValue(userConfig.getTheme());
+
+
         SettingOption option_5 = new SettingOption("NIE PRZECHWYTUJ LOGÓW KLIENTA", new JFXCheckBox());
         GridPane.setColumnIndex(option_5, 1);
         GridPane.setRowIndex(option_5, 0);
         GridPane.setMargin(option_5, new Insets(0.0, 0.0, 0.0, 10.0));
+
+        ((JFXCheckBox) option_5.getChild()).setSelected(userConfig.isDisableLogCatch());
+
 
         SettingOption option_6 = new SettingOption("KONSOLA MINECRAFTA", new JFXCheckBox());
         GridPane.setColumnIndex(option_6, 1);
         GridPane.setRowIndex(option_6, 1);
         GridPane.setMargin(option_6, new Insets(0.0, 0.0, 0.0, 10.0));
 
+        ((JFXCheckBox) option_6.getChild()).setSelected(userConfig.isShowMinecraftConsole());
+
+
         SettingOption option_7 = new SettingOption("MINIMALIZUJ DO TRAYA", new JFXCheckBox());
         GridPane.setColumnIndex(option_7, 1);
         GridPane.setRowIndex(option_7, 2);
         GridPane.setMargin(option_7, new Insets(0.0, 0.0, 0.0, 10.0));
+
+        ((JFXCheckBox) option_7.getChild()).setSelected(userConfig.isMinimizeToTray());
 
         bodyGridPane.getChildren().addAll(option_1, option_2, option_3, option_4, option_language, option_theme,
                 option_5, option_6, option_7);
@@ -172,11 +202,30 @@ public class SettingsOverlay extends JFXDialog {
 
         contentHandler.setActions(saveButton);
 
+        saveButton.setOnAction(actionEvent -> {
+            userConfig.setLanguage(languages.getSelectionModel().getSelectedItem());
+            userConfig.setTheme(themes.getSelectionModel().getSelectedItem());
+            userConfig.setEnableDynamicIcon(((JFXCheckBox) option_1.getChild()).isSelected());
+            userConfig.setDisableEventTheme(((JFXCheckBox) option_2.getChild()).isSelected());
+            userConfig.setAutostart(((JFXCheckBox) option_3.getChild()).isSelected());
+            userConfig.setDebugApplication(((JFXCheckBox) option_4.getChild()).isSelected());
+            userConfig.setDisableLogCatch(((JFXCheckBox) option_5.getChild()).isSelected());
+            userConfig.setShowMinecraftConsole(((JFXCheckBox) option_6.getChild()).isSelected());
+            userConfig.setMinimizeToTray(((JFXCheckBox) option_7.getChild()).isSelected());
+
+            userConfig.save();
+        });
+
         this.setContent(contentHandler);
     }
 
     class SettingOption extends StackPane {
+
+        private Node child;
+
         SettingOption(String info, Node child) {
+            this.child = child;
+
             this.getStyleClass().add("settingOption");
             Label infoLabel = new Label();
             infoLabel.setText(info);
@@ -191,6 +240,10 @@ public class SettingsOverlay extends JFXDialog {
             }
 
             this.getChildren().addAll(infoLabel, child);
+        }
+
+        public Node getChild() {
+            return child;
         }
     }
 
