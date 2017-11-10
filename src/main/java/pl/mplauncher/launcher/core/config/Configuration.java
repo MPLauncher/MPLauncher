@@ -22,6 +22,7 @@ import org.apache.commons.lang3.Validate;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 abstract class Configuration<T> {
 
@@ -86,8 +87,10 @@ abstract class Configuration<T> {
 
         for (Field field : fromClass.getDeclaredFields()) {
             try {
-                field.setAccessible(true);
-                field.set(this, field.get(from));
+                if (!Modifier.isTransient(field.getModifiers())) {
+                    field.setAccessible(true);
+                    field.set(this, field.get(from));
+                }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
