@@ -214,6 +214,7 @@ public class SettingsOverlay extends JFXDialog {
             userConfig.setMinimizeToTray(((JFXCheckBox) option_7.getChild()).isSelected());
 
             userConfig.save();
+            this.close();
         });
 
         this.setContent(contentHandler);
