@@ -17,6 +17,8 @@ package pl.mplauncher.launcher.users;
 
 import pl.mplauncher.launcher.core.config.UserProfile;
 
+import java.util.Date;
+
 public class UsersManager {
 
     private UserProfile currentProfile;
@@ -27,6 +29,7 @@ public class UsersManager {
 
     public void setCurrentProfile(UserProfile currentProfile) {
         this.currentProfile = currentProfile;
+        this.currentProfile.setLastLogin(new Date().getTime());
     }
 
 }
