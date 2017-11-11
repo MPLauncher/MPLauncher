@@ -384,3 +384,44 @@
     -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
     -fx-background-radius: 15px;
 }
+
+.settingOption JFXCheckBox {
+    -jfx-checked-color: #9c27b0/*linear-gradient(to right, #9c27b0, #6a1b9a) THROWS ClassCastException!*/;
+}
+
+.settingOption JFXCheckBox .box,
+.settingOption JFXCheckBox:selected .box {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-border-radius: 0px;
+    -fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.settingOption JFXCheckBox .mark {
+    -fx-shape: "M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z";
+    -fx-max-width: 10px;
+    -fx-max-height: 9px;
+}
+
+.settingOption JFXComboBox {
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+
+    -jfx-focus-color: transparent;
+    -jfx-unfocus-color: transparent;
+}
+
+.settingOption JFXComboBox .list-cell {
+    -fx-font-family: 'Montserrat Light';
+    -fx-font-size: 10px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.settingOption JFXComboBox .list-cell:selected {
+    -fx-font-family: 'Montserrat SemiBold';
+}
+
+.settingOption JFXComboBox .list-view {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
