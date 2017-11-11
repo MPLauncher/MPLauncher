@@ -63,7 +63,6 @@ public class MessageBundle {
     }
 
     public static MessageBundle getBundle(Locale l){
-        //could use streams but probably slower
         for (MessageBundle mb : messageBundles) {
             if (mb.getLocale().equals(l)) {
                 return mb;

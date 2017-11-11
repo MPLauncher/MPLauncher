@@ -59,24 +59,17 @@ public class MPLauncherBootstrap extends Application {
         Thread.setDefaultUncaughtExceptionHandler(MPLauncherBootstrap::showError);
         startStage = stage;
 
-        // Initializing the app setup.
         AppConfiguration app = ConfigurationFactory.getAppSetup();
 
-        // Initialize logger
         if (ConfigUtils.isGlobalConfigExists()) {
             app.load();
             System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
         } else {
-            // *********************************************** //
-            // By default it's path where is the *.JAR file.   //
-            // It's have to be called before log4j2 is loaded! //
-            // *********************************************** //
             System.setProperty("logBasePath", "logs");
         }
 
         logger = LogManager.getLogger(MPLauncherBootstrap.class);
 
-        // Important things on the beginning of the log
         logger.info("------------- LOGGER INITIALIZED -------------");
         logger.info("App started on: " + LocalDateTime.now());
         logger.info("------------- ------------------ -------------");
@@ -166,27 +159,14 @@ public class MPLauncherBootstrap extends Application {
 
         // Future use: MPLauncher launcher = new MPLauncher();
 
-        /*
-          ToDo
-          - Initialize data
-          - Initialize config
-         */
-
-        //We are now ready to run our launcher!
         GUI.initialize();
         GUI.switchScreen(GUI.ScreenType.LOGIN);
-        /*
-            LoginScreen: Test
-            Passw: ForMe
-            For launching main form!
-         */
     }
 
     private static void showError(Thread t, Throwable e) {
         logger.error("I've got an exception!", e);
 
         if (Platform.isFxApplicationThread()) {
-            // Window with error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Unhandled Exception");
             alert.setHeaderText("I've got an unhandled error while making you happy :c");

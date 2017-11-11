@@ -90,8 +90,6 @@ public class MainScreen extends Screen<MainLayout> {
             }
         });
 
-        // -- SET ALL -- //
-
         UserProfile profile = ApplicationFactory.getUsersManager().getCurrentProfile();
 
         Image skinImg = MPAPI.skins()
@@ -112,18 +110,11 @@ public class MainScreen extends Screen<MainLayout> {
         layout.addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
         layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
 
-        //Set close
         layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
-
         layout.setNews(MPAPI.news().latest());
-
-        //Set right
         layout.setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));
-
-        //Set version
         layout.setLauncherVersion(((MPLauncher.class.getPackage().getImplementationVersion() == null) ? "DEV" : MPLauncher.class.getPackage().getImplementationVersion()));
 
-        //MainScreen stackpane
         mainStackPane = layout.getMainStackPane();
     }
 

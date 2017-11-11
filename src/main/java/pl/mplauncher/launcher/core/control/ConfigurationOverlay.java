@@ -141,7 +141,6 @@ public class ConfigurationOverlay extends Stage {
         ok.setText("Zapisz");
         okButtons.getChildren().addAll(importantInfo, ok);
 
-        // Action //
         classic.setOnAction(event -> { if (classic.isSelected()) { ownLocation.setSelected(false); portable.setSelected(false);} else if (!ownLocation.isSelected() && !portable.isSelected()) { classic.setSelected(true); } });
         ownLocation.setOnAction(event -> { if (ownLocation.isSelected()) { portable.setSelected(false); classic.setSelected(false);} else if (!classic.isSelected() && !portable.isSelected()) { classic.setSelected(true); } });
         portable.setOnAction(event -> { if (portable.isSelected()) { classic.setSelected(false); ownLocation.setSelected(false);} else if (!classic.isSelected() && !ownLocation.isSelected()) { classic.setSelected(true); } });
