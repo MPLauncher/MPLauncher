@@ -46,7 +46,7 @@ import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
-import pl.mplauncher.launcher.core.screen.component.*;
+import pl.mplauncher.launcher.core.screen.layout.component.*;
 
 import java.net.URL;
 import java.util.Date;

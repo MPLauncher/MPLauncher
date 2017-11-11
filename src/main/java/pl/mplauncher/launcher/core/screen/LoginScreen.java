@@ -25,13 +25,11 @@ import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.GUI;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
-import pl.mplauncher.launcher.core.screen.component.UserAccountListItem;
+import pl.mplauncher.launcher.core.screen.layout.component.UserAccountListItem;
 import pl.mplauncher.launcher.core.screen.layout.LoginLayout;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class LoginScreen extends Screen<LoginLayout> {
 

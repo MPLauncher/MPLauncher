@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package pl.mplauncher.launcher.core.screen.component;
+package pl.mplauncher.launcher.core.screen.layout.component;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -33,7 +33,7 @@ import javafx.util.Duration;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.Screen;
-import pl.mplauncher.launcher.core.screen.component.UserAccountListItem;
+import pl.mplauncher.launcher.core.screen.layout.component.UserAccountListItem;
 
 import java.net.URL;
 
