@@ -159,7 +159,19 @@ public class ConfigurationOverlay extends Stage {
     }
 
     public InstallationType getResult() {
-        return classic.isSelected() ? InstallationType.Classic : ownLocation.isSelected() ? InstallationType.OwnLocation : portable.isSelected() ? InstallationType.Portable : null;
+        if (classic.isSelected()) {
+            return InstallationType.Classic;
+        }
+
+        if (ownLocation.isSelected()) {
+            return InstallationType.OwnLocation;
+        }
+
+        if (portable.isSelected()) {
+            return InstallationType.Portable;
+        }
+
+        return null;
     }
 
     public String getLocation() {
