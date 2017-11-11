@@ -133,29 +133,6 @@ public class LoginScreen extends Screen<LoginLayout> {
                 }
                 System.out.println("Remember: " + layout.rememberButton.isSelected());
 
-                // Easter EGGS!
-                switch (layout.loginField.getText().toLowerCase()) {
-                    case "ilovemplauncher": {
-                        layout.snackBar.show("I love You too!" + System.lineSeparator() + "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧", 3000);
-                        layout.disableActions(false);
-                        layout.setLoggingIn(false);
-                        break;
-                    }
-                    case "ihatemplauncher": {
-                        layout.loginField.clear();
-                        layout.snackBar.show("I'm giving up!" + System.lineSeparator() + "o(╥﹏╥)o", 3000);
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                onCloseAction();
-                                timer.cancel();
-                            }
-                        }, 3500);
-                        break;
-                    }
-                }
-
                 UserProfile user = null;
                 if (layout.passwordField.isVisible()) {
 
