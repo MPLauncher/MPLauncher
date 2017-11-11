@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.api.mp.MPAPI;
 import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.InstallerOverlay;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
@@ -34,7 +35,6 @@ import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Random;
 
 public class MainScreen extends Screen<MainLayout> {
@@ -115,9 +115,14 @@ public class MainScreen extends Screen<MainLayout> {
 
         UserProfile profile = ApplicationFactory.getUsersManager().getCurrentProfile();
 
-        //Set USERNAME
-        Image img = new Image("https://skiny.mplauncher.pl/api/3d.php?user=" + profile.getUsername() + "&vr=0&hr=0&displayHair=true&headOnly=true&format=png&ratio=20&aa=true&layers=false");
-        layout.setUserAvatar(img);
+        Image skinImg = MPAPI.skins()
+                .get(profile.getUsername())
+                    .head()
+                    .showHair()
+                    .ratio(20)
+                .getImage();
+
+        layout.setUserAvatar(skinImg);
 
         layout.setUserName(profile.getUsername());
         layout.setUserOnline(true);
@@ -131,22 +136,7 @@ public class MainScreen extends Screen<MainLayout> {
         //Set close
         layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
 
-        //Set NEWS
-        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("images/mc.jpg");
-        if (imageUrl != null) {
-            Image image = new Image(imageUrl.toString());
-            layout.setNews("NOWY WYGLĄD?", image, "Witajcie gracze i graczki!"
-                    + System.lineSeparator() + System.lineSeparator() +
-                    "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem " +
-                    "rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
-                    "Styl przybrał nazwę „Callipso” i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout."
-                    + System.lineSeparator() +
-                    "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, " +
-                    "całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
-                    "Czytaj więcej.", "IceMeltt", "~miesiąc temu");
-        } else {
-            logger.error("Couldn't set news image!");
-        }
+        layout.setNews(MPAPI.news().latest());
 
         //Set right
         layout.setRightSite(MessageBundle.getCurrentLanguage().getMessage("main-findUsAt"));

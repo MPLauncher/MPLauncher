@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.api.mp.MPAPI;
 import pl.mplauncher.launcher.core.config.UserProfile;
 
 import java.util.Date;
@@ -45,11 +46,15 @@ public class UserAccountListItem extends StackPane {
         avatar.setFitHeight(32.0);
         avatar.setPickOnBounds(true);
         avatar.setPreserveRatio(true);
-        if (user.getUsername().equalsIgnoreCase("cebula")) {
-            avatar.setImage(new Image("https://vignette.wikia.nocookie.net/disneycreate/images/5/51/Onion.png/revision/latest"));
-        } else {
-            avatar.setImage(new Image("https://skiny.mplauncher.pl/api/3d.php?user=" + user.getUsername() + "&vr=0&hr=0&displayHair=true&headOnly=true&format=png&ratio=20&aa=true&layers=false"));
-        }
+
+        Image skinImg = MPAPI.skins()
+                .get(user.getUsername())
+                    .head()
+                    .showHair()
+                    .ratio(20)
+                .getImage();
+
+        avatar.setImage(skinImg);
 
         VBox info = new VBox();
         HBox.setMargin(info, new Insets(2.0, 0.0, 0.0, 8.0));

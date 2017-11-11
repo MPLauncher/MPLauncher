@@ -39,6 +39,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import org.ocpsoft.prettytime.PrettyTime;
+import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.api.mp.component.dto.News;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.MainScreen;
@@ -46,6 +49,7 @@ import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.component.*;
 
 import java.net.URL;
+import java.util.Date;
 
 public class MainLayout extends Layout {
 
@@ -297,6 +301,13 @@ public class MainLayout extends Layout {
         this.scene.setFill(Color.TRANSPARENT);
 
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
+    }
+
+    public void setNews(News news) {
+        PrettyTime prettyTime = new PrettyTime();
+        prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
+
+        setNews(news.getTitle(), new Image(news.getImageURL()), news.getBody(), news.getAuthor(), prettyTime.format(new Date(news.getDate())));
     }
 
     public void setNews(String newsTitle, Image newsImage, String newsArticle, String newsAuthor, String newsTime) {
