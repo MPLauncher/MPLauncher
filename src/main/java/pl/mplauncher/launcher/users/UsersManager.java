@@ -15,6 +15,7 @@
 */
 package pl.mplauncher.launcher.users;
 
+import pl.mplauncher.launcher.core.config.ConfigurationFactory;
 import pl.mplauncher.launcher.core.config.UserProfile;
 
 import java.util.Date;
@@ -30,6 +31,14 @@ public class UsersManager {
     public void setCurrentProfile(UserProfile currentProfile) {
         this.currentProfile = currentProfile;
         this.currentProfile.setLastLogin(new Date().getTime());
+    }
+
+    public boolean hasUser(String uuid) {
+        return ConfigurationFactory.getUsers().
+                getUsers()
+                .stream()
+                .map(UserProfile::getUUID)
+                .anyMatch(uuid::equals);
     }
 
 }

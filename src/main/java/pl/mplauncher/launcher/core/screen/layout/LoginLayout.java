@@ -31,6 +31,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
+import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.layout.component.UserAccountListItem;
@@ -244,6 +245,27 @@ public class LoginLayout extends Layout{
         //Parent
         this.scene = new Scene(loginForm, 304, 416);
         this.scene.setFill(Color.TRANSPARENT);
+
+        snackBar.registerSnackbarContainer(stackPane);
+        loginSpinner.setOpacity(0.0);
+
+        loginField.setDisableAnimation(true);
+        passwordField.setDisableAnimation(true);
+
+        // PREMIUM activated by default!
+        premiumButton.getStyleClass().add("accountTypeSelected");
+        nonpremiumButtonLine.setOpacity(0.0);
+
+        // Allow to drag entire app via namePane
+        namePane.setOnMousePressed(event -> {
+            xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
+            yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
+        });
+
+        namePane.setOnMouseDragged(event -> {
+            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + xOffset);
+            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + yOffset);
+        });
     }
 
     public void switchToAccountList() {

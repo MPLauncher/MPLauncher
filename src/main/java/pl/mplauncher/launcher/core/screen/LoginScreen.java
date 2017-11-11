@@ -15,7 +15,9 @@
 */
 package pl.mplauncher.launcher.core.screen;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
+import javafx.scene.shape.Line;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
@@ -33,28 +35,10 @@ import java.net.URISyntaxException;
 
 public class LoginScreen extends Screen<LoginLayout> {
 
+    private UserProfile.Type accountTypeSelected = UserProfile.Type.NONPREMIUM;
+
     public void initialize() {
         layout.initialize();
-
-        layout.snackBar.registerSnackbarContainer(layout.stackPane);
-        layout.loginSpinner.setOpacity(0.0);
-
-        layout.loginField.setDisableAnimation(true);
-        layout.passwordField.setDisableAnimation(true);
-
-        // PREMIUM activated by default!
-        layout.premiumButton.getStyleClass().add("accountTypeSelected");
-        layout.nonpremiumButtonLine.setOpacity(0.0);
-
-        // Allow to drag entire app via namePane
-        layout.namePane.setOnMousePressed(event -> {
-            layout.xOffset = MPLauncherBootstrap.getStartStage().getX() - event.getScreenX();
-            layout.yOffset = MPLauncherBootstrap.getStartStage().getY() - event.getScreenY();
-        });
-        layout.namePane.setOnMouseDragged(event -> {
-            MPLauncherBootstrap.getStartStage().setX(event.getScreenX() + layout.xOffset);
-            MPLauncherBootstrap.getStartStage().setY(event.getScreenY() + layout.yOffset);
-        });
 
         //Events
         layout.closeButton.setOnAction(event -> onCloseAction());
@@ -65,7 +49,6 @@ public class LoginScreen extends Screen<LoginLayout> {
         layout.loginButton.setOnAction(event -> onLoginAction());
         layout.termsHyperlink.setOnAction(event -> onTermsAction());
 
-        // Load login data //
         if (!ConfigurationFactory.getUsers().getUsers().isEmpty()) {
             layout.switchToAccountList();
             for (UserProfile user : ConfigurationFactory.getUsers().getUsers()) {
@@ -74,93 +57,108 @@ public class LoginScreen extends Screen<LoginLayout> {
         }
     }
 
-    @Override
-    LoginLayout createLayout() {
-        return new LoginLayout(this);
-    }
-
-    private void onCloseAction() {
-        JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> Platform.exit());
-    }
-
     private void onPremiumSelected() {
-        if (!layout.premiumButton.getStyleClass().contains("accountTypeSelected")) {
-            layout.premiumButton.getStyleClass().add("accountTypeSelected");
-            layout.nonpremiumButton.getStyleClass().remove("accountTypeSelected");
-            layout.loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formPremiumUsername"));
+        switchAccountType(UserProfile.Type.PREMIUM);
 
-            layout.passwordField.setVisible(true);
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.nonpremiumButtonLine, 1.0, 0.0);
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.premiumButtonLine, 0.0, 1.0);
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.passwordField, 0.0, 1.0);
-        }
+        layout.passwordField.setVisible(true);
+        JFXHelpers.fadeTransition(Duration.millis(250), layout.passwordField, 0.0, 1.0);
     }
 
     private void onNonPremiumSelected() {
-        if (!layout.nonpremiumButton.getStyleClass().contains("accountTypeSelected")) {
-            layout.nonpremiumButton.getStyleClass().add("accountTypeSelected");
-            layout.premiumButton.getStyleClass().remove("accountTypeSelected");
-            layout.loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage("login-formNonPremiumUsername"));
+        switchAccountType(UserProfile.Type.NONPREMIUM);
 
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.premiumButtonLine, 1.0, 0.0);
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.nonpremiumButtonLine, 0.0, 1.0);
-            JFXHelpers.fadeTransition(Duration.millis(250), layout.passwordField, 1.0, 0.0, actionEvent -> layout.passwordField.setVisible(false));
+        JFXHelpers.fadeTransition(Duration.millis(250), layout.passwordField, 1.0, 0.0, actionEvent -> layout.passwordField.setVisible(false));
+    }
+
+    private void switchAccountType(UserProfile.Type type) {
+        boolean isPremium = (type == UserProfile.Type.PREMIUM);
+        accountTypeSelected = type;
+
+        String promptTextKey = (isPremium ? "login-formPremiumUsername" : "login-formNonPremiumUsername");
+
+        JFXButton activeButton = (isPremium ? layout.premiumButton : layout.nonpremiumButton);
+        JFXButton otherButton = (!isPremium ? layout.premiumButton : layout.nonpremiumButton);
+
+        Line activeButtonLine = (isPremium ? layout.premiumButtonLine : layout.nonpremiumButtonLine);
+        Line otherButtonLine = (!isPremium ? layout.premiumButtonLine : layout.nonpremiumButtonLine);
+
+        if (!activeButton.getStyleClass().contains("accountTypeSelected")) {
+            activeButton.getStyleClass().add("accountTypeSelected");
+            otherButton.getStyleClass().remove("accountTypeSelected");
         }
+
+        layout.loginField.setPromptText(MessageBundle.getCurrentLanguage().getMessage(promptTextKey));
+        JFXHelpers.fadeTransition(Duration.millis(250), otherButtonLine, 1.0, 0.0);
+        JFXHelpers.fadeTransition(Duration.millis(250), activeButtonLine, 0.0, 1.0);
+    }
+
+    private String checkFields(String login, String password) {
+        if (login.isEmpty()) {
+            if (accountTypeSelected == UserProfile.Type.PREMIUM) {
+                return "PremiumNoNickname";
+            } else {
+                return "NonPremiumNoNickname";
+            }
+        }
+
+        if (accountTypeSelected == UserProfile.Type.PREMIUM && password.isEmpty()) {
+            return "PremiumNoPassword";
+        }
+
+        return null;
     }
 
     private void onLoginAction() {
-        System.out.println("*** LOGIN CLICKED ***");
+        MessageBundle currentLang = MessageBundle.getCurrentLanguage();
 
         if (layout.loginPane.isVisible()) {
-            if (layout.loginField.getText().length() == 0) {
-                if (layout.passwordField.isVisible()) {
-                    layout.snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoNickname"), 3000);
-                } else {
-                    layout.snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessageNonPremiumNoNickname"), 3000);
-                }
-            } else if (layout.passwordField.isVisible() && layout.passwordField.getText().length() == 0) {
-                layout.snackBar.show(MessageBundle.getCurrentLanguage().getMessage("login-toastMessagePremiumNoPassword"), 3000);
-            } else {
-                layout.disableActions(true);
-                layout.setLoggingIn(true);
+            String login = layout.loginField.getText();
+            String password = layout.passwordField.getText();
 
-                System.out.println("Type: " + ((layout.passwordField.isVisible()) ? "PREMIUM" : "NON-PREMIUM"));
-                System.out.println("LoginScreen: " + layout.loginField.getText());
-                if (layout.passwordField.isVisible()) {
-                    System.out.println("Password: " + layout.passwordField.getText());
-                }
-                System.out.println("Remember: " + layout.rememberButton.isSelected());
-
-                UserProfile user = null;
-                if (layout.passwordField.isVisible()) {
-
-                    if (Placeholder.handleLogin(layout.loginField.getText(), layout.passwordField.getText())) {
-                        user = Placeholder.getTestUser();
-                    } else {
-                        layout.snackBar.show("Invalid credentials!", 3000);
-                        layout.disableActions(false);
-                        layout.setLoggingIn(false);
-                    }
-
-                } else {
-                    //NonPremium
-                    user = new UserProfile(layout.loginField.getText(), layout.rememberButton.isSelected());
-                }
-
-                if (layout.rememberButton.isSelected() && user != null) {
-                    if (ConfigurationFactory.getUsers().getUsers().stream().map(UserProfile::getUUID).anyMatch(user.getUUID()::equals)) {
-                        layout.snackBar.show("This account was added before.", 3000);
-                        layout.disableActions(false);
-                        layout.setLoggingIn(false);
-                    } else {
-                        ConfigurationFactory.getUsers().getUsers().add(user);
-                    }
-                }
-
-                ApplicationFactory.getUsersManager().setCurrentProfile(user);
-                launchMain();
+            String checkResult = checkFields(login, password);
+            if (checkResult != null) {
+                layout.snackBar.show(currentLang.getMessage("login-toastMessage" + checkResult), 3000);
+                return;
             }
+
+            layout.disableActions(true);
+            layout.setLoggingIn(true);
+
+
+            UserProfile user;
+
+            // Handle login
+            if (accountTypeSelected == UserProfile.Type.PREMIUM) {
+                if (Placeholder.handleLogin(login, password)) {
+                    user = Placeholder.getTestUser();
+                } else {
+                    layout.snackBar.show("Invalid credentials!", 3000);
+                    layout.disableActions(false);
+                    layout.setLoggingIn(false);
+                    return;
+                }
+            } else {
+                user = new UserProfile(layout.loginField.getText(), layout.rememberButton.isSelected());
+            }
+
+
+            // Handle profile saving
+            if (layout.rememberButton.isSelected()) {
+                if (ApplicationFactory.getUsersManager().hasUser(user.getUUID())) {
+                    layout.snackBar.show("This account was added before.", 3000);
+                    layout.disableActions(false);
+                    layout.setLoggingIn(false);
+                    return;
+                } else {
+                    ConfigurationFactory.getUsers().getUsers().add(user);
+                }
+            }
+
+            ApplicationFactory.getUsersManager().setCurrentProfile(user);
+            launchMain();
+
         } else {
+            // Handle profile loading
             if (layout.accountList.getSelectionModel().getSelectedIndex() != -1) {
                 UserProfile profile = layout.accountList.getSelectionModel().getSelectedItem().profile;
                 ApplicationFactory.getUsersManager().setCurrentProfile(profile);
@@ -179,8 +177,24 @@ public class LoginScreen extends Screen<LoginLayout> {
         }
     }
 
+    private void onCloseAction() {
+        JFXHelpers.doublePropertyAnimation(Duration.millis(500),
+                MPLauncherBootstrap.getStartStage().opacityProperty(),
+                0.0,
+                event -> Platform.exit());
+    }
+
     private void launchMain() {
         ConfigurationFactory.getUsers().save();
-        JFXHelpers.doublePropertyAnimation(Duration.millis(1000), MPLauncherBootstrap.getStartStage().opacityProperty(), 0.0, event -> GUI.switchScreen(GUI.ScreenType.MAIN));
+        JFXHelpers.doublePropertyAnimation(Duration.millis(1000),
+                MPLauncherBootstrap.getStartStage().opacityProperty(),
+                0.0,
+                event -> GUI.switchScreen(GUI.ScreenType.MAIN));
     }
+
+    @Override
+    LoginLayout createLayout() {
+        return new LoginLayout(this);
+    }
+
 }
