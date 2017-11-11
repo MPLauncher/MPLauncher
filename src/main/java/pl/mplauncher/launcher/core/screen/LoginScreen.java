@@ -15,7 +15,6 @@
 */
 package pl.mplauncher.launcher.core.screen;
 
-import com.google.common.base.Charsets;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
@@ -25,6 +24,7 @@ import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.GUI;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
+import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.component.UserAccountListItem;
 import pl.mplauncher.launcher.core.screen.layout.LoginLayout;
 
@@ -32,7 +32,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 public class LoginScreen extends Screen<LoginLayout> {
 
@@ -159,16 +158,15 @@ public class LoginScreen extends Screen<LoginLayout> {
 
                 UserProfile user = null;
                 if (layout.passwordField.isVisible()) {
-                    //Premium
-                    if (layout.loginField.getText().equals("Test") && layout.passwordField.getText().equals("ForMe")) {
-                        //Testing purpose
-                        user = new UserProfile(layout.loginField.getText(), UUID.nameUUIDFromBytes((layout.loginField.getText()).getBytes(Charsets.UTF_8)),
-                                "\" \"", null, layout.rememberButton.isSelected(), UserProfile.Type.PREMIUM);
+
+                    if (Placeholder.handleLogin(layout.loginField.getText(), layout.passwordField.getText())) {
+                        user = Placeholder.getTestUser();
                     } else {
                         layout.snackBar.show("Invalid credentials!", 3000);
                         layout.disableActions(false);
                         layout.setLoggingIn(false);
                     }
+
                 } else {
                     //NonPremium
                     user = new UserProfile(layout.loginField.getText(), layout.rememberButton.isSelected());

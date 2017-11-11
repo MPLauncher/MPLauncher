@@ -31,6 +31,7 @@ import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.control.SettingsOverlay;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
+import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.net.URI;
@@ -76,34 +77,12 @@ public class MainScreen extends Screen<MainLayout> {
                                             }
                                         }));
 
-                                        // Set servers!
-                                        for (int x = 0; x < 53; x++) {
-                                            char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-
-                                            StringBuilder sb = new StringBuilder();
-                                            Random random = new Random();
-                                            for (int i = 0; i < random.nextInt(30) + 10; i++) {
-                                                char ch = chars[random.nextInt(chars.length)];
-                                                sb.append(ch);
-                                            }
-
-                                            if (x < 3) {
-                                                layout.addServerToFavoriteList(sb.toString(), "1.11.2",
-                                                        random.nextInt(100), random.nextInt(100) + 100);
-                                            } else {
-                                                layout.addServerToOtherList(sb.toString(), "1.11.2",
-                                                        random.nextInt(100), random.nextInt(100) + 100);
-                                            }
-                                        }
+                                        Placeholder.populateServerList(this);
                                     });
                             break;
                         }
                         default: {
-                            logger.warn("Not implemented yet!");
-
-                            //Example of how QuestionOverlay works.
-                            QuestionOverlay questionOverlay = new QuestionOverlay(QuestionOverlay.DialogType.Ok, "Not implemented", "This is not implemented yet!");
-                            logger.info("Clicked: " + questionOverlay.getResult());
+                            Placeholder.alertNotImplemented();
                             break;
                         }
                     }

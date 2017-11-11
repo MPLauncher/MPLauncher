@@ -16,35 +16,14 @@
 package pl.mplauncher.launcher.core.api.mp;
 
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
+import pl.mplauncher.launcher.core.helper.Placeholder;
 
 import java.net.URL;
 
 public class NewsAPI {
 
     public News latest() {
-        News placeholder = new News();
-        placeholder.setTitle("NOWY WYGLĄD?");
-
-        String body = "Witajcie gracze i graczki!"
-                + System.lineSeparator() + System.lineSeparator() +
-                "Jako, iż nasza ekipa robi wszystko ze starannością i dbałością dla was, postanowiłem " +
-                "rozpocząć tworzenie nowego stylu launchera!" + System.lineSeparator() +
-                "Styl przybrał nazwę „Callipso” i prawdopodobnie do 15-30 dni uda mi się stworzyć jego layout."
-                + System.lineSeparator() +
-                "Na obecną chwilę mogę napisać, iż szykuje się pare dodatków w nowym wyglądzie, " +
-                "całkowita zmiana stylu oraz pełno eastereggów." + System.lineSeparator() + System.lineSeparator() +
-                "Czytaj więcej.";
-
-        placeholder.setBody(body);
-        placeholder.setAuthor("IceMeltt");
-        placeholder.setDate(0);
-
-        URL imageUrl = Thread.currentThread().getContextClassLoader().getResource("images/mc.jpg");
-        if (imageUrl != null) {
-            placeholder.setImageURL(imageUrl.toString());
-        }
-
-        return placeholder;
+        return Placeholder.getNews();
     }
 
 }
