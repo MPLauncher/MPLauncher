@@ -178,6 +178,11 @@ public class LoginScreen extends Screen<LoginLayout> {
     }
 
     private void onCloseAction() {
+        if (!ConfigurationFactory.getUsers().getUsers().isEmpty() && layout.loginPane.isVisible()) {
+            layout.switchToAccountList();
+            return;
+        }
+
         JFXHelpers.doublePropertyAnimation(Duration.millis(500),
                 MPLauncherBootstrap.getStartStage().opacityProperty(),
                 0.0,
