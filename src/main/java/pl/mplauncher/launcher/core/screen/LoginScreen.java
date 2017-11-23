@@ -194,7 +194,7 @@ public class LoginScreen extends Screen<LoginLayout> {
         JFXHelpers.doublePropertyAnimation(Duration.millis(1000),
                 MPLauncherBootstrap.getStartStage().opacityProperty(),
                 0.0,
-                event -> GUI.switchScreen(GUI.ScreenType.MAIN));
+                event -> GUI.switchScreen(MainScreen.class));
     }
 
     @Override

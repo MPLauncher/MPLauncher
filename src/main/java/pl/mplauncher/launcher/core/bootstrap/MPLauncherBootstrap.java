@@ -35,6 +35,7 @@ import pl.mplauncher.launcher.core.control.ConfigurationOverlay;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.helper.GUI;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundleIO;
+import pl.mplauncher.launcher.core.screen.LoginScreen;
 
 import java.awt.*;
 import java.io.*;
@@ -160,7 +161,7 @@ public class MPLauncherBootstrap extends Application {
         // Future use: MPLauncher launcher = new MPLauncher();
 
         GUI.initialize();
-        GUI.switchScreen(GUI.ScreenType.LOGIN);
+        GUI.switchScreen(LoginScreen.class);
     }
 
     private static void showError(Thread t, Throwable e) {

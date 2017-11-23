@@ -33,11 +33,6 @@ public class GUI {
 
     private static final Logger logger = LogManager.getLogger(GUI.class);
 
-    public enum ScreenType {
-        LOGIN,
-        MAIN
-    }
-
     public static void initialize() {
         MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo.png")));
 
@@ -61,25 +56,20 @@ public class GUI {
         MPLauncherBootstrap.getStartStage().initStyle(StageStyle.TRANSPARENT);
     }
 
-    public static void switchScreen(ScreenType to) {
-        MPLauncherBootstrap.getStartStage().setOpacity(0.0);
+    public static void switchScreen(Class to) {
+        Screen screen;
 
-        Screen screen = null;
-
-        switch (to) {
-            case LOGIN: {
-                screen = new LoginScreen();
-                break;
-            }
-            case MAIN: {
-                screen = new MainScreen();
-                break;
-            }
+        try {
+            screen = (Screen) to.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            return;
         }
 
         screen.initialize();
 
-        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - " + StringUtils.capitalize(to.name().toLowerCase()));
+        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - "
+                + StringUtils.capitalize(to.getName().replace("Screen", "").toLowerCase()));
+
         MPLauncherBootstrap.getStartStage().setScene(screen.layout.getScene());
 
         MPLauncherBootstrap.getStartStage().centerOnScreen();
@@ -88,4 +78,5 @@ public class GUI {
         JFXHelpers.doublePropertyAnimation(Duration.millis(500), MPLauncherBootstrap.getStartStage().opacityProperty(),
                 1.0);
     }
+
 }
