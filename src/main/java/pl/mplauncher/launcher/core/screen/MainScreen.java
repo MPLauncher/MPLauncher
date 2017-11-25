@@ -27,7 +27,6 @@ import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.api.mp.MPAPI;
 import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.InstallerOverlay;
-import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.control.SettingsOverlay;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
@@ -36,7 +35,6 @@ import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Random;
 
 public class MainScreen extends Screen<MainLayout> {
 

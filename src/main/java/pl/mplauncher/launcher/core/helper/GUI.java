@@ -15,7 +15,9 @@
 */
 package pl.mplauncher.launcher.core.helper;
 
+import javafx.event.EventTarget;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -23,8 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
-import pl.mplauncher.launcher.core.screen.LoginScreen;
-import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
 
 import java.net.URL;
@@ -71,6 +71,16 @@ public class GUI {
                 + StringUtils.capitalize(to.getName().replace("Screen", "").toLowerCase()));
 
         MPLauncherBootstrap.getStartStage().setScene(screen.layout.getScene());
+
+        screen.layout.getScene().addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+            EventTarget target = event.getTarget();
+            logger.debug("- - - - - - - - - - - - - - - - - -");
+            logger.debug("Target: " + (target != null ? target.getClass().getSimpleName() : event.getClass().getSimpleName()));
+            logger.debug("Event Type: " + event.getEventType());
+            logger.debug("Component: " + event.getTarget());
+            logger.debug("Details: " + event);
+            logger.debug("- - - - - - - - - - - - - - - - - -");
+        });
 
         MPLauncherBootstrap.getStartStage().centerOnScreen();
         MPLauncherBootstrap.getStartStage().show();
