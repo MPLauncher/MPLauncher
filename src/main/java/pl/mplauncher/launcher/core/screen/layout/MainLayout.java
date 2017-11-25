@@ -322,11 +322,6 @@ public class MainLayout extends Layout {
         secondCC.setPrefWidth(100.0);
         centerGridPane.getColumnConstraints().clear();
         centerGridPane.getColumnConstraints().addAll(firstCC, secondCC);
-        RowConstraints firstRC = new RowConstraints();
-        firstRC.setMinHeight(10.0);
-        firstRC.setVgrow(Priority.SOMETIMES);
-        centerGridPane.getRowConstraints().clear();
-        centerGridPane.getRowConstraints().add(firstRC);
 
         centerGridPane.getChildren().addAll(firstSPinCenterGP, new RightOfNews(this));
         this.firstSPinCenterGP.getChildren().clear();
@@ -339,10 +334,6 @@ public class MainLayout extends Layout {
         firstCC.setPercentWidth(100.0);
         centerGridPane.getColumnConstraints().clear();
         centerGridPane.getColumnConstraints().add(firstCC);
-        RowConstraints firstRC = new RowConstraints();
-        firstRC.setVgrow(Priority.SOMETIMES);
-        centerGridPane.getRowConstraints().clear();
-        centerGridPane.getRowConstraints().add(firstRC);
 
         centerGridPane.getChildren().clear();
         centerGridPane.getChildren().add(new ServerList(this));
