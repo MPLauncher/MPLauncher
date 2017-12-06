@@ -22,6 +22,9 @@ import java.io.File;
 
 public class ConfigUtils {
 
+    private static final String DATA_DIR = ".mplauncher2.0";
+    private static final String APP_CONFIG = ".MPLauncher.config";
+
     public enum DataDirectory {
         LOGS,
         CONFIG
@@ -44,18 +47,18 @@ public class ConfigUtils {
 
     public static File getJarRelativeConfigLocation() {
         File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        return new File(jarPath.getParent() + File.separator + ".mplauncher2.0" + File.separator + "MPLauncher.config");
+        return new File(jarPath.getParent() + File.separator + DATA_DIR + File.separator + APP_CONFIG);
     }
 
     public static File getGlobalConfigLocation() {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows
-            return new File(System.getenv("APPDATA") + File.separator + ".MPLauncher.config");
+            return new File(System.getenv("APPDATA") + File.separator + APP_CONFIG);
         } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) { //Linux
-            return new File(System.getProperty("user.home") + File.separator + ".config" + File.separator + ".MPLauncher.config");
+            return new File(System.getProperty("user.home") + File.separator + ".config" + File.separator + APP_CONFIG);
         } else { //Mac? Solaris?
-            return new File(System.getProperty("user.home") + File.separator + ".MPLauncher.config");
+            return new File(System.getProperty("user.home") + File.separator + APP_CONFIG);
         }
     }
 
@@ -63,14 +66,14 @@ public class ConfigUtils {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows
-            return new File(System.getenv("APPDATA") + File.separator + ".mplauncher2.0" + File.separator);
+            return new File(System.getenv("APPDATA") + File.separator + DATA_DIR + File.separator);
         } else { //Linux / Mac / Solaris
-            return new File(System.getProperty("user.home") + File.separator + ".mplauncher2.0" + File.separator);
+            return new File(System.getProperty("user.home") + File.separator + DATA_DIR + File.separator);
         }
     }
 
     public static File getPortableDataLocation() {
-        return new File(new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + File.separator + ".mplauncher2.0" + File.separator);
+        return new File(new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + File.separator + DATA_DIR + File.separator);
     }
 
 }
