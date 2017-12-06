@@ -49,9 +49,9 @@ public class LoginScreen extends Screen<LoginLayout> {
         layout.loginButton.setOnAction(event -> onLoginAction());
         layout.termsHyperlink.setOnAction(event -> onTermsAction());
 
-        if (!ConfigurationFactory.getUsers().getUsers().isEmpty()) {
+        if (!ConfigurationFactory.getUsersRepository().getUsers().isEmpty()) {
             layout.switchToAccountList();
-            for (UserProfile user : ConfigurationFactory.getUsers().getUsers()) {
+            for (UserProfile user : ConfigurationFactory.getUsersRepository().getUsers()) {
                 layout.accountList.getItems().add(new UserAccountListItem(user));
             }
         }
@@ -150,7 +150,7 @@ public class LoginScreen extends Screen<LoginLayout> {
                     layout.setLoggingIn(false);
                     return;
                 } else {
-                    ConfigurationFactory.getUsers().getUsers().add(user);
+                    ConfigurationFactory.getUsersRepository().getUsers().add(user);
                 }
             }
 
@@ -178,7 +178,7 @@ public class LoginScreen extends Screen<LoginLayout> {
     }
 
     private void onCloseAction() {
-        if (!ConfigurationFactory.getUsers().getUsers().isEmpty() && layout.loginPane.isVisible()) {
+        if (!ConfigurationFactory.getUsersRepository().getUsers().isEmpty() && layout.loginPane.isVisible()) {
             layout.switchToAccountList();
             return;
         }
@@ -190,7 +190,7 @@ public class LoginScreen extends Screen<LoginLayout> {
     }
 
     private void launchMain() {
-        ConfigurationFactory.getUsers().save();
+        ConfigurationFactory.getUsersRepository().save();
         JFXHelpers.doublePropertyAnimation(Duration.millis(1000),
                 MPLauncherBootstrap.getStartStage().opacityProperty(),
                 0.0,

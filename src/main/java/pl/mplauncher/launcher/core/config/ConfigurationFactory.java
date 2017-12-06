@@ -41,11 +41,11 @@ public class ConfigurationFactory {
         return appConfiguration;
     }
 
-    public static UsersConfiguration getUsers() {
-        return getUsers(false);
+    public static UsersConfiguration getUsersRepository() {
+        return getUsersRepository(false);
     }
 
-    public static UsersConfiguration getUsers(boolean fromFile) {
+    public static UsersConfiguration getUsersRepository(boolean fromFile) {
         if (usersConfiguration == null) {
             usersConfiguration = new UsersConfiguration();
         }
