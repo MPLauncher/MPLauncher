@@ -93,7 +93,7 @@ public class MPLauncherBootstrap extends Application {
             switch (configurationOverlay.getResult()) {
                 case Classic: {
                     app.setConfigLocation(ConfigUtils.getGlobalConfigLocation());
-                    app.setDataLocation(ConfigUtils.getInstalledDataLocation());
+                    app.setDataLocation(ConfigUtils.getDefaultDataLocation());
                     break;
                 }
 

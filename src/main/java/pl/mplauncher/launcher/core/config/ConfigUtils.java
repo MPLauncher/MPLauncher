@@ -62,7 +62,7 @@ public class ConfigUtils {
         }
     }
 
-    public static File getInstalledDataLocation() {
+    public static File getDefaultDataLocation() {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows
