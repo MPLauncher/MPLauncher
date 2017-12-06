@@ -23,7 +23,7 @@ public class ConfigurationFactory {
     static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private static AppConfiguration appConfiguration = null;
-    private static UsersConfiguration usersConfiguration = null;
+    private static UsersRepository usersRepository = null;
 
     public static AppConfiguration getAppSetup() {
         return getAppSetup(false);
@@ -41,20 +41,20 @@ public class ConfigurationFactory {
         return appConfiguration;
     }
 
-    public static UsersConfiguration getUsersRepository() {
+    public static UsersRepository getUsersRepository() {
         return getUsersRepository(false);
     }
 
-    public static UsersConfiguration getUsersRepository(boolean fromFile) {
-        if (usersConfiguration == null) {
-            usersConfiguration = new UsersConfiguration();
+    public static UsersRepository getUsersRepository(boolean fromFile) {
+        if (usersRepository == null) {
+            usersRepository = new UsersRepository();
         }
 
         if (fromFile) {
-            usersConfiguration.load();
+            usersRepository.load();
         }
 
-        return usersConfiguration;
+        return usersRepository;
     }
 
 }

@@ -16,20 +16,8 @@
 package pl.mplauncher.launcher.core.config;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-public class UsersConfiguration extends Configuration<UsersConfiguration> {
-
-    private List<UserProfile> users = new ArrayList<>();
-
-    public List<UserProfile> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserProfile> users) {
-        this.users = users;
-    }
+public class UsersRepository extends Repository<UserProfile> {
 
     @Override
     File getDefaultLocation() {

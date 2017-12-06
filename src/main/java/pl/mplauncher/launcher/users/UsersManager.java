@@ -35,7 +35,7 @@ public class UsersManager {
 
     public boolean hasUser(String uuid) {
         return ConfigurationFactory.getUsersRepository().
-                getUsers()
+                getAll()
                 .stream()
                 .map(UserProfile::getUUID)
                 .anyMatch(uuid::equals);

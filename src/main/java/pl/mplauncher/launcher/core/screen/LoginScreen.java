@@ -49,9 +49,9 @@ public class LoginScreen extends Screen<LoginLayout> {
         layout.loginButton.setOnAction(event -> onLoginAction());
         layout.termsHyperlink.setOnAction(event -> onTermsAction());
 
-        if (!ConfigurationFactory.getUsersRepository().getUsers().isEmpty()) {
+        if (!ConfigurationFactory.getUsersRepository().getAll().isEmpty()) {
             layout.switchToAccountList();
-            for (UserProfile user : ConfigurationFactory.getUsersRepository().getUsers()) {
+            for (UserProfile user : ConfigurationFactory.getUsersRepository().getAll()) {
                 layout.accountList.getItems().add(new UserAccountListItem(user));
             }
         }
@@ -150,7 +150,7 @@ public class LoginScreen extends Screen<LoginLayout> {
                     layout.setLoggingIn(false);
                     return;
                 } else {
-                    ConfigurationFactory.getUsersRepository().getUsers().add(user);
+                    ConfigurationFactory.getUsersRepository().getAll().add(user);
                 }
             }
 
@@ -178,7 +178,7 @@ public class LoginScreen extends Screen<LoginLayout> {
     }
 
     private void onCloseAction() {
-        if (!ConfigurationFactory.getUsersRepository().getUsers().isEmpty() && layout.loginPane.isVisible()) {
+        if (!ConfigurationFactory.getUsersRepository().getAll().isEmpty() && layout.loginPane.isVisible()) {
             layout.switchToAccountList();
             return;
         }

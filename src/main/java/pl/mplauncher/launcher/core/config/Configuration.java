@@ -18,6 +18,7 @@ package pl.mplauncher.launcher.core.config;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
 import java.io.*;
@@ -85,7 +86,9 @@ abstract class Configuration<T> {
     private void applyFields(T from) {
         Class<T> fromClass = (Class<T>) from.getClass();
 
-        for (Field field : fromClass.getDeclaredFields()) {
+        Field[] fields = ArrayUtils.addAll(fromClass.getDeclaredFields(), fromClass.getSuperclass().getDeclaredFields());
+
+        for (Field field : fields) {
             try {
                 if (!Modifier.isTransient(field.getModifiers())) {
                     field.setAccessible(true);
