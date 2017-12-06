@@ -53,11 +53,11 @@ public class AppConfiguration extends Configuration<AppConfiguration> {
     File getDefaultLocation() {
         File location = null;
 
-        if (ConfigUtils.isGlobalConfigExists()) {
-            if (ConfigUtils.getNearJarConfigLocation().exists()) {
-                location = ConfigUtils.getNearJarConfigLocation();
+        if (ConfigUtils.isApplicationConfigExists()) {
+            if (ConfigUtils.getJarRelativeConfigLocation().exists()) {
+                location = ConfigUtils.getJarRelativeConfigLocation();
             } else {
-                location = ConfigUtils.getNearPcConfigLocation();
+                location = ConfigUtils.getGlobalConfigLocation();
             }
 
             if (getInstallationType() == ConfigurationOverlay.InstallationType.Portable) {

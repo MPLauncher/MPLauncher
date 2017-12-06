@@ -38,16 +38,16 @@ public class ConfigUtils {
         return toReturn;
     }
 
-    public static boolean isGlobalConfigExists() {
-        return getNearJarConfigLocation().exists() || getNearPcConfigLocation().exists();
+    public static boolean isApplicationConfigExists() {
+        return getJarRelativeConfigLocation().exists() || getGlobalConfigLocation().exists();
     }
 
-    public static File getNearJarConfigLocation() {
+    public static File getJarRelativeConfigLocation() {
         File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         return new File(jarPath.getParent() + File.separator + ".mplauncher2.0" + File.separator + "MPLauncher.config");
     }
 
-    public static File getNearPcConfigLocation() {
+    public static File getGlobalConfigLocation() {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows
@@ -59,7 +59,7 @@ public class ConfigUtils {
         }
     }
 
-    public static File getClassicDataLocation() {
+    public static File getInstalledDataLocation() {
         String OS = System.getProperty("os.name").toLowerCase();
 
         if (OS.contains("win")) { //Windows

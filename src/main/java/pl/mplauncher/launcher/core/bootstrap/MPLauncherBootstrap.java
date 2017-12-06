@@ -62,7 +62,7 @@ public class MPLauncherBootstrap extends Application {
 
         AppConfiguration app = ConfigurationFactory.getAppSetup();
 
-        if (ConfigUtils.isGlobalConfigExists()) {
+        if (ConfigUtils.isApplicationConfigExists()) {
             app.load();
             System.setProperty("logBasePath", ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.LOGS).getAbsolutePath());
         } else {
@@ -84,7 +84,7 @@ public class MPLauncherBootstrap extends Application {
 
         // ********* DATA CONFIGURE ********* //
 
-        if (!ConfigUtils.isGlobalConfigExists()) {
+        if (!ConfigUtils.isApplicationConfigExists()) {
             ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
             logger.info("User has configured this installation!");
             logger.info("Selected configuration: " + configurationOverlay.getResult());
@@ -92,13 +92,13 @@ public class MPLauncherBootstrap extends Application {
 
             switch (configurationOverlay.getResult()) {
                 case Classic: {
-                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
-                    app.setDataLocation(ConfigUtils.getClassicDataLocation());
+                    app.setConfigLocation(ConfigUtils.getGlobalConfigLocation());
+                    app.setDataLocation(ConfigUtils.getInstalledDataLocation());
                     break;
                 }
 
                 case OwnLocation: {
-                    app.setConfigLocation(ConfigUtils.getNearPcConfigLocation());
+                    app.setConfigLocation(ConfigUtils.getGlobalConfigLocation());
                     app.setDataLocation(new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
                     break;
                 }
