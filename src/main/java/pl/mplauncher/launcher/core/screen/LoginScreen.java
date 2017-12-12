@@ -37,6 +37,11 @@ public class LoginScreen extends Screen<LoginLayout> {
 
     private UserProfile.Type accountTypeSelected = UserProfile.Type.NONPREMIUM;
 
+    @Override
+    public String getDefaultTitle() {
+        return "Login";
+    }
+
     public void initialize() {
         layout.initialize();
 

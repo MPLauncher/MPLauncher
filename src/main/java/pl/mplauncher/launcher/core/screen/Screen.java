@@ -31,6 +31,10 @@ public abstract class Screen<T extends Layout> {
     public abstract void initialize();
     abstract T createLayout();
 
+    public String getDefaultTitle() {
+        return null;
+    }
+
     Screen() {
         layout = createLayout();
     }

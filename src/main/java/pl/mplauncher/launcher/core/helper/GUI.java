@@ -67,9 +67,12 @@ public class GUI {
 
         screen.initialize();
 
-        MPLauncherBootstrap.getStartStage().setTitle("MPLauncher - "
-                + StringUtils.capitalize(to.getName().replace("Screen", "").toLowerCase()));
+        String title = "MPLauncher";
+        if (screen.getDefaultTitle() != null) {
+            title += " - " + screen.getDefaultTitle();
+        }
 
+        MPLauncherBootstrap.getStartStage().setTitle(title);
         MPLauncherBootstrap.getStartStage().setScene(screen.layout.getScene());
 
         screen.layout.getScene().addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
