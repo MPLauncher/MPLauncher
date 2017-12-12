@@ -16,4 +16,7 @@
 package pl.mplauncher.launcher;
 
 public class MPLauncher {
+
+    public static final String NAME = "MPLauncher";
+
 }

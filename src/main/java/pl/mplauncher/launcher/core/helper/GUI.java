@@ -24,6 +24,7 @@ import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.screen.Screen;
 
@@ -67,7 +68,7 @@ public class GUI {
 
         screen.initialize();
 
-        String title = "MPLauncher";
+        String title = MPLauncher.NAME;
         if (screen.getDefaultTitle() != null) {
             title += " - " + screen.getDefaultTitle();
         }

@@ -16,14 +16,15 @@
 package pl.mplauncher.launcher.core.config;
 
 import org.apache.commons.lang3.Validate;
+import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 
 import java.io.File;
 
 public class ConfigUtils {
 
-    private static final String DATA_DIR = ".mplauncher2.0";
-    private static final String APP_CONFIG = ".MPLauncher.config";
+    private static final String DATA_DIR = "." + MPLauncher.NAME + "2.0";
+    private static final String APP_CONFIG = "." + MPLauncher.NAME + ".config";
 
     public enum DataDirectory {
         LOGS,
