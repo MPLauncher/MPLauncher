@@ -36,7 +36,7 @@ import pl.mplauncher.launcher.core.helper.JFXHelpers;
 
 import java.io.File;
 
-public class ConfigurationOverlay extends Stage {
+public class FirstRunOverlay extends Stage {
 
     public enum InstallationType {
         Classic,
@@ -52,7 +52,7 @@ public class ConfigurationOverlay extends Stage {
     private JFXRadioButton portable;
     private JFXComboBox<String> driveList;
 
-    public ConfigurationOverlay() {
+    public FirstRunOverlay() {
         JFXDialogLayout dialogLayout = new JFXDialogLayout();
         Scene scene = new Scene(dialogLayout);
         scene.setFill(Color.TRANSPARENT);

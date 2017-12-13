@@ -31,7 +31,7 @@ import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.config.ConfigUtils;
 import pl.mplauncher.launcher.core.config.AppConfiguration;
 import pl.mplauncher.launcher.core.config.ConfigurationFactory;
-import pl.mplauncher.launcher.core.control.ConfigurationOverlay;
+import pl.mplauncher.launcher.core.control.FirstRunOverlay;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.helper.GUI;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundleIO;
@@ -85,12 +85,12 @@ public class MPLauncherBootstrap extends Application {
         // ********* DATA CONFIGURE ********* //
 
         if (!ConfigUtils.isApplicationConfigExists()) {
-            ConfigurationOverlay configurationOverlay = new ConfigurationOverlay();
+            FirstRunOverlay firstRunOverlay = new FirstRunOverlay();
             logger.info("User has configured this installation!");
-            logger.info("Selected configuration: " + configurationOverlay.getResult());
-            logger.info("Location: " + configurationOverlay.getLocation());
+            logger.info("Selected configuration: " + firstRunOverlay.getResult());
+            logger.info("Location: " + firstRunOverlay.getLocation());
 
-            switch (configurationOverlay.getResult()) {
+            switch (firstRunOverlay.getResult()) {
                 case Classic: {
                     app.setConfigLocation(ConfigUtils.getGlobalConfigLocation());
                     app.setDataLocation(ConfigUtils.getDefaultDataLocation());
@@ -99,13 +99,13 @@ public class MPLauncherBootstrap extends Application {
 
                 case OwnLocation: {
                     app.setConfigLocation(ConfigUtils.getGlobalConfigLocation());
-                    app.setDataLocation(new File(configurationOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
+                    app.setDataLocation(new File(firstRunOverlay.getLocation() + File.separator + ".mplauncher2.0" + File.separator));
                     break;
                 }
 
                 case Portable: {
                     File jarPath = new File(MPLauncherBootstrap.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-                    File dstPath = new File(configurationOverlay.getLocation() + File.separator + jarPath.getName());
+                    File dstPath = new File(firstRunOverlay.getLocation() + File.separator + jarPath.getName());
                     try {
                         Files.copy(jarPath, dstPath);
                         File dataLocation = new File(dstPath.getParent() + File.separator + ".mplauncher2.0" + File.separator);
@@ -115,7 +115,7 @@ public class MPLauncherBootstrap extends Application {
                         }
 
                         app.setConfigLocation(new File(dataLocation + File.separator + "MPLauncher.config"));
-                        app.setInstallationType(configurationOverlay.getResult());
+                        app.setInstallationType(firstRunOverlay.getResult());
                         app.setDataLocation(dataLocation);
 
                         app.save();
@@ -132,11 +132,11 @@ public class MPLauncherBootstrap extends Application {
                 }
             }
 
-            app.setInstallationType(configurationOverlay.getResult());
+            app.setInstallationType(firstRunOverlay.getResult());
             app.save();
 
             if (!app.getDataLocation().exists()) {
-                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", configurationOverlay.getResult().name()));
+                Validate.isTrue(app.getDataLocation().mkdirs(), String.format("Couldn't mkdirs() on %s installation.", firstRunOverlay.getResult().name()));
             }
 
         } else {

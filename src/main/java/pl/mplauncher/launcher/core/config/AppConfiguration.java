@@ -15,14 +15,14 @@
 */
 package pl.mplauncher.launcher.core.config;
 
-import pl.mplauncher.launcher.core.control.ConfigurationOverlay;
+import pl.mplauncher.launcher.core.control.FirstRunOverlay;
 
 import java.io.File;
 
 public class AppConfiguration extends Configuration<AppConfiguration> {
 
     private boolean firstRun = true;
-    private ConfigurationOverlay.InstallationType installationType;
+    private FirstRunOverlay.InstallationType installationType;
     private File dataLocation;
 
     public boolean isFirstRun() {
@@ -33,11 +33,11 @@ public class AppConfiguration extends Configuration<AppConfiguration> {
         this.firstRun = firstRun;
     }
 
-    public ConfigurationOverlay.InstallationType getInstallationType() {
+    public FirstRunOverlay.InstallationType getInstallationType() {
         return installationType;
     }
 
-    public void setInstallationType(ConfigurationOverlay.InstallationType installationType) {
+    public void setInstallationType(FirstRunOverlay.InstallationType installationType) {
         this.installationType = installationType;
     }
 
@@ -60,7 +60,7 @@ public class AppConfiguration extends Configuration<AppConfiguration> {
                 location = ConfigUtils.getGlobalConfigLocation();
             }
 
-            if (getInstallationType() == ConfigurationOverlay.InstallationType.Portable) {
+            if (getInstallationType() == FirstRunOverlay.InstallationType.Portable) {
                 setDataLocation(ConfigUtils.getPortableDataLocation()); //Pendrive letter/location may change!
             }
         }
