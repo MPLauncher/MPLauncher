@@ -36,6 +36,16 @@
     "general-play": "GRAJ",
     "general-ram": "RAM",
     "general-ramAmount": "ILOŚĆ RAM",
-    "general-mcVersion": "WERSJA MC:"
+    "general-mcVersion": "WERSJA MC:",
+
+    "setting-language": "Język",
+    "setting-theme": "Motyw",
+    "setting-debugApplication": "Debuguj launcher",
+    "setting-autostart": "Uruchamiaj z systemem",
+    "setting-disableEventTheme": "Wyłącz wygląd eventowy",
+    "setting-enableDynamicIcon": "Dynamiczna ikona/logo",
+    "setting-disableLogCatch": "Nie przechowuj logów klienta",
+    "setting-showMinecraftConsole": "Konsola Minecrafta",
+    "setting-minimizeToTray": "Minimalizuj do traya"
   }
 }

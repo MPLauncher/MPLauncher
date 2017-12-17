@@ -36,6 +36,8 @@
     "general-play": "PLAY",
     "general-ram": "RAM",
     "general-ramAmount": "RAM AMOUNT",
-    "general-mcVersion": "MC VERSION:"
+    "general-mcVersion": "MC VERSION:",
+
+    "setting-language": "Language"
   }
 }

@@ -15,14 +15,21 @@
 */
 package pl.mplauncher.launcher.core.config;
 
+import pl.mplauncher.launcher.core.config.smart.SmartConfigurationOption;
+import pl.mplauncher.launcher.core.config.smart.SmartOptionType;
+
 import java.io.File;
 
 public class UserSpecificConfiguration extends Configuration<UserSpecificConfiguration>{
 
     private transient UserProfile profile;
 
+    @SmartConfigurationOption(type = SmartOptionType.LIST, options = {"POLSKI", "ANGIELSKI", "BAKA"})
     private String language;
+
+    @SmartConfigurationOption(type = SmartOptionType.LIST, options = {"NAJLEPSZY", "KAWAII"})
     private String theme;
+
     private boolean debugApplication;
     private boolean autostart;
     private boolean disableEventTheme;

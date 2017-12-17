@@ -29,6 +29,13 @@ import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.config.UserSpecificConfiguration;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
+import pl.mplauncher.launcher.core.config.smart.SmartConfiguration;
+import pl.mplauncher.launcher.core.config.smart.SmartOptionType;
+import pl.mplauncher.launcher.core.config.smart.SmartOption;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SettingsOverlay extends JFXDialog {
 
@@ -112,84 +119,41 @@ public class SettingsOverlay extends JFXDialog {
         }
 
         UserSpecificConfiguration userConfig = ApplicationFactory.getUsersManager().getCurrentProfile().getConfiguration();
+        SmartConfiguration<UserSpecificConfiguration> smartConfiguration = new SmartConfiguration<>(userConfig);
+        List<SmartOption> options = smartConfiguration.getOptions();
 
-        SettingOption option_1 = new SettingOption("DYNAMICZNA IKONA/LOGO", new JFXCheckBox());
-        GridPane.setColumnIndex(option_1, 0);
-        GridPane.setRowIndex(option_1, 0);
-        GridPane.setMargin(option_1, new Insets(0.0, 10.0, 0.0, 0.0));
+        Map<SettingOption, SmartOption> guiMapping = new HashMap<>();
+        for (int i = 0; i < options.size(); i++) {
+            int column = i / 6;
+            int row = i % 6;
 
-        ((JFXCheckBox) option_1.getChild()).setSelected(userConfig.isEnableDynamicIcon());
+            SmartOption option = options.get(i);
+            SettingOption settingOption = null;
+            String displayName = MessageBundle.getCurrentLanguage().getMessage("setting-" + option.getName());
 
+            if (option.getType() == SmartOptionType.CHECKBOX) {
+                settingOption = new SettingOption(displayName, new JFXCheckBox());
+                ((JFXCheckBox) settingOption.getChild()).setSelected((Boolean) option.getValue());
+            } else if (option.getType() == SmartOptionType.LIST) {
+                JFXComboBox<String> selectableOptions = new JFXComboBox<>();
+                selectableOptions.getItems().addAll(option.getOptions());
+                selectableOptions.setValue((String) option.getValue());
 
-        SettingOption option_2 = new SettingOption("WYŁĄCZ WYGLĄD EVENTOWY", new JFXCheckBox());
-        GridPane.setColumnIndex(option_2, 0);
-        GridPane.setRowIndex(option_2, 1);
-        GridPane.setMargin(option_2, new Insets(0.0, 10.0, 0.0, 0.0));
+                if (option.getValue() == null) {
+                    selectableOptions.setValue(option.getOptions()[0]);
+                }
 
-        ((JFXCheckBox) option_2.getChild()).setSelected(userConfig.isDisableEventTheme());
+                settingOption = new SettingOption(displayName, selectableOptions);
+            }
 
+            GridPane.setColumnIndex(settingOption, column);
+            GridPane.setRowIndex(settingOption, row);
+            GridPane.setMargin(settingOption, new Insets(0.0, 10.0, 0.0, 0.0));
 
-        SettingOption option_3 = new SettingOption("URUCHAMIAJ Z SYSTEMEM", new JFXCheckBox());
-        GridPane.setColumnIndex(option_3, 0);
-        GridPane.setRowIndex(option_3, 2);
-        GridPane.setMargin(option_3, new Insets(0.0, 10.0, 0.0, 0.0));
+            guiMapping.put(settingOption, option);
+            bodyGridPane.getChildren().add(settingOption);
+        }
 
-        ((JFXCheckBox) option_3.getChild()).setSelected(userConfig.isAutostart());
-
-
-        SettingOption option_4 = new SettingOption("DEBUGUJ LAUNCHER", new JFXCheckBox());
-        GridPane.setColumnIndex(option_4, 0);
-        GridPane.setRowIndex(option_4, 3);
-        GridPane.setMargin(option_4, new Insets(0.0, 10.0, 0.0, 0.0));
-
-        ((JFXCheckBox) option_4.getChild()).setSelected(userConfig.isDebugApplication());
-
-
-        JFXComboBox<String> languages = new JFXComboBox<>();
-        languages.getItems().addAll("POLSKI", "ANGIELSKI", "BAKA");
-        SettingOption option_language = new SettingOption("JĘZYK", languages);
-        GridPane.setColumnIndex(option_language, 0);
-        GridPane.setRowIndex(option_language, 4);
-        GridPane.setMargin(option_language, new Insets(0.0, 10.0, 0.0, 0.0));
-
-        languages.setValue(userConfig.getLanguage());
-
-
-        JFXComboBox<String> themes = new JFXComboBox<>();
-        themes.getItems().addAll("NAJLEPSZY", "KAWAII");
-        SettingOption option_theme = new SettingOption("MOTYW", themes);
-        GridPane.setColumnIndex(option_theme, 0);
-        GridPane.setRowIndex(option_theme, 5);
-        GridPane.setMargin(option_theme, new Insets(0.0, 10.0, 0.0, 0.0));
-
-        themes.setValue(userConfig.getTheme());
-
-
-        SettingOption option_5 = new SettingOption("NIE PRZECHWYTUJ LOGÓW KLIENTA", new JFXCheckBox());
-        GridPane.setColumnIndex(option_5, 1);
-        GridPane.setRowIndex(option_5, 0);
-        GridPane.setMargin(option_5, new Insets(0.0, 0.0, 0.0, 10.0));
-
-        ((JFXCheckBox) option_5.getChild()).setSelected(userConfig.isDisableLogCatch());
-
-
-        SettingOption option_6 = new SettingOption("KONSOLA MINECRAFTA", new JFXCheckBox());
-        GridPane.setColumnIndex(option_6, 1);
-        GridPane.setRowIndex(option_6, 1);
-        GridPane.setMargin(option_6, new Insets(0.0, 0.0, 0.0, 10.0));
-
-        ((JFXCheckBox) option_6.getChild()).setSelected(userConfig.isShowMinecraftConsole());
-
-
-        SettingOption option_7 = new SettingOption("MINIMALIZUJ DO TRAYA", new JFXCheckBox());
-        GridPane.setColumnIndex(option_7, 1);
-        GridPane.setRowIndex(option_7, 2);
-        GridPane.setMargin(option_7, new Insets(0.0, 0.0, 0.0, 10.0));
-
-        ((JFXCheckBox) option_7.getChild()).setSelected(userConfig.isMinimizeToTray());
-
-        bodyGridPane.getChildren().addAll(option_1, option_2, option_3, option_4, option_language, option_theme,
-                option_5, option_6, option_7);
         body.getChildren().add(bodyGridPane);
 
         contentHandler.setBody(body);
@@ -203,17 +167,15 @@ public class SettingsOverlay extends JFXDialog {
         contentHandler.setActions(saveButton);
 
         saveButton.setOnAction(actionEvent -> {
-            userConfig.setLanguage(languages.getSelectionModel().getSelectedItem());
-            userConfig.setTheme(themes.getSelectionModel().getSelectedItem());
-            userConfig.setEnableDynamicIcon(((JFXCheckBox) option_1.getChild()).isSelected());
-            userConfig.setDisableEventTheme(((JFXCheckBox) option_2.getChild()).isSelected());
-            userConfig.setAutostart(((JFXCheckBox) option_3.getChild()).isSelected());
-            userConfig.setDebugApplication(((JFXCheckBox) option_4.getChild()).isSelected());
-            userConfig.setDisableLogCatch(((JFXCheckBox) option_5.getChild()).isSelected());
-            userConfig.setShowMinecraftConsole(((JFXCheckBox) option_6.getChild()).isSelected());
-            userConfig.setMinimizeToTray(((JFXCheckBox) option_7.getChild()).isSelected());
+            for (Map.Entry<SettingOption, SmartOption> entry : guiMapping.entrySet()) {
+                if (entry.getValue().getType() == SmartOptionType.CHECKBOX) {
+                    entry.getValue().setValue(((JFXCheckBox)entry.getKey().getChild()).isSelected());
+                } else if (entry.getValue().getType() == SmartOptionType.LIST) {
+                    entry.getValue().setValue(((JFXComboBox)entry.getKey().getChild()).getSelectionModel().getSelectedItem());
+                }
+            }
 
-            userConfig.save();
+            smartConfiguration.save();
             this.close();
         });
 
