@@ -35,7 +35,7 @@ public class GUI {
     private static final Logger logger = LogManager.getLogger(GUI.class);
 
     public static void initialize() {
-        MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo.png")));
+        MPLauncherBootstrap.getStartStage().getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo-cropped.png")));
 
         final String[] requiredFonts = {
                 "Montserrat-Thin.ttf",
