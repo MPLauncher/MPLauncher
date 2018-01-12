@@ -87,7 +87,7 @@
 }
 
 .fontSize9 {
-    -fx-font-size: 8;
+    -fx-font-size: 9;
 }
 
 .fontSize8_5 {
@@ -403,25 +403,53 @@
     -fx-max-height: 9px;
 }
 
-.settingOption JFXComboBox {
+.settingOption JFXComboBox,
+.firstRunContent JFXComboBox,
+.firstRunContent JFXTextField {
     -fx-border-style: solid;
     -fx-border-width: 1px;
     -fx-border-color: linear-gradient(to right, #9c27b0, #6a1b9a);
 
     -jfx-focus-color: transparent;
     -jfx-unfocus-color: transparent;
+    -fx-text-fill: #FFFFFF;
 }
 
-.settingOption JFXComboBox .list-cell {
+.settingOption JFXComboBox .list-cell,
+.firstRunContent JFXComboBox .list-cell {
     -fx-font-family: 'Montserrat Light';
     -fx-font-size: 10px;
     -fx-text-fill: #FFFFFF;
 }
 
-.settingOption JFXComboBox .list-cell:selected {
+.settingOption JFXComboBox .list-cell:selected,
+.firstRunContent JFXComboBox .list-cell:selected {
     -fx-font-family: 'Montserrat SemiBold';
 }
 
-.settingOption JFXComboBox .list-view {
+.settingOption JFXComboBox .list-view,
+.firstRunContent JFXComboBox .list-view {
     -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+/* FIRSTRUN DIALOG */
+.firstRunContent {
+    -fx-background-color: linear-gradient(to bottom, #140036, #1f0126);
+}
+
+.firstRunContent Text {
+    -fx-fill: #FFFFFF;
+}
+
+.firstRunContent Text .dimmy {
+    -fx-fill: #888888;
+}
+
+.firstRunContent JFXRadioButton {
+    -jfx-selected-color: #9c27b0;
+    -jfx-unselected-color: #9c27b0;
+}
+
+.firstRunContent .radioHBox {
+    -fx-padding: 25 0 0 0;
 }
