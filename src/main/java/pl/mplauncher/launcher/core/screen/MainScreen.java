@@ -32,6 +32,7 @@ import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
+import pl.mplauncher.launcher.core.screen.layout.component.NewsList;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,6 +55,13 @@ public class MainScreen extends Screen<MainLayout> {
                             SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
                             settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
                             settingsOverlay.show();
+                            break;
+                        }
+                        case 2: {
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
+                                    0.0, event -> {
+                                        layout.setNewsList();
+                                    });
                             break;
                         }
                         case 3: {

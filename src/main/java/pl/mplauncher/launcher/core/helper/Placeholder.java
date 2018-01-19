@@ -21,8 +21,10 @@ import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
+import pl.mplauncher.launcher.core.screen.layout.component.NewsList;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -48,6 +50,19 @@ public class Placeholder {
             } else {
                 layout.addServerToOtherList(sb.toString(), "1.11.2",
                         random.nextInt(100), random.nextInt(100) + 100);
+            }
+        }
+    }
+
+    public static void populateNewsList(MainLayout layout) {
+        // Set news!
+        for (int x = 0; x < 20; x++) {
+            if (x < 3) {
+                ((NewsList) layout.centerGridPane.getChildren().get(0)).addNews(NewsList.Category.Important, "NAJLEPSZY NEWS ŚWIATA", new Date());
+            } else if (x < 18) {
+                ((NewsList) layout.centerGridPane.getChildren().get(0)).addNews(NewsList.Category.Latest, "NAJLEPSZY NEWS ŚWIATA", new Date());
+            } else {
+                ((NewsList) layout.centerGridPane.getChildren().get(0)).addNews(NewsList.Category.Technical, "NAJLEPSZY NEWS ŚWIATA", new Date());
             }
         }
     }

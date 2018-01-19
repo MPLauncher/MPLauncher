@@ -37,8 +37,9 @@ public class ServerItem extends GridPane {
         sIcolumn1.setHgrow(Priority.NEVER);
         sIcolumn1.setPercentWidth(70.0);
         ColumnConstraints sIcolumn2 = new ColumnConstraints();
-        sIcolumn1.setHgrow(Priority.NEVER);
+        sIcolumn2.setHgrow(Priority.NEVER);
         sIcolumn2.setPercentWidth(30.0);
+        sIcolumn2.setHalignment(HPos.CENTER);
 
         this.getColumnConstraints().addAll(sIcolumn1, sIcolumn2);
 
@@ -53,7 +54,6 @@ public class ServerItem extends GridPane {
         serverName.setWrapText(true);
         GridPane.setValignment(serverName, VPos.BOTTOM);
         serverName.setText(name.toUpperCase());
-        GridPane.setMargin(serverName, new Insets(0.0, 0.0, 0.0, 24.0));
         serverName.getStyleClass().addAll("fontSemiBold", "fontSize10", "fillTextWhite");
 
         Label serverVersion = new Label();
@@ -61,7 +61,6 @@ public class ServerItem extends GridPane {
         GridPane.setHalignment(serverVersion, HPos.LEFT);
         GridPane.setRowIndex(serverVersion, 1);
         serverVersion.setText(MessageBundle.getCurrentLanguage().getMessage("general-mcVersion") + " " + version.toUpperCase());
-        GridPane.setMargin(serverVersion, new Insets(0.0, 0.0, 0.0, 24.0));
         serverVersion.getStyleClass().addAll("fontRegular", "fontSize8", "fillTextWhite");
 
         Label serverSlots = new Label();

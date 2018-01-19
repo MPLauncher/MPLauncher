@@ -266,8 +266,12 @@
     -fx-padding: 0;
 }
 
-.serverList, .jfx-list-cell {
+.serverList {
     -fx-background-color: transparent;
+}
+
+.serverList .jfx-list-cell {
+    -fx-padding: 0 0 0 24;
 }
 
 .serverList .jfx-list-cell .jfx-rippler {
@@ -290,7 +294,6 @@
     -fx-text-fill: #ffffff;
     -fx-fill: #ffffff;
 }
-
 
 /* NORMAL */
 .selectList {

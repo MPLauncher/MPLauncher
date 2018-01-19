@@ -44,6 +44,7 @@ import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
+import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.layout.component.*;
@@ -328,6 +329,22 @@ public class MainLayout extends Layout {
         this.firstSPinCenterGP.getChildren().add(new StartNews(newsTitle, newsImage, newsArticle, newsAuthor, newsTime));
     }
 
+    //NEWS
+    public void setNewsList() {
+        ColumnConstraints firstCC = new ColumnConstraints();
+        firstCC.setHgrow(Priority.SOMETIMES);
+        firstCC.setPercentWidth(100.0);
+        centerGridPane.getColumnConstraints().clear();
+        centerGridPane.getColumnConstraints().add(firstCC);
+
+        centerGridPane.getChildren().clear();
+        centerGridPane.getChildren().add(new NewsList(this));
+        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
+
+        Placeholder.populateNewsList(this);
+    }
+
+    //SERVERS
     public void setServerList() {
         ColumnConstraints firstCC = new ColumnConstraints();
         firstCC.setHgrow(Priority.SOMETIMES);
