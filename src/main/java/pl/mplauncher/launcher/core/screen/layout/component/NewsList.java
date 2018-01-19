@@ -18,6 +18,9 @@ package pl.mplauncher.launcher.core.screen.layout.component;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXRippler;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,8 +39,6 @@ import java.util.HashMap;
 
 public class NewsList extends StackPane {
 
-    private MainLayout parent;
-
     public enum Category {
         Important,
         Latest,
@@ -50,12 +51,11 @@ public class NewsList extends StackPane {
         if (!categorizedNews.get(newsCategory).isVisible()) {
             categorizedNews.get(newsCategory).setVisible(true);
         }
-        categorizedNews.get(newsCategory).setPrefHeight((categorizedNews.get(newsCategory).getItems().size() + 1) * categorizedNews.get(newsCategory).getFixedCellSize());
-        categorizedNews.get(newsCategory).getItems().add(new NewsItem(parent, newsTitle, newsDate));
+        categorizedNews.get(newsCategory).setPrefHeight(((categorizedNews.get(newsCategory).getItems().size() + 1) * categorizedNews.get(newsCategory).getFixedCellSize()) + 2);
+        categorizedNews.get(newsCategory).getItems().add(new NewsItem(newsTitle, newsDate));
     }
 
     public NewsList(MainLayout parent) {
-        this.parent = parent;
 
         GridPane.setHalignment(this, HPos.CENTER);
         GridPane.setValignment(this, VPos.CENTER);
@@ -143,17 +143,16 @@ public class NewsList extends StackPane {
         // CENTER //
 
         // LEFT //
-        parent.serverListleftSite = new ScrollPane();
-        parent.serverListleftSite.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        parent.serverListleftSite.setMinSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
-        parent.serverListleftSite.setMaxSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
-        parent.serverListleftSite.setPrefSize(244.0, 445.0);
-        parent.serverListleftSite.setPadding(new Insets(0.0));
-        parent.serverListleftSite.getStyleClass().add("serverListScrollPane");
+        ScrollPane leftSiteScrollPane = new ScrollPane();
+        leftSiteScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        leftSiteScrollPane.setMinSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
+        leftSiteScrollPane.setMaxSize(ScrollPane.USE_PREF_SIZE, ScrollPane.USE_PREF_SIZE);
+        leftSiteScrollPane.setPrefSize(244.0, 445.0);
+        leftSiteScrollPane.getStyleClass().add("serverListScrollPane");
 
-        VBox serverListleftSiteVBox = new VBox();
-        serverListleftSiteVBox.getStyleClass().add("serverListContainer");
-        serverListleftSiteVBox.setPadding(new Insets(0.0));
+        VBox newsListleftSiteVBox = new VBox();
+        newsListleftSiteVBox.getStyleClass().add("serverListContainer");
+        newsListleftSiteVBox.setPadding(new Insets(0.0));
 
         // Initialize categorized news
         categorizedNews = new HashMap<>();
@@ -163,26 +162,55 @@ public class NewsList extends StackPane {
             newsList.setFixedCellSize(60.0);
             newsList.getStyleClass().add("serverList");
             newsList.managedProperty().bind(newsList.visibleProperty());
+            newsList.setPrefWidth(244.0);
             newsList.setVisible(false);
 
             StackPane categoryIndicator = new StackPane();
             categoryIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
             categoryIndicator.setMaxSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
-            categoryIndicator.setPrefSize(237.0, 30.0);
+            categoryIndicator.setPrefSize(244.0, 30.0);
             categoryIndicator.setPadding(new Insets(0.0));
             categoryIndicator.getStyleClass().add("serverListIndicator");
-            categoryIndicator.managedProperty().bind(newsList.managedProperty());
-            categoryIndicator.visibleProperty().bind(newsList.visibleProperty());
 
             Label categoryName = new Label();
-            categoryName.setPadding(new Insets(0.0, 0.0, 0.0, 20.0));
             categoryName.setText(category.name().toUpperCase());
+            StackPane.setMargin(categoryName, new Insets(0.0, 0.0, 0.0, 18.0));
             StackPane.setAlignment(categoryName, Pos.CENTER_LEFT);
 
-            categoryIndicator.getChildren().add(categoryName);
-            serverListleftSiteVBox.getChildren().addAll(categoryIndicator, newsList);
+            JFXRippler jfxRippler = new JFXRippler();
+            jfxRippler.setAlignment(Pos.CENTER_RIGHT);
+            StackPane.setMargin(jfxRippler, new Insets(0.0, 25.0, 0.0, 0.0));
+            StackPane.setAlignment(jfxRippler, Pos.CENTER_RIGHT);
+            FontAwesomeIconView disclosure = new FontAwesomeIconView(FontAwesomeIcon.CHEVRON_DOWN, "10px");
+            disclosure.getStyleClass().add("textWhite");
+            jfxRippler.setControl(disclosure);
+            jfxRippler.setOnMouseClicked((mouseEvent) -> {
+                if (disclosure.getGlyphName().equalsIgnoreCase("CHEVRON_DOWN")) {
+                    newsList.setVisible(false);
+                    disclosure.setIcon(FontAwesomeIcon.CHEVRON_RIGHT);
+                } else {
+                    newsList.setVisible(true);
+                    disclosure.setIcon(FontAwesomeIcon.CHEVRON_DOWN);
+                }
+            });
 
+            categoryIndicator.getChildren().addAll(categoryName, jfxRippler);
+            newsListleftSiteVBox.getChildren().addAll(categoryIndicator, newsList);
             categorizedNews.put(category, newsList);
+        }
+
+        // Deselect other news in group if news in other group is selected
+        for (JFXListView<NewsItem> listView : categorizedNews.values()) {
+            for (JFXListView<NewsItem> otherListView : categorizedNews.values()) {
+                if (listView != otherListView) {
+                    listView.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> {
+                        if (nV != null && otherListView != null
+                                && !otherListView.getSelectionModel().isEmpty()) {
+                            otherListView.getSelectionModel().clearSelection();
+                        }
+                    }));
+                }
+            }
         }
 
         // LEFT //
@@ -191,10 +219,10 @@ public class NewsList extends StackPane {
         this.getChildren().add(container);
         container.setTop(topStackPane);
         container.setCenter(centerContainer);
-        container.setLeft(parent.serverListleftSite);
+        container.setLeft(leftSiteScrollPane);
         topStackPane.getChildren().add(serverListText);
         centerContainer.getChildren().addAll(serverImage, serverInfo, playButton);
-        parent.serverListleftSite.setContent(serverListleftSiteVBox);
+        leftSiteScrollPane.setContent(newsListleftSiteVBox);
         serverInfo.getChildren().addAll(serverName, serverDescription);
     }
 }

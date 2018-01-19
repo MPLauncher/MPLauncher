@@ -232,6 +232,12 @@
 
 .serverListScrollPane {
     -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.serverListScrollPane > .viewport {
+    -fx-background-color: #080015;
 }
 
 .serverListScrollPane .scroll-bar:horizontal,

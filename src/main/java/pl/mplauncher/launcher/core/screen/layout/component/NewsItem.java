@@ -18,7 +18,6 @@ package pl.mplauncher.launcher.core.screen.layout.component;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,10 +25,9 @@ import java.util.Date;
 
 public class NewsItem extends VBox {
 
-    public NewsItem(MainLayout parent, String title, Date date) {
+    public NewsItem(String title, Date date) {
         this.setMouseTransparent(true);
         this.setMaxWidth(VBox.USE_PREF_SIZE);
-        this.prefWidthProperty().bind(parent.serverListleftSite.widthProperty().subtract(43));
 
         Label newsTitle = new Label();
         newsTitle.setWrapText(true);
