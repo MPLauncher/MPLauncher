@@ -32,6 +32,7 @@ import pl.mplauncher.launcher.MPLauncher;
 import pl.mplauncher.launcher.core.config.ConfigUtils;
 import pl.mplauncher.launcher.core.config.AppConfiguration;
 import pl.mplauncher.launcher.core.config.ConfigurationFactory;
+import pl.mplauncher.launcher.core.control.ErrorOverlay;
 import pl.mplauncher.launcher.core.control.FirstRunOverlay;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
 import pl.mplauncher.launcher.core.helper.GUI;
@@ -167,39 +168,7 @@ public class MPLauncherBootstrap extends Application {
 
     private static void showError(Thread t, Throwable e) {
         logger.error("I've got an exception!", e);
-
-        if (Platform.isFxApplicationThread()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Unhandled Exception");
-            alert.setHeaderText("I've got an unhandled error while making you happy :c");
-            alert.setContentText(
-                    "The exception was: " + e.getLocalizedMessage() + System.lineSeparator() +
-                    "On Thread: " + t.getId() + " (" + t.getName() + ").");
-
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-
-            String exceptionStackTrace = sw.toString();
-
-            Label label = new Label("Exception stacktrace:");
-
-            TextArea textArea = new TextArea(exceptionStackTrace);
-            textArea.setEditable(false);
-            textArea.setWrapText(false);
-
-            textArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            GridPane.setVgrow(textArea, Priority.ALWAYS);
-            GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-            GridPane expContent = new GridPane();
-            expContent.setMaxWidth(Double.MAX_VALUE);
-            expContent.add(label, 0, 0);
-            expContent.add(textArea, 0, 1);
-
-            alert.getDialogPane().setExpandableContent(expContent);
-            alert.show();
-        }
+        new ErrorOverlay(e);
     }
 
     public static Stage getStartStage() {

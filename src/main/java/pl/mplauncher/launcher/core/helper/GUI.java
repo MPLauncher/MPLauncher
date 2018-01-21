@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.mplauncher.launcher.MPLauncher;

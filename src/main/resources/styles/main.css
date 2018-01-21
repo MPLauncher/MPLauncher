@@ -462,3 +462,73 @@
 .firstRunContent .radioHBox {
     -fx-padding: 25 0 0 0;
 }
+
+/* ERROR DIALOG */
+.errorOverlayContent {
+    -fx-background-color: linear-gradient(to bottom, #140036, #1f0126);
+}
+
+.errorOverlayContent JFXRippler {
+    -jfx-rippler-fill: #9c27b0;
+}
+
+.errorOverlayContent JFXTextArea {
+    -jfx-unfocus-color: #6a1b9a;
+    -jfx-focus-color: #9c27b0;
+}
+
+.errorOverlayContent FlowPane {
+    -fx-padding: 0 8 8 8;
+}
+
+.errorOverlayIcon {
+    -fx-fill: linear-gradient(to right, #9c27b0, #6a1b9a);
+}
+
+.borderedButton {
+    -jfx-disable-visual-focus: true;
+    -fx-background-color: transparent;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
+    -fx-border-color: linear-gradient(to top, #9c27b0, #6a1b9a);
+    /*-fx-border-image-width: 3px;*/
+}
+
+.filledButton {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-radius: 15px;
+}
+
+.errorOverlayContent JFXTextArea .scroll-bar:horizontal,
+.errorOverlayContent JFXTextArea .scroll-bar:vertical {
+    -fx-background-color: #000000;
+}
+
+.errorOverlayContent JFXTextArea .scroll-bar:horizontal .thumb,
+.errorOverlayContent JFXTextArea .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to right, #9c27b0, #6a1b9a);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em;
+}
+
+.errorOverlayContent JFXTextArea .scroll-bar:horizontal .increment-button,
+.errorOverlayContent JFXTextArea .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.errorOverlayContent JFXTextArea .scroll-bar:vertical .increment-button,
+.errorOverlayContent JFXTextArea .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.errorOverlayContent JFXTextArea .scroll-bar .increment-arrow,
+.errorOverlayContent JFXTextArea .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}

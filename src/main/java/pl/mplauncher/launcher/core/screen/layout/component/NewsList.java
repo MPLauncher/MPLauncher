@@ -31,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import pl.mplauncher.launcher.core.control.ErrorOverlay;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.net.URL;
@@ -139,6 +140,7 @@ public class NewsList extends StackPane {
         GridPane.setHalignment(playButton, HPos.RIGHT);
         GridPane.setMargin(playButton, new Insets(0.0, 20.0, 20.0, 0.0));
         playButton.getStyleClass().addAll("fontSemiBold", "fontSize10", "textFillWhite", "playButton");
+        playButton.setOnMouseClicked((event) -> new ErrorOverlay(new Exception("Testowy błąd xD")));
 
         // CENTER //
 
