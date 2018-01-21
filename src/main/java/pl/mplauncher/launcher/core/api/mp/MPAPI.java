@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.api.mp;
 
-public class MPLauncher {
+public class MPAPI {
 
-    public static final String NAME = "MPLauncher";
+    private static final SkinsAPI skinsAPI = new SkinsAPI();
+    private static final NewsAPI newsAPI = new NewsAPI();
+
+    public static SkinsAPI skins() {
+        return skinsAPI;
+    }
+
+    public static NewsAPI news() {
+        return newsAPI;
+    }
 
 }

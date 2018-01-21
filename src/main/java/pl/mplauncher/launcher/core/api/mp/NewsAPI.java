@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.api.mp;
 
-public class MPLauncher {
+import pl.mplauncher.launcher.core.api.mp.component.dto.News;
+import pl.mplauncher.launcher.core.helper.Placeholder;
 
-    public static final String NAME = "MPLauncher";
+import java.net.URL;
+
+public class NewsAPI {
+
+    public News latest() {
+        return Placeholder.getNews();
+    }
 
 }

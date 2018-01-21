@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.config;
 
-public class MPLauncher {
+import java.util.ArrayList;
+import java.util.List;
 
-    public static final String NAME = "MPLauncher";
+public abstract class Repository<T> extends Configuration<Repository> {
+
+    private List<T> objects = new ArrayList<>();
+
+    public List<T> getAll() {
+        return objects;
+    }
 
 }

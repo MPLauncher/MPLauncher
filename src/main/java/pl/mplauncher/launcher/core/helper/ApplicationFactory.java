@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.helper;
 
-public class MPLauncher {
+import pl.mplauncher.launcher.users.UsersManager;
 
-    public static final String NAME = "MPLauncher";
+public class ApplicationFactory {
+
+    private static UsersManager usersManager = null;
+
+    public static UsersManager getUsersManager() {
+        if (usersManager == null) {
+            usersManager = new UsersManager();
+        }
+
+        return usersManager;
+    }
 
 }

@@ -1,0 +1,51 @@
+{
+  "locale":"pl_PL",
+  "messages":
+  {
+    "login-premium": "PREMIUM",
+    "login-nonPremium": "NON-PREMIUM",
+    "login-formPremiumUsername":"EMAIL / NICK",
+    "login-formPremiumPassword": "HASŁO",
+    "login-formNonPremiumUsername":"NICK",
+    "login-formRememberMe": "ZAPAMIĘTAJ TO KONTO",
+    "login-formLogInButton": "ZALOGUJ",
+    "login-toastMessagePremiumNoNickname":"Uzupełnij nazwę użytkownika/email.",
+    "login-toastMessagePremiumNoPassword": "Uzupełnij hasło",
+    "login-toastMessageNonPremiumNoNickname": "Uzupełnij swój nick.",
+    "login-termsOfUse": "warunki użytkowania",
+
+    "main-settingsOverlayTitle": "Ustawienia",
+    "main-menuUserProfile": "PROFIL#LINESEPARATOR#UŻYTKOWNIKA",
+    "main-menuUserSettings": "USTAWIENIA#LINESEPARATOR#UŻYTKOWNIKA",
+    "main-menuNews": "NOWOŚCI",
+    "main-menuServerPicker": "WYBÓR SERWERA",
+    "main-findUsAt": "Znajdziesz nas na:",
+    "main-exit": "WYŁĄCZ",
+
+    "serverList-title": "LISTA SERWERÓW",
+    "serverList-addToFav": "dodaj do ulubionych",
+    "serverList-alreadyInstalled": "zainstalowano",
+    "serverList-fav": "ULUBIONE",
+    "serverList-other": "POZOSTAŁE",
+
+    "general-save": "ZAPISZ",
+    "general-yes": "Tak",
+    "general-no": "Nie",
+    "general-ok": "Okej",
+    "general-cancel": "Anuluj",
+    "general-play": "GRAJ",
+    "general-ram": "RAM",
+    "general-ramAmount": "ILOŚĆ RAM",
+    "general-mcVersion": "WERSJA MC:",
+
+    "setting-language": "Język",
+    "setting-theme": "Motyw",
+    "setting-debugApplication": "Debuguj launcher",
+    "setting-autostart": "Uruchamiaj z systemem",
+    "setting-disableEventTheme": "Wyłącz wygląd eventowy",
+    "setting-enableDynamicIcon": "Dynamiczna ikona/logo",
+    "setting-disableLogCatch": "Nie przechowuj logów klienta",
+    "setting-showMinecraftConsole": "Konsola Minecrafta",
+    "setting-minimizeToTray": "Minimalizuj do traya"
+  }
+}

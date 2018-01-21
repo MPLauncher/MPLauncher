@@ -1,0 +1,43 @@
+{
+  "locale":"en_EN",
+  "messages":
+  {
+    "login-premium": "PREMIUM",
+    "login-nonPremium": "NON-PREMIUM",
+    "login-formPremiumUsername":"EMAIL / NICK",
+    "login-formPremiumPassword": "PASSWORD",
+    "login-formNonPremiumUsername":"NICK",
+    "login-formRememberMe": "REMEMBER THAT ACCOUNT",
+    "login-formLogInButton": "LOG IN",
+    "login-toastMessagePremiumNoNickname":"Fill username/email.",
+    "login-toastMessagePremiumNoPassword": "Fill password",
+    "login-toastMessageNonPremiumNoNickname": "Fill your nickname.",
+    "login-termsOfUse": "terms of use",
+
+    "main-settingsOverlayTitle": "Settings",
+    "main-menuUserProfile": "USER#LINESEPARATOR#PROFILE",
+    "main-menuUserSettings": "USER#LINESEPARATOR#SETTINGS",
+    "main-menuNews": "NEWS",
+    "main-menuServerPicker": "SERVER PICKER",
+    "main-findUsAt": "You'll find us on:",
+    "main-exit": "TURN OFF",
+
+    "serverList-title": "SERVER LIST",
+    "serverList-addToFav": "add to favorite",
+    "serverList-alreadyInstalled": "installed",
+    "serverList-fav": "FAVORITE",
+    "serverList-other": "OTHER",
+
+    "general-save": "SAVE",
+    "general-yes": "Yes",
+    "general-no": "No",
+    "general-ok": "Okay",
+    "general-cancel": "Cancel",
+    "general-play": "PLAY",
+    "general-ram": "RAM",
+    "general-ramAmount": "RAM AMOUNT",
+    "general-mcVersion": "MC VERSION:",
+
+    "setting-language": "Language"
+  }
+}

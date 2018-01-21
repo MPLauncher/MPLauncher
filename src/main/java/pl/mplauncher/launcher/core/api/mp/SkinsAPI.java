@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.api.mp;
 
-public class MPLauncher {
+import pl.mplauncher.launcher.core.api.mp.component.PlayerSkin;
 
-    public static final String NAME = "MPLauncher";
+public class SkinsAPI {
+
+    public PlayerSkin get(String username) {
+        return new PlayerSkin(username);
+    }
 
 }

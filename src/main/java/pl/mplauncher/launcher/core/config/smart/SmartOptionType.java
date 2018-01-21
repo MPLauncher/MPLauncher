@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.config.smart;
 
-public class MPLauncher {
-
-    public static final String NAME = "MPLauncher";
-
+public enum SmartOptionType {
+    LIST, CHECKBOX
 }

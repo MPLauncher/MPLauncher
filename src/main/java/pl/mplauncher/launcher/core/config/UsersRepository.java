@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.config;
 
-public class MPLauncher {
+import java.io.File;
 
-    public static final String NAME = "MPLauncher";
+public class UsersRepository extends Repository<UserProfile> {
+
+    @Override
+    File getDefaultLocation() {
+        return new File(ConfigUtils.getLocationForData(ConfigUtils.DataDirectory.CONFIG), "users.json");
+    }
 
 }

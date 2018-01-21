@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.config.smart;
 
-public class MPLauncher {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public static final String NAME = "MPLauncher";
-
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SmartConfigurationOption {
+    String name() default "";
+    SmartOptionType type() default SmartOptionType.CHECKBOX;
+    String[] options() default {};
 }

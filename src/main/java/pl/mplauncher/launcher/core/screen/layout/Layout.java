@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
-package pl.mplauncher.launcher;
+package pl.mplauncher.launcher.core.screen.layout;
 
-public class MPLauncher {
+import javafx.scene.Scene;
+import pl.mplauncher.launcher.core.screen.Screen;
 
-    public static final String NAME = "MPLauncher";
+public abstract class Layout {
+
+    protected Scene scene;
+    public Screen screen;
+
+    public double xOffset;
+    public double yOffset;
+
+    public abstract void initialize();
+
+    Layout(Screen screen) {
+        this.screen = screen;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
 
 }
