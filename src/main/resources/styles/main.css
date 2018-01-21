@@ -473,6 +473,10 @@
 }
 
 .errorOverlayContent JFXTextArea {
+    -fx-background-image: url("../images/WeSmartCroppedTransparent.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right top;
+    -fx-background-size: auto 140px;
     -jfx-unfocus-color: #6a1b9a;
     -jfx-focus-color: #9c27b0;
 }

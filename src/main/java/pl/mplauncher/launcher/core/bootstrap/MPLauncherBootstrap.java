@@ -18,12 +18,6 @@ package pl.mplauncher.launcher.core.bootstrap;
 
 import com.google.common.io.Files;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -167,7 +161,7 @@ public class MPLauncherBootstrap extends Application {
     }
 
     private static void showError(Thread t, Throwable e) {
-        logger.error("I've got an exception!", e);
+        logger.error("I've got an exception!", e, t);
         new ErrorOverlay(e);
     }
 

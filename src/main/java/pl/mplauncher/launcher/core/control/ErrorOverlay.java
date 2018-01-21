@@ -130,7 +130,7 @@ public class ErrorOverlay extends Stage {
         error.printStackTrace(pw);
         errorLog.setText(sw.toString());
         //
-        errorLog.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        errorLog.setPrefHeight(140.0);
         errorLog.managedProperty().bind(errorLog.visibleProperty()); // Hide when not visible
         VBox.setVgrow(errorLog, Priority.ALWAYS);
         errorLog.getStyleClass().addAll("fontRegular", "fontSize10", "textFillWhite");
