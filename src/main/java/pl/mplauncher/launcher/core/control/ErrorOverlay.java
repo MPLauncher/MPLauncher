@@ -56,7 +56,7 @@ public class ErrorOverlay extends Stage {
         if (style != null) {
             scene.getStylesheets().add(style.toExternalForm());
         } else {
-            logger.error("Couldn't load CSS style for the FirstRunOverlay form!");
+            logger.error("Couldn't load CSS style for the ErrorOverlay form!");
         }
 
         this.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream("images/logo-cropped.png")));
