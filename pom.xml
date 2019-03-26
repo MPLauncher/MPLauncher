@@ -71,13 +71,13 @@
         <dependency>
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx-commons</artifactId>
-            <version>9.1.2</version>
+            <version>8.15</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx-fontawesome</artifactId>
-            <version>4.7.0-9.1.2</version>
+            <version>4.7.0-5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
