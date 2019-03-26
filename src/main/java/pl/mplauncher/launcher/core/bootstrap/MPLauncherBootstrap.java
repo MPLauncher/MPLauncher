@@ -162,7 +162,6 @@ public class MPLauncherBootstrap extends Application {
 
     private static void showError(Thread t, Throwable e) {
         logger.error("I've got an exception!", e, t);
-        e.printStackTrace();
         new ErrorOverlay(e);
     }
 
