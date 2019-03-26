@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 MPLauncher Team
+ * Copyright 2017-2019 MPLauncher Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
