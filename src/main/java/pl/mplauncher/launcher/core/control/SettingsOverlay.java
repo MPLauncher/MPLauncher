@@ -211,7 +211,7 @@ public class SettingsOverlay extends JFXDialog {
         }
     }
 
-    public StackPane getContentHandler() {
+    public JFXDialogLayout getContentHandler() {
         return contentHandler;
     }
 

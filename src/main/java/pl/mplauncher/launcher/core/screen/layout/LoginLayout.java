@@ -41,6 +41,7 @@ import java.net.URL;
 
 public class LoginLayout extends Layout{
 
+    public Pane namePane;
     public JFXSnackbar snackBar;
     public StackPane stackPane;
     public Hyperlink closeButton;
@@ -60,7 +61,6 @@ public class LoginLayout extends Layout{
     public JFXSpinner loginSpinner;
     public JFXButton loginButton;
     public Hyperlink termsHyperlink;
-    public Pane namePane;
 
     public LoginLayout(Screen screen) {
         super(screen);
