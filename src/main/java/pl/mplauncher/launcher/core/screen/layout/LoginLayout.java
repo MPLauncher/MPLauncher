@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 MPLauncher Team
+ * Copyright 2017-2019 MPLauncher Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import java.net.URL;
 
 public class LoginLayout extends Layout{
 
+    public Pane namePane;
     public JFXSnackbar snackBar;
     public StackPane stackPane;
     public Hyperlink closeButton;
@@ -60,7 +61,6 @@ public class LoginLayout extends Layout{
     public JFXSpinner loginSpinner;
     public JFXButton loginButton;
     public Hyperlink termsHyperlink;
-    public Pane namePane;
 
     public LoginLayout(Screen screen) {
         super(screen);

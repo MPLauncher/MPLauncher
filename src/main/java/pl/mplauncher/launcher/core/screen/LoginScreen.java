@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2018 MPLauncher Team
+ * Copyright 2017-2019 MPLauncher Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 package pl.mplauncher.launcher.core.screen;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import javafx.application.Platform;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
@@ -123,7 +125,7 @@ public class LoginScreen extends Screen<LoginLayout> {
 
             String checkResult = checkFields(login, password);
             if (checkResult != null) {
-                layout.snackBar.show(currentLang.getMessage("login-toastMessage" + checkResult), 3000);
+                layout.snackBar.enqueue(new SnackbarEvent(new JFXSnackbarLayout(currentLang.getMessage("login-toastMessage" + checkResult)), new Duration(3000), null));
                 return;
             }
 
@@ -138,7 +140,7 @@ public class LoginScreen extends Screen<LoginLayout> {
                 if (Placeholder.handleLogin(login, password)) {
                     user = Placeholder.getTestUser();
                 } else {
-                    layout.snackBar.show("Invalid credentials!", 3000);
+                    layout.snackBar.enqueue(new SnackbarEvent(new JFXSnackbarLayout("Invalid credentials!"), new Duration(3000), null));
                     layout.disableActions(false);
                     layout.setLoggingIn(false);
                     return;
@@ -151,7 +153,7 @@ public class LoginScreen extends Screen<LoginLayout> {
             // Handle profile saving
             if (layout.rememberButton.isSelected()) {
                 if (ApplicationFactory.getUsersManager().hasUser(user.getUUID())) {
-                    layout.snackBar.show("This account was added before.", 3000);
+                    layout.snackBar.enqueue(new SnackbarEvent(new JFXSnackbarLayout("This account was added before."), new Duration(3000), null));
                     layout.disableActions(false);
                     layout.setLoggingIn(false);
                     return;
@@ -170,7 +172,7 @@ public class LoginScreen extends Screen<LoginLayout> {
                 ApplicationFactory.getUsersManager().setCurrentProfile(profile);
                 launchMain();
             } else {
-                layout.snackBar.show("Select an account!", 3000);
+                layout.snackBar.enqueue(new SnackbarEvent(new JFXSnackbarLayout("Select an account!"), new Duration(3000), null));
             }
         }
     }
