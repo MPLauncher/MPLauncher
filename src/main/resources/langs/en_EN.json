@@ -38,6 +38,14 @@
     "general-ramAmount": "RAM AMOUNT",
     "general-mcVersion": "MC VERSION:",
 
-    "setting-language": "Language"
+    "setting-language": "Language",
+    "setting-theme": "Theme",
+    "setting-debugApplication": "Debug launcher",
+    "setting-autostart": "Run at startup",
+    "setting-disableEventTheme": "Turn off event themes",
+    "setting-enableDynamicIcon": "Dynamic icon/logo",
+    "setting-disableLogCatch": "Don't save client logs",
+    "setting-showMinecraftConsole": "Show client console",
+    "setting-minimizeToTray": "Minimize to tray"
   }
 }
