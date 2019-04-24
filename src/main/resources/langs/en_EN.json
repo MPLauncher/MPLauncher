@@ -15,12 +15,20 @@
     "login-termsOfUse": "terms of use",
 
     "main-settingsOverlayTitle": "Settings",
+    "main-menuPlay": "PLAY!",
     "main-menuUserProfile": "USER#LINESEPARATOR#PROFILE",
     "main-menuUserSettings": "USER#LINESEPARATOR#SETTINGS",
     "main-menuNews": "NEWS",
     "main-menuServerPicker": "SERVER PICKER",
     "main-findUsAt": "You'll find us on:",
     "main-exit": "TURN OFF",
+
+    "modpacklist-title": "MODPACK LIST",
+    "modpacklist-vanilla": "DEFAULT PACKS",
+    "modpacklist-own": "OWN PACKS",
+    "modpacklist-kenpack": "KENPACK PACKS",
+    "modpacklist-ftb": "FTB PACKS",
+    "modpacklist-other": "OTHER PACKS",
 
     "serverList-title": "SERVER LIST",
     "serverList-addToFav": "add to favorite",
@@ -37,6 +45,7 @@
     "general-ram": "RAM",
     "general-ramAmount": "RAM AMOUNT",
     "general-mcVersion": "MC VERSION:",
+    "general-modpackVersion": "MODPACK VERSION:",
 
     "setting-language": "Language",
     "setting-theme": "Theme",

@@ -20,8 +20,10 @@ import com.google.common.base.Charsets;
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
 import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.QuestionOverlay;
+import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
+import pl.mplauncher.launcher.core.screen.layout.component.ModpackItem;
 import pl.mplauncher.launcher.core.screen.layout.component.NewsList;
 
 import java.net.URL;
@@ -51,6 +53,27 @@ public class Placeholder {
             } else {
                 layout.addServerToOtherList(sb.toString(), "1.11.2",
                         random.nextInt(100), random.nextInt(100) + 100);
+            }
+        }
+    }
+
+    public static void populateModpackList(MainScreen screen) {
+        MainLayout layout = screen.layout;
+        Random random = new Random();
+
+        for (int x = 0; x < 18; x++) {
+                int rand = random.nextInt(100);
+
+                if (rand < 15) {
+                    layout.addModpackToList(ModpackType.VANILLA,"HusialkeBox", "1.15", "To jest desc. vanilli");
+                } else if (rand > 15 && rand < 30) {
+                    layout.addModpackToList(ModpackType.FTB, "FTB Industrjal", "Beta 1.3", "Uhu lala jak ta lala");
+                } else if (rand > 30 && rand < 45) {
+                    layout.addModpackToList(ModpackType.KENPACK, "Techblock XD", "0.1.0", "Smiglo ci zasmiglo?");
+                } else if (rand > 45 && rand < 60) {
+                    layout.addModpackToList(ModpackType.OWN, "Moja wlasna paczka :>", "1.11", "Awuuu moja paczusia <3");
+                } else {
+                    layout.addModpackToList(ModpackType.OTHER, "MineModders czy jakos tak", "1.0", "Czesc Michma!");
             }
         }
     }

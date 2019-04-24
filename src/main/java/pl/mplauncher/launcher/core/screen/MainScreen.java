@@ -33,7 +33,6 @@ import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
-import pl.mplauncher.launcher.core.screen.layout.component.NewsList;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,20 +51,26 @@ public class MainScreen extends Screen<MainLayout> {
                             + " == " + ((Label) nodeIn).getText());
 
                     switch (layout.menuList.getSelectionModel().getSelectedIndex()) {
-                        case 1: {
+                        case 0:
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
+                                0.0, event -> {
+                                layout.setPlayWindow();
+
+                                Placeholder.populateModpackList(this);
+                                });
+                            break;
+                        case 2: {
                             SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
                             settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
                             settingsOverlay.show();
                             break;
                         }
-                        case 2: {
+                        case 3: {
                             JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
-                                    0.0, event -> {
-                                        layout.setNewsList();
-                                    });
+                                    0.0, event -> layout.setNewsList());
                             break;
                         }
-                        case 3: {
+                        case 4: {
                             JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
                                     0.0, event -> {
                                         layout.setServerList();
@@ -112,10 +117,12 @@ public class MainScreen extends Screen<MainLayout> {
         layout.setUserOnline(true);
 
         //Set menu
+        layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuPlay").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
-        layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
+        layout.addMenuOption(FontAwesomeIcon.SERVER, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
+
 
         layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
         layout.setNews(MPAPI.news().latest());

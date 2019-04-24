@@ -15,12 +15,20 @@
     "login-termsOfUse": "warunki użytkowania",
 
     "main-settingsOverlayTitle": "Ustawienia",
+    "main-menuPlay": "GRAJ!",
     "main-menuUserProfile": "PROFIL#LINESEPARATOR#UŻYTKOWNIKA",
     "main-menuUserSettings": "USTAWIENIA#LINESEPARATOR#UŻYTKOWNIKA",
     "main-menuNews": "NOWOŚCI",
     "main-menuServerPicker": "WYBÓR SERWERA",
     "main-findUsAt": "Znajdziesz nas na:",
     "main-exit": "WYŁĄCZ",
+
+    "modpacklist-title": "LISTA PACZEK",
+    "modpacklist-vanilla": "PODSTAWOWE PACZKI",
+    "modpacklist-own": "WŁASNE PACZKI",
+    "modpacklist-kenpack": "PACZKI KENPACK",
+    "modpacklist-ftb": "PACZKI FTB",
+    "modpacklist-other": "INNE PACZKI",
 
     "serverList-title": "LISTA SERWERÓW",
     "serverList-addToFav": "dodaj do ulubionych",
@@ -37,6 +45,7 @@
     "general-ram": "RAM",
     "general-ramAmount": "ILOŚĆ RAM",
     "general-mcVersion": "WERSJA MC:",
+    "general-modpackVersion": "WERSJA PACZKI:",
 
     "setting-language": "Język",
     "setting-theme": "Motyw",

@@ -40,12 +40,16 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import org.apache.commons.lang3.Validate;
 import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
+import pl.mplauncher.launcher.core.manager.Managers;
+import pl.mplauncher.launcher.core.manager.ModpackManager;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.layout.component.*;
@@ -77,6 +81,13 @@ public class MainLayout extends Layout {
     private Text launcherVersion = new Text();
     private StackPane menuButtonSP = new StackPane();
     public ScrollPane serverListleftSite;
+
+    //ModPack views
+    public JFXListView<ModpackItem> vanillaModpackList;
+    public JFXListView<ModpackItem> ftbModpackList;
+    public JFXListView<ModpackItem> ownModpackList;
+    public JFXListView<ModpackItem> kenpackModpackList;
+    public JFXListView<ModpackItem> otherModpackList;
 
     public MainLayout(Screen screen) {
         super(screen);
@@ -305,6 +316,18 @@ public class MainLayout extends Layout {
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
     }
 
+    public void setPlayWindow() {
+        ColumnConstraints firstCC = new ColumnConstraints();
+        firstCC.setHgrow(Priority.SOMETIMES);
+        firstCC.setPercentWidth(100.0);
+        centerGridPane.getColumnConstraints().clear();
+        centerGridPane.getColumnConstraints().add(firstCC);
+
+        centerGridPane.getChildren().clear();
+        centerGridPane.getChildren().add(new ModpackList(this));
+        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
+    }
+
     public void setNews(News news) {
         PrettyTime prettyTime = new PrettyTime();
         prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
@@ -375,6 +398,43 @@ public class MainLayout extends Layout {
             otherServerList.getItems().add(new ServerItem(this, name, version, players + "/" + maxPlayers));
         } else {
             screen.logger.error("Launcher tried to add server when serverList wasn't initialized yet!");
+        }
+    }
+
+    public void addModpackToList(ModpackType type, String name, String version, String description) {
+        JFXListView<ModpackItem> list;
+            switch (type) {
+                case VANILLA:
+                    list = vanillaModpackList;
+                    break;
+                case FTB:
+                    list = ftbModpackList;
+                    break;
+                case OWN:
+                    list = ownModpackList;
+                    break;
+                case KENPACK:
+                    list = kenpackModpackList;
+                    break;
+                default:
+                    list = otherModpackList;
+                    break;
+
+            }
+
+        if (list != null) {
+            if (!list.isVisible()) {
+                list.setVisible(true);
+            }
+
+            list.setPrefHeight((list.getItems().size() + 1) * list.getFixedCellSize());
+
+            ModpackItem item = new ModpackItem(this, name, version, description);
+            item.setOnMouseReleased(event -> ModpackList.selectedModpackType = type);
+            list.getItems().add(item);
+            Managers.getModpackManager().addPack(item);
+        } else {
+            screen.logger.error("Launcher tried to add Modpack when ModpackList wasn't initialized yet!");
         }
     }
 
