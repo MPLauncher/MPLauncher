@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXRippler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -40,7 +41,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-import org.apache.commons.lang3.Validate;
 import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
@@ -49,7 +49,6 @@ import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.manager.Managers;
-import pl.mplauncher.launcher.core.manager.ModpackManager;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.layout.component.*;
@@ -88,6 +87,9 @@ public class MainLayout extends Layout {
     public JFXListView<ModpackItem> ownModpackList;
     public JFXListView<ModpackItem> kenpackModpackList;
     public JFXListView<ModpackItem> otherModpackList;
+
+    public Set<JFXListView<ModpackItem>> modpackSet;
+    public ModpackType tempModpack;
 
     public MainLayout(Screen screen) {
         super(screen);
@@ -401,26 +403,23 @@ public class MainLayout extends Layout {
         }
     }
 
-    public void addModpackToList(ModpackType type, String name, String version, String description) {
-        JFXListView<ModpackItem> list;
-            switch (type) {
-                case VANILLA:
-                    list = vanillaModpackList;
-                    break;
-                case FTB:
-                    list = ftbModpackList;
-                    break;
-                case OWN:
-                    list = ownModpackList;
-                    break;
-                case KENPACK:
-                    list = kenpackModpackList;
-                    break;
-                default:
-                    list = otherModpackList;
-                    break;
+    public JFXListView<ModpackItem> getModpacklistByType(ModpackType type) {
+        switch (type) {
+            case VANILLA:
+                return vanillaModpackList;
+            case FTB:
+                return ftbModpackList;
+            case OWN:
+                return ownModpackList;
+            case KENPACK:
+                return kenpackModpackList;
+            default:
+                return otherModpackList;
+        }
+    }
 
-            }
+    public void addModpackToList(ModpackType type, String name, String version, String description, int plays) {
+        JFXListView<ModpackItem> list = getModpacklistByType(type);
 
         if (list != null) {
             if (!list.isVisible()) {
@@ -429,13 +428,21 @@ public class MainLayout extends Layout {
 
             list.setPrefHeight((list.getItems().size() + 1) * list.getFixedCellSize());
 
-            ModpackItem item = new ModpackItem(this, name, version, description);
+            ModpackItem item = new ModpackItem(this, name, version, description, plays);
             item.setOnMouseReleased(event -> ModpackList.selectedModpackType = type);
             list.getItems().add(item);
             Managers.getModpackManager().addPack(item);
         } else {
             screen.logger.error("Launcher tried to add Modpack when ModpackList wasn't initialized yet!");
         }
+    }
+
+    public void changeTypeOfPack(ModpackType oldType, ModpackType newType) {
+        JFXListView<ModpackItem> item = getModpacklistByType(oldType);
+        item.getSelectionModel().clearSelection();
+
+        tempModpack = newType;
+
     }
 
     public void addMenuOption(FontAwesomeIcon glyph, String label) {
