@@ -65,15 +65,15 @@ public class Placeholder {
                 int rand = random.nextInt(100);
 
                 if (rand < 15) {
-                    layout.addModpackToList(ModpackType.VANILLA,"HusialkeBox", "1.15", "To jest desc. vanilli");
+                    layout.addModpackToList(ModpackType.VANILLA,"HusialkeBox", "1.15", "To jest desc. vanilli", random.nextInt(15));
                 } else if (rand > 15 && rand < 30) {
-                    layout.addModpackToList(ModpackType.FTB, "FTB Industrjal", "Beta 1.3", "Uhu lala jak ta lala");
+                    layout.addModpackToList(ModpackType.FTB, "FTB Industrjal", "Beta 1.3", "Uhu lala jak ta lala", random.nextInt(15));
                 } else if (rand > 30 && rand < 45) {
-                    layout.addModpackToList(ModpackType.KENPACK, "Techblock XD", "0.1.0", "Smiglo ci zasmiglo?");
+                    layout.addModpackToList(ModpackType.KENPACK, "Techblock XD", "0.1.0", "Smiglo ci zasmiglo?", random.nextInt(15));
                 } else if (rand > 45 && rand < 60) {
-                    layout.addModpackToList(ModpackType.OWN, "Moja wlasna paczka :>", "1.11", "Awuuu moja paczusia <3");
+                    layout.addModpackToList(ModpackType.OWN, "Moja wlasna paczka :>", "1.11", "Awuuu moja paczusia <3", random.nextInt(15));
                 } else {
-                    layout.addModpackToList(ModpackType.OTHER, "MineModders czy jakos tak", "1.0", "Czesc Michma!");
+                    layout.addModpackToList(ModpackType.OTHER, "MineModders czy jakos tak", "1.0", "Czesc Michma!", random.nextInt(15));
             }
         }
     }
