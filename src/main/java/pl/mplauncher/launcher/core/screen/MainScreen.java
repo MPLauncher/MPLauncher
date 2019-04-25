@@ -29,6 +29,7 @@ import pl.mplauncher.launcher.core.api.mp.MPAPI;
 import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.InstallerOverlay;
 import pl.mplauncher.launcher.core.control.SettingsOverlay;
+import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
@@ -36,6 +37,7 @@ import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import pl.mplauncher.launcher.core.screen.layout.component.ModpackList;
 
 public class MainScreen extends Screen<MainLayout> {
 
@@ -55,6 +57,26 @@ public class MainScreen extends Screen<MainLayout> {
                             JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
                                 0.0, event -> {
                                 layout.setPlayWindow();
+
+                                layout.modpackSet.forEach(modpack -> modpack.setOnMouseReleased(released -> {
+                                    if (layout.tempModpack == null) {
+                                        layout.tempModpack = ModpackList.selectedModpackType;
+                                    }
+
+                                    if (layout.tempModpack != ModpackList.selectedModpackType) {
+
+                                        layout.changeTypeOfPack(layout.tempModpack, ModpackList.selectedModpackType);
+                                    }
+
+                                    ModpackList.serverName.setText(modpack.getSelectionModel().getSelectedItem().getName());
+                                    ModpackList.modpackDescription.setText(modpack.getSelectionModel().getSelectedItem().getDescription());
+                                }));
+
+                                    layout.vanillaModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.VANILLA));
+                                    layout.ownModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.OWN));
+                                    layout.kenpackModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.KENPACK));
+                                    layout.ftbModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.FTB));
+                                    layout.otherModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.OTHER));
 
                                 Placeholder.populateModpackList(this);
                                 });

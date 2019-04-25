@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
-import java.util.Optional;
+import java.util.HashSet;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,14 +31,13 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.enums.ModpackType;
-import pl.mplauncher.launcher.core.manager.Managers;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 
 public class ModpackList extends StackPane {
 
-    public Text serverName;
-    public Label modpackDescription;
+    public static Text serverName;
+    public static Label modpackDescription;
     public static ModpackType selectedModpackType;
 
     public ModpackList(MainLayout layout) {
@@ -89,7 +88,7 @@ public class ModpackList extends StackPane {
         serverName = new Text();
         serverName.setStrokeType(StrokeType.OUTSIDE);
         serverName.setStrokeWidth(0.0);
-        serverName.setText("Nie nazwana paczka"); //Testing purpose
+        serverName.setText("Nie nazwana paczka");
         GridPane.setMargin(serverName, new Insets(0, 0.0, 0.0, 20.0));
         serverName.getStyleClass().addAll("fontSemiBold", "fontSize14", "fillWhite");
 
@@ -98,7 +97,7 @@ public class ModpackList extends StackPane {
         GridPane.setRowIndex(modpackDescription, 1);
         GridPane.setValignment(modpackDescription, VPos.TOP);
         GridPane.setMargin(modpackDescription, new Insets(0.0, 20.0, 0.0, 20.0));
-        modpackDescription.setText("Powiedzmy, ze tu jest jakies description ni"); //Testing purpose
+        modpackDescription.setText("Ta paczka nie posiada opisu!");
         modpackDescription.getStyleClass().addAll("fontRegular", "fontSize10", "textFillWhite");
 
         GridPane serverInfo = new GridPane();
@@ -113,14 +112,6 @@ public class ModpackList extends StackPane {
         sIrow2.setPercentHeight(80.0);
         sIrow2.setVgrow(Priority.SOMETIMES);
         serverInfo.getRowConstraints().addAll(sIrow1, sIrow2);
-
-        serverInfo.setOnMouseReleased(event -> {
-            layout.screen.logger.info(serverName.getText());
-            layout.screen.logger.info(selectedModpackType.name());
-            Optional<ModpackItem> item = Managers.getModpackManager().findPackByType(layout, selectedModpackType, serverName.getText());
-            layout.screen.logger.info(item.get().getName());
-            item.ifPresent(modpackItem -> serverName.setText(modpackItem.getName()));
-        });
 
         GridPane serverOptions = new GridPane();
         GridPane.setRowIndex(serverOptions, 2);
@@ -216,12 +207,15 @@ public class ModpackList extends StackPane {
         serverListleftSiteVBox.getStyleClass().add("serverListContainer");
         serverListleftSiteVBox.setPadding(new Insets(0.0));
 
+        layout.modpackSet = new HashSet<>();
+
         layout.vanillaModpackList = new JFXListView<>();
         layout.vanillaModpackList.setFixedCellSize(60.0);
         layout.vanillaModpackList.getStyleClass().add("serverList");
         layout.vanillaModpackList.setPadding(new Insets(0.0));
         layout.vanillaModpackList.managedProperty().bind(layout.vanillaModpackList.visibleProperty());
         layout.vanillaModpackList.setVisible(false);
+        layout.modpackSet.add(layout.vanillaModpackList);
 
         layout.kenpackModpackList = new JFXListView<>();
         layout.kenpackModpackList.setFixedCellSize(60.0);
@@ -229,6 +223,7 @@ public class ModpackList extends StackPane {
         layout.kenpackModpackList.setPadding(new Insets(0.0));
         layout.kenpackModpackList.managedProperty().bind(layout.kenpackModpackList.visibleProperty());
         layout.kenpackModpackList.setVisible(false);
+        layout.modpackSet.add(layout.kenpackModpackList);
 
         layout.ownModpackList = new JFXListView<>();
         layout.ownModpackList.setFixedCellSize(60.0);
@@ -236,6 +231,7 @@ public class ModpackList extends StackPane {
         layout.ownModpackList.setPadding(new Insets(0.0));
         layout.ownModpackList.managedProperty().bind(layout.ownModpackList.visibleProperty());
         layout.ownModpackList.setVisible(false);
+        layout.modpackSet.add(layout.ownModpackList);
 
         layout.ftbModpackList = new JFXListView<>();
         layout.ftbModpackList.setFixedCellSize(60.0);
@@ -243,6 +239,7 @@ public class ModpackList extends StackPane {
         layout.ftbModpackList.setPadding(new Insets(0.0));
         layout.ftbModpackList.managedProperty().bind(layout.ftbModpackList.visibleProperty());
         layout.ftbModpackList.setVisible(false);
+        layout.modpackSet.add(layout.ftbModpackList);
 
         layout.otherModpackList = new JFXListView<>();
         layout.otherModpackList.setFixedCellSize(60.0);
@@ -250,6 +247,7 @@ public class ModpackList extends StackPane {
         layout.otherModpackList.setPadding(new Insets(0.0));
         layout.otherModpackList.managedProperty().bind(layout.otherModpackList.visibleProperty());
         layout.otherModpackList.setVisible(false);
+        layout.modpackSet.add(layout.otherModpackList);
         
         StackPane vanillaModpackListIndicator = new StackPane();
         vanillaModpackListIndicator.setMinSize(StackPane.USE_PREF_SIZE, StackPane.USE_PREF_SIZE);
