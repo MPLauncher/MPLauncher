@@ -161,7 +161,8 @@ public class ErrorOverlay extends Stage {
         this.centerOnScreen();
         this.setOpacity(0.0);
         this.setOnShown(event -> JFXHelpers.doublePropertyAnimation(Duration.millis(500), this.opacityProperty(), 1.0));
-        this.showAndWait();
+        this.show();
+        //this.showAndWait();
     }
 
 }

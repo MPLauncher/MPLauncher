@@ -29,14 +29,15 @@ import pl.mplauncher.launcher.core.api.mp.MPAPI;
 import pl.mplauncher.launcher.core.config.UserProfile;
 import pl.mplauncher.launcher.core.control.InstallerOverlay;
 import pl.mplauncher.launcher.core.control.SettingsOverlay;
+import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.helper.ApplicationFactory;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
 import pl.mplauncher.launcher.core.screen.layout.MainLayout;
-import pl.mplauncher.launcher.core.screen.layout.component.NewsList;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import pl.mplauncher.launcher.core.screen.layout.component.ModpackList;
 
 public class MainScreen extends Screen<MainLayout> {
 
@@ -52,20 +53,46 @@ public class MainScreen extends Screen<MainLayout> {
                             + " == " + ((Label) nodeIn).getText());
 
                     switch (layout.menuList.getSelectionModel().getSelectedIndex()) {
-                        case 1: {
+                        case 0:
+                            JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
+                                0.0, event -> {
+                                layout.setPlayWindow();
+
+                                layout.modpackSet.forEach(modpack -> modpack.setOnMouseReleased(released -> {
+                                    if (layout.tempModpack == null) {
+                                        layout.tempModpack = ModpackList.selectedModpackType;
+                                    }
+
+                                    if (layout.tempModpack != ModpackList.selectedModpackType) {
+
+                                        layout.changeTypeOfPack(layout.tempModpack, ModpackList.selectedModpackType);
+                                    }
+
+                                    ModpackList.serverName.setText(modpack.getSelectionModel().getSelectedItem().getName());
+                                    ModpackList.modpackDescription.setText(modpack.getSelectionModel().getSelectedItem().getDescription());
+                                }));
+
+                                    layout.vanillaModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.VANILLA));
+                                    layout.ownModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.OWN));
+                                    layout.kenpackModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.KENPACK));
+                                    layout.ftbModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.FTB));
+                                    layout.otherModpackList.getSelectionModel().selectedItemProperty().addListener(((o, oV, nV) -> ModpackList.selectedModpackType = ModpackType.OTHER));
+
+                                Placeholder.populateModpackList(this);
+                                });
+                            break;
+                        case 2: {
                             SettingsOverlay settingsOverlay = new SettingsOverlay(mainStackPane);
                             settingsOverlay.setWindowTitle(MessageBundle.getCurrentLanguage().getMessage("main-settingsOverlayTitle"));
                             settingsOverlay.show();
                             break;
                         }
-                        case 2: {
+                        case 3: {
                             JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
-                                    0.0, event -> {
-                                        layout.setNewsList();
-                                    });
+                                    0.0, event -> layout.setNewsList());
                             break;
                         }
-                        case 3: {
+                        case 4: {
                             JFXHelpers.doublePropertyAnimation(Duration.millis(250), layout.centerGridPane.opacityProperty(),
                                     0.0, event -> {
                                         layout.setServerList();
@@ -112,10 +139,12 @@ public class MainScreen extends Screen<MainLayout> {
         layout.setUserOnline(true);
 
         //Set menu
+        layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuPlay").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.USER_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuUserProfile").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.COG, MessageBundle.getCurrentLanguage().getMessage("main-menuUserSettings").replace("#LINESEPARATOR#", System.lineSeparator()));
         layout.addMenuOption(FontAwesomeIcon.NEWSPAPER_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuNews"));
-        layout.addMenuOption(FontAwesomeIcon.PLAY_CIRCLE_ALT, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
+        layout.addMenuOption(FontAwesomeIcon.SERVER, MessageBundle.getCurrentLanguage().getMessage("main-menuServerPicker"));
+
 
         layout.setCloseOption(MessageBundle.getCurrentLanguage().getMessage("main-exit"));
         layout.setNews(MPAPI.news().latest());

@@ -20,6 +20,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXRippler;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -44,8 +45,10 @@ import org.ocpsoft.prettytime.PrettyTime;
 import pl.mplauncher.launcher.core.api.i18n.MessageBundle;
 import pl.mplauncher.launcher.core.api.mp.component.dto.News;
 import pl.mplauncher.launcher.core.bootstrap.MPLauncherBootstrap;
+import pl.mplauncher.launcher.core.enums.ModpackType;
 import pl.mplauncher.launcher.core.helper.JFXHelpers;
 import pl.mplauncher.launcher.core.helper.Placeholder;
+import pl.mplauncher.launcher.core.manager.Managers;
 import pl.mplauncher.launcher.core.screen.MainScreen;
 import pl.mplauncher.launcher.core.screen.Screen;
 import pl.mplauncher.launcher.core.screen.layout.component.*;
@@ -77,6 +80,16 @@ public class MainLayout extends Layout {
     private Text launcherVersion = new Text();
     private StackPane menuButtonSP = new StackPane();
     public ScrollPane serverListleftSite;
+
+    //ModPack views
+    public JFXListView<ModpackItem> vanillaModpackList;
+    public JFXListView<ModpackItem> ftbModpackList;
+    public JFXListView<ModpackItem> ownModpackList;
+    public JFXListView<ModpackItem> kenpackModpackList;
+    public JFXListView<ModpackItem> otherModpackList;
+
+    public Set<JFXListView<ModpackItem>> modpackSet;
+    public ModpackType tempModpack;
 
     public MainLayout(Screen screen) {
         super(screen);
@@ -305,6 +318,18 @@ public class MainLayout extends Layout {
         JFXHelpers.fadeTransition(Duration.millis(250), menuButtonIconLEFT, 0.0, 1.0);
     }
 
+    public void setPlayWindow() {
+        ColumnConstraints firstCC = new ColumnConstraints();
+        firstCC.setHgrow(Priority.SOMETIMES);
+        firstCC.setPercentWidth(100.0);
+        centerGridPane.getColumnConstraints().clear();
+        centerGridPane.getColumnConstraints().add(firstCC);
+
+        centerGridPane.getChildren().clear();
+        centerGridPane.getChildren().add(new ModpackList(this));
+        JFXHelpers.doublePropertyAnimation(Duration.millis(250), centerGridPane.opacityProperty(), 1.0);
+    }
+
     public void setNews(News news) {
         PrettyTime prettyTime = new PrettyTime();
         prettyTime.setLocale(MessageBundle.getCurrentLanguage().getLocale());
@@ -376,6 +401,48 @@ public class MainLayout extends Layout {
         } else {
             screen.logger.error("Launcher tried to add server when serverList wasn't initialized yet!");
         }
+    }
+
+    public JFXListView<ModpackItem> getModpacklistByType(ModpackType type) {
+        switch (type) {
+            case VANILLA:
+                return vanillaModpackList;
+            case FTB:
+                return ftbModpackList;
+            case OWN:
+                return ownModpackList;
+            case KENPACK:
+                return kenpackModpackList;
+            default:
+                return otherModpackList;
+        }
+    }
+
+    public void addModpackToList(ModpackType type, String name, String version, String description, int plays) {
+        JFXListView<ModpackItem> list = getModpacklistByType(type);
+
+        if (list != null) {
+            if (!list.isVisible()) {
+                list.setVisible(true);
+            }
+
+            list.setPrefHeight((list.getItems().size() + 1) * list.getFixedCellSize());
+
+            ModpackItem item = new ModpackItem(this, name, version, description, plays);
+            item.setOnMouseReleased(event -> ModpackList.selectedModpackType = type);
+            list.getItems().add(item);
+            Managers.getModpackManager().addPack(item);
+        } else {
+            screen.logger.error("Launcher tried to add Modpack when ModpackList wasn't initialized yet!");
+        }
+    }
+
+    public void changeTypeOfPack(ModpackType oldType, ModpackType newType) {
+        JFXListView<ModpackItem> item = getModpacklistByType(oldType);
+        item.getSelectionModel().clearSelection();
+
+        tempModpack = newType;
+
     }
 
     public void addMenuOption(FontAwesomeIcon glyph, String label) {
