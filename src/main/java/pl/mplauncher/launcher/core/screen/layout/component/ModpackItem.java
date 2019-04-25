@@ -13,9 +13,11 @@ import pl.mplauncher.launcher.core.screen.layout.MainLayout;
 public class ModpackItem extends GridPane {
 
     private String name;
+    private String description;
 
-    public ModpackItem(MainLayout parent, String name, String version, String description) {
+    public ModpackItem(MainLayout parent, String name, String version, String description, int plays) {
         this.name = name;
+        this.description = description;
         this.setMouseTransparent(true);
         this.setMaxWidth(GridPane.USE_PREF_SIZE);
         this.prefWidthProperty().bind(parent.serverListleftSite.widthProperty().subtract(43));
@@ -51,17 +53,34 @@ public class ModpackItem extends GridPane {
             MessageBundle.getCurrentLanguage().getMessage("general-modpackVersion") + " " + version.toUpperCase());
         serverVersion.getStyleClass().addAll("fontRegular", "fontSize8", "fillTextWhite");
 
-        Label modpackDescription = new Label();
-        GridPane.setValignment(modpackDescription, VPos.BOTTOM);
-        GridPane.setHalignment(modpackDescription, HPos.CENTER);
-        GridPane.setColumnIndex(modpackDescription, 1);
-        modpackDescription.setText(description.toUpperCase());
-        modpackDescription.getStyleClass().addAll("fontRegular", "fontSize10", "fillTextWhite");
+        Label playCountTop = new Label();
+        GridPane.setValignment(playCountTop, VPos.BOTTOM);
+        GridPane.setHalignment(playCountTop, HPos.CENTER);
+        GridPane.setRowIndex(playCountTop, 0);
+        GridPane.setColumnIndex(playCountTop, 1);
+        playCountTop.setText("Liczba zagrań: ");
+        playCountTop.getStyleClass().addAll("fontRegular", "fontSize10", "fillTextWhite");
 
-        this.getChildren().addAll(serverName, serverVersion, modpackDescription);
+        Label playCountBottom = new Label();
+        GridPane.setValignment(playCountBottom, VPos.BOTTOM);
+        GridPane.setHalignment(playCountBottom, HPos.CENTER);
+        GridPane.setRowIndex(playCountBottom, 1);
+        GridPane.setColumnIndex(playCountBottom, 1);
+        playCountBottom.setText(String.valueOf(plays));
+        playCountBottom.getStyleClass().addAll("fontRegular", "fontSize10", "fillTextWhite");
+
+        this.getChildren().addAll(serverName, serverVersion);
+
+        if(plays > 0) {
+            this.getChildren().addAll(playCountTop, playCountBottom);
+        }
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }
